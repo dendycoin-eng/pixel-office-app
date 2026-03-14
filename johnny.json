@@ -1,6 +1,6 @@
 {
-  "updated": "15 Mar 2026, 00:05 MSK",
-  "timestamp": 1773522343,
+  "updated": "15 Mar 2026, 00:20 MSK",
+  "timestamp": 1773523216,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "tasks": [
@@ -8,12 +8,6 @@
       "name": "Morning Market Review",
       "schedule": "09:00 MSK",
       "model": "deepseek-v3.2",
-      "status": "active"
-    },
-    {
-      "name": "\u0423\u0442\u0440\u0435\u043d\u043d\u0438\u0435 \u043a\u0443\u0440\u0441\u044b",
-      "schedule": "09:00 MSK",
-      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
@@ -47,7 +41,7 @@
       "status": "active"
     }
   ],
-  "totalTasks": 7,
+  "totalTasks": 6,
   "agentsOnline": 2,
   "agentsTotal": 6,
   "status": "online"
