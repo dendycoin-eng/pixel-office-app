@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>51ASIC Office</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #0d0d1a;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+body { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-family: monospace;
+  touch-action: manipulation;
+}
+
+canvas { 
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  background: #0d0d1a;
+}
+
+#version {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  color: #333;
+  font-size: 8px;
+  z-index: 1000;
+}
+</style>
+</head>
+<body>
+<canvas id="office" width="640" height="480"></canvas>
+<div id="version">v2.2</div>
+
+<script>
+// Telegram WebApp полный экран
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+  tg.enableClosingConfirmation();
+  
+  // Убираем все отступы
+  if (tg.isVersionAtLeast('6.1')) {
+    tg.setHeaderColor('#0d0d1a');
+    tg.setBackgroundColor('#0d0d1a');
+  }
+  
+  // Скрыть элементы интерфейса Telegram
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      tg.expand();
+      // Попытка максимизировать приложение
+      if (tg.viewportHeight) {
+        document.body.style.height = tg.viewportHeight + 'px';
+      }
+    }, 100);
+  });
+}
+
+const canvas = document.getElementById('office');
+const ctx = canvas.getContext('2d');
+
+// Отключаем сглаживание
+ctx.imageSmoothingEnabled = false;
+if (ctx.webkitImageSmoothingEnabled !== undefined) ctx.webkitImageSmoothingEnabled = false;
+if (ctx.mozImageSmoothingEnabled !== undefined) ctx.mozImageSmoothingEnabled = false;
+if (ctx.msImageSmoothingEnabled !== undefined) ctx.msImageSmoothingEnabled = false;
+
+// Масштабирование на весь экран
+function resizeCanvas() {
+  const viewWidth = window.innerWidth;
+  const viewHeight = window.innerHeight;
+  
+  canvas.width = 640;
+  canvas.height = 480;
+  
+  // Масштабируем на весь экран сохраняя пропорции
+  const scaleX = viewWidth / 640;
+  const scaleY = viewHeight / 480;
+  const scale = Math.min(scaleX, scaleY);
+  
+  canvas.style.width = (640 * scale) + 'px';
+  canvas.style.height = (480 * scale) + 'px';
+  
+  // Центрируем
+  const offsetX = (viewWidth - 640 * scale) / 2;
+  const offsetY = (viewHeight - 480 * scale) / 2;
+  
+  canvas.style.position = 'absolute';
+  canvas.style.left = offsetX + 'px';
+  canvas.style.top = offsetY + 'px';
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const S = 2;
+ctx.scale(S, S);
+const W = 320, H = 240;
+let frame = 0;
+
+// Палитра
+const P = {
+  bg: '#0d0d1a',
+  wallDark: '#1a1a3a', wallMid: '#252550', wallLight: '#303060', wallAccent: '#3a3a6a',
+  floorA: '#3a3a5a', floorB: '#444470',
+  deskWood: '#8b6914', deskTop: '#a67c1a', deskLeg: '#6b4c0a',
+  monBase: '#222', monFrame: '#333', monScreen: '#00ff88', monOff: '#1a1a2e',
+  chairBack: '#2a2a4a', chairSeat: '#3a3a5a',
+  skin: '#ffcc99', skinDark: '#e6b280',
+  hair: '#2a2a2a', hairLight: '#3a3a3a',
+  plantDark: '#1a6b1a', plantMid: '#228b22', plantLight: '#32cd32',
+  potDark: '#6b3410', potLight: '#8b4513',
+  windowSky: '#4a90d9', windowLight: '#87ceeb',
+  curtain: '#4a3060', curtainLight: '#5a4070',
+  carpet: '#2a1a4a', carpetBorder: '#3a2a5a', carpetPattern: '#352050',
+  gold: '#ffd700', goldDark: '#cc9900',
+  white: '#ffffff', black: '#000000',
+  cyan: '#3b82f6', cyanLight: '#60a5fa', cyanDark: '#2563eb',
+  red: '#ef4444', green: '#22c55e',
+  gray: '#888', grayDark: '#555', grayLight: '#aaa',
+};
+
+function drawPixel(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(Math.floor(x), Math.floor(y), w, h);
+}
+
+// Персонаж с ПРАВИЛЬНЫМИ круглыми очками
+function drawCharacter(x, y, shirtColor, hairColor, name) {
+  // Тень
+  drawPixel(x-1, y+12, 14, 2, 'rgba(0,0,0,0.2)');
+  
+  // Ноги
+  drawPixel(x+2, y+10, 3, 3, P.wallDark);
+  drawPixel(x+7, y+10, 3, 3, P.wallDark);
+  
+  // Тело
+  drawPixel(x+1, y+2, 10, 8, shirtColor);
+  drawPixel(x+2, y+2, 8, 1, shirtColor === P.black ? '#333' : shirtColor);
+  
+  // Руки
+  drawPixel(x-1, y+3, 2, 6, P.skin);
+  drawPixel(x+11, y+3, 2, 6, P.skin);
+  
+  // Голова
+  drawPixel(x+2, y-6, 8, 8, P.skin);
+  drawPixel(x+3, y-5, 6, 6, P.skin);
+  
+  // Волосы
+  if (name === 'ТРЕЙДЕР') {
+    // Длинные седые волосы
+    drawPixel(x+1, y-8, 10, 3, '#cccccc');
+    drawPixel(x, y-7, 1, 6, '#cccccc'); 
+    drawPixel(x+11, y-7, 1, 6, '#cccccc');
+    drawPixel(x-1, y-5, 1, 4, '#cccccc');
+    drawPixel(x+12, y-5, 1, 4, '#cccccc');
+  } else {
+    // Рыжие волосы Джонни
+    drawPixel(x+2, y-8, 8, 3, '#ff6600');
+    drawPixel(x+1, y-7, 1, 4, '#ff6600');
+    drawPixel(x+10, y-7, 1, 4, '#ff6600');
+  }
+  
+  // Очки/глаза
+  if (name === 'ТРЕЙДЕР') {
+    // КРУГЛЫЕ ЧЁРНЫЕ ОЧКИ
+    // Левая линза (круг)
+    drawPixel(x+3, y-4, 3, 1, P.black); // верх
+    drawPixel(x+2, y-3, 5, 1, P.black); // середина
+    drawPixel(x+3, y-2, 3, 1, P.black); // низ
+    
+    // Правая линза (круг)
+    drawPixel(x+7, y-4, 3, 1, P.black); // верх
+    drawPixel(x+6, y-3, 5, 1, P.black); // середина  
+    drawPixel(x+7, y-2, 3, 1, P.black); // низ
+    
+    // Перемычка
+    drawPixel(x+6, y-3, 1, 1, P.black);
+    
+    // Дужки
+    drawPixel(x+1, y-3, 1, 1, P.black);
+    drawPixel(x+11, y-3, 1, 1, P.black);
+    
+    // Блики на очках
+    drawPixel(x+4, y-3, 1, 1, '#444');
+    drawPixel(x+8, y-3, 1, 1, '#444');
+  } else {
+    // Обычные глаза для Джонни
+    drawPixel(x+4, y-3, 2, 2, P.black);
+    drawPixel(x+7, y-3, 2, 2, P.black);
+    drawPixel(x+4, y-3, 1, 1, P.white);
+    drawPixel(x+7, y-3, 1, 1, P.white);
+  }
+  
+  // Рот
+  drawPixel(x+5, y, 3, 1, '#cc8866');
+}
+
+// Основной рендер
+function render() {
+  // Чёрный фон
+  drawPixel(0, 0, W, H, P.bg);
+  
+  // Демонстрация персонажей
+  // Джонни - рыжие волосы, чёрная футболка
+  drawCharacter(50, 100, P.black, '#ff6600', 'ДЖОННИ');
+  
+  // Трейдер - седые волосы, КРУГЛЫЕ ЧЁРНЫЕ ОЧКИ, зелёная рубашка
+  drawCharacter(150, 100, P.green, '#cccccc', 'ТРЕЙДЕР');
+  
+  // Заголовок
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 12px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('51ASIC PIXEL OFFICE', W/2, 30);
+  
+  ctx.fillStyle = P.white;
+  ctx.font = '8px monospace';
+  ctx.fillText('FULLSCREEN v2.2', W/2, 45);
+  
+  // Описания персонажей
+  ctx.fillStyle = P.white;
+  ctx.font = '6px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('ДЖОННИ', 67, 180);
+  ctx.fillText('Рыжие волосы', 67, 190);
+  ctx.fillText('Чёрная футболка', 67, 200);
+  
+  ctx.fillText('ТРЕЙДЕР', 167, 180);
+  ctx.fillText('Седые волосы', 167, 190);
+  ctx.fillText('Круглые очки', 167, 200);
+  
+  // Статус внизу
+  ctx.fillStyle = P.green;
+  ctx.font = 'bold 8px monospace';
+  ctx.fillText('✓ ОБНОВЛЕНО', W/2, H-10);
+  
+  frame++;
+  requestAnimationFrame(render);
+}
+
+// Клики
+canvas.addEventListener('click', (e) => {
+  alert('✅ Pixel Office v2.2\n\n🔄 ПОЛНЫЙ ЭКРАН АКТИВЕН\n👓 КРУГЛЫЕ ОЧКИ ТРЕЙДЕРА\n🚀 ВСЁ РАБОТАЕТ!');
+});
+
+// Touch поддержка
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  canvas.click();
+});
+
+// Запуск
+render();
+</script>
+</body>
+</html>
