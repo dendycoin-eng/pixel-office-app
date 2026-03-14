@@ -1,0 +1,42 @@
+{
+  "updated": "14 Mar 2026, 22:40 MSK",
+  "timestamp": 1773517200,
+  "model": "claude-opus-4.6",
+  "activeModel": "openrouter/anthropic/claude-opus-4.6",
+  "tasks": [
+    {
+      "name": "Morning Market Review",
+      "schedule": "09:00 MSK",
+      "model": "deepseek-v3.2",
+      "status": "active"
+    },
+    {
+      "name": "\u0423\u0442\u0440\u0435\u043d\u043d\u0438\u0435 \u043a\u0443\u0440\u0441\u044b",
+      "schedule": "09:00 MSK",
+      "model": "claude-3.5-haiku",
+      "status": "active"
+    },
+    {
+      "name": "Mining Profitability",
+      "schedule": "14:00 MSK",
+      "model": "claude-3.5-haiku",
+      "status": "active"
+    },
+    {
+      "name": "Evening Market Summary",
+      "schedule": "19:00 MSK",
+      "model": "deepseek-v3.2",
+      "status": "active"
+    },
+    {
+      "name": "\u0412\u0435\u0447\u0435\u0440\u043d\u0438\u0435 \u043a\u0443\u0440\u0441\u044b",
+      "schedule": "21:00 MSK",
+      "model": "claude-3.5-haiku",
+      "status": "active"
+    }
+  ],
+  "totalTasks": 5,
+  "agentsOnline": 2,
+  "agentsTotal": 6,
+  "status": "online"
+}
