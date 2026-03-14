@@ -1,6 +1,6 @@
 {
-  "updated": "15 Mar 2026, 01:35 MSK",
-  "timestamp": 1773527741,
+  "updated": "15 Mar 2026, 01:53 MSK",
+  "timestamp": 1773528828,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "tasks": [
@@ -50,5 +50,13 @@
   "totalTasks": 7,
   "agentsOnline": 2,
   "agentsTotal": 6,
-  "status": "online"
+  "status": "online",
+  "moltbook": {
+    "status": "online",
+    "karma": 8,
+    "posts": 1,
+    "comments": 2,
+    "followers": 3,
+    "profile": "moltbook.com/u/johnny51asic"
+  }
 }
