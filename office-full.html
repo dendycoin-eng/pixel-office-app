@@ -4,278 +4,209 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>51ASIC Pixel Office</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
+        body, html {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            min-height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
         }
-        
-        .office-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 600px;
-            margin: 20px auto;
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100vh;
         }
-        
-        .agent {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #00ffff;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .agent:hover {
-            background: rgba(0, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-        
-        .agent-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            position: relative;
-        }
-        
-        .johnny { background: #FFA500; }
-        .leha { background: #FF0000; }
-        .donni { background: #8B4513; }
-        .michael { background: #0066FF; }
-        .evgenia { background: #FFC0CB; }
-        .trader { background: #00AA00; }
-        
-        .agent-name {
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .agent-role {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .modal {
+        #modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
+            background-color: rgba(0,0,0,0.5);
             justify-content: center;
+            align-items: center;
         }
-        
-        .modal-content {
-            background: #1a1a2e;
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #00ffff;
-            max-width: 90%;
-            text-align: center;
-        }
-        
-        .modal h2 {
-            color: #00ffff;
-            margin-bottom: 20px;
-        }
-        
-        .close-btn {
-            background: #00ffff;
-            color: #1a1a2e;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        
-        .office-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #00ffff;
-            margin-bottom: 10px;
-        }
-        
-        .office-subtitle {
-            text-align: center;
-            opacity: 0.7;
-            margin-bottom: 30px;
-        }
-        
-        .status-bar {
-            text-align: center;
-            margin-top: 30px;
-            padding: 10px;
-            background: rgba(0, 255, 255, 0.1);
+        #modal-content {
+            background-color: white;
+            padding: 20px;
             border-radius: 10px;
+            max-width: 80%;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="office-title">51ASIC Pixel Office</div>
-    <div class="office-subtitle">Команда агентов готова к работе</div>
-    
-    <div class="office-grid">
-        <div class="agent" onclick="showModal('johnny')">
-            <div class="agent-avatar johnny"></div>
-            <div class="agent-name">ДЖОННИ</div>
-            <div class="agent-role">Координатор</div>
-        </div>
-        
-        <div class="agent" onclick="showModal('leha')">
-            <div class="agent-avatar leha"></div>
-            <div class="agent-name">ЛЕХА</div>
-            <div class="agent-role">Специалист</div>
-        </div>
-        
-        <div class="agent" onclick="showModal('donni')">
-            <div class="agent-avatar donni"></div>
-            <div class="agent-name">ДОННИ</div>
-            <div class="agent-role">Эксперт</div>
-        </div>
-        
-        <div class="agent" onclick="showModal('michael')">
-            <div class="agent-avatar michael"></div>
-            <div class="agent-name">МАЙКЛ</div>
-            <div class="agent-role">Аналитик</div>
-        </div>
-        
-        <div class="agent" onclick="showModal('evgenia')">
-            <div class="agent-avatar evgenia"></div>
-            <div class="agent-name">ЕВГЕНИЯ</div>
-            <div class="agent-role">Менеджер</div>
-        </div>
-        
-        <div class="agent" onclick="showModal('trader')">
-            <div class="agent-avatar trader"></div>
-            <div class="agent-name">ТРЕЙДЕР</div>
-            <div class="agent-role">Финансист</div>
-        </div>
+    <canvas id="officeCanvas"></canvas>
+    <div id="modal">
+        <div id="modal-content"></div>
     </div>
-    
-    <div class="status-bar">
-        <div>Агенты: 6/6 • Все онлайн • Готовы к задачам</div>
-    </div>
-    
-    <div id="modal" class="modal" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div id="modal-body"></div>
-            <button class="close-btn" onclick="closeModal()">Закрыть</button>
-        </div>
-    </div>
-    
+
     <script>
-        // Telegram WebApp initialization
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-            window.Telegram.WebApp.setBackgroundColor('#1a1a2e');
+    class OfficeScene {
+        constructor() {
+            this.canvas = document.getElementById('officeCanvas');
+            this.ctx = this.canvas.getContext('2d');
+            this.modal = document.getElementById('modal');
+            this.modalContent = document.getElementById('modal-content');
+            
+            this.setupCanvas();
+            this.setupEventListeners();
+            
+            this.officeColors = {
+                background: '#f0f0f0',
+                black: '#000000',
+                white: '#FFFFFF', 
+                cyan: '#00FFFF'
+            };
+            
+            this.employees = [
+                { name: 'ДЖОННИ', color: '#FFA500', role: 'Координатор', shirt: 'оранжевая рубашка', x: 0, y: 0 },
+                { name: 'ЛЕХА', color: '#FF0000', role: 'Специалист', shirt: 'красная рубашка', x: 0, y: 0 },
+                { name: 'ДОННИ', color: '#8B4513', role: 'Эксперт', shirt: 'коричневая рубашка', glasses: true, x: 0, y: 0 },
+                { name: 'МАЙКЛ', color: '#0000FF', role: 'Аналитик', shirt: 'синяя рубашка', x: 0, y: 0 },
+                { name: 'ЕВГЕНИЯ', color: '#FFC0CB', role: 'Менеджер', shirt: 'розовая рубашка', glasses: true, x: 0, y: 0 },
+                { name: 'ТРЕЙДЕР', color: '#008000', role: 'Финансист', shirt: 'зелёная рубашка', glasses: true, x: 0, y: 0 }
+            ];
         }
         
-        const agents = {
-            johnny: {
-                name: 'ДЖОННИ',
-                role: 'Координатор команды',
-                experience: '15 лет опыта',
-                tasks: 'Обработано задач: 1,247',
-                success: 'Успешность: 98.5%',
-                status: 'Координация проектов',
-                description: 'Главный координатор офиса 51ASIC. Управляет всеми процессами и следит за выполнением задач команды.'
-            },
-            leha: {
-                name: 'ЛЕХА',
-                role: 'Технический специалист',
-                experience: '8 лет опыта',
-                tasks: 'Решено задач: 892',
-                success: 'Успешность: 94.2%',
-                status: 'Техническая поддержка',
-                description: 'Эксперт по техническим вопросам. Специализируется на диагностике и решении сложных проблем.'
-            },
-            donni: {
-                name: 'ДОННИ',
-                role: 'Старший эксперт',
-                experience: '20 лет опыта',
-                tasks: 'Консультаций: 2,156',
-                success: 'Точность: 99.1%',
-                status: 'Анализ рынка',
-                description: 'Самый опытный член команды. Проводит экспертизы и дает ценные консультации.'
-            },
-            michael: {
-                name: 'МАЙКЛ',
-                role: 'Аналитик данных',
-                experience: '12 лет опыта',
-                tasks: 'Отчетов создано: 567',
-                success: 'Точность прогнозов: 87.3%',
-                status: 'Подготовка отчета',
-                description: 'Специалист по анализу данных и рыночной аналитике. Создает детальные отчеты для принятия решений.'
-            },
-            evgenia: {
-                name: 'ЕВГЕНИЯ',
-                role: 'Проект-менеджер',
-                experience: '10 лет опыта',
-                tasks: 'Проектов ведет: 15',
-                success: 'Успешность: 91.8%',
-                status: 'Планирование спринта',
-                description: 'Управляет проектами и координирует работу команды. Отвечает за планирование и контроль сроков.'
-            },
-            trader: {
-                name: 'ТРЕЙДЕР',
-                role: 'Финансовый аналитик',
-                experience: '7 лет опыта',
-                tasks: 'P&L: +$2,847.50',
-                success: 'Успешных сделок: 73.2%',
-                status: 'Мониторинг рынка',
-                description: 'Профессиональный трейдер с консервативной стратегией. Управляет торговыми операциями компании.'
-            }
-        };
+        setupCanvas() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.drawOffice();
+        }
         
-        function showModal(agentId) {
-            const agent = agents[agentId];
-            const modal = document.getElementById('modal');
-            const modalBody = document.getElementById('modal-body');
+        setupEventListeners() {
+            window.addEventListener('resize', () => this.setupCanvas());
+            this.canvas.addEventListener('click', (e) => this.handleCanvasClick(e));
+            this.modal.addEventListener('click', () => this.closeModal());
+        }
+        
+        drawOffice() {
+            this.ctx.fillStyle = this.officeColors.background;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             
-            // Haptic feedback for Telegram
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            // Рисуем стены
+            this.ctx.fillStyle = this.officeColors.white;
+            this.ctx.fillRect(50, 50, this.canvas.width - 100, this.canvas.height - 100);
+            
+            // Окна
+            this.drawWindows();
+            
+            // Мебель и интерьер
+            this.drawFurniture();
+            this.drawEmployees();
+            this.drawDecorations();
+        }
+        
+        drawWindows() {
+            this.ctx.fillStyle = this.officeColors.cyan;
+            // Левое окно
+            this.ctx.fillRect(100, 100, 200, 300);
+            // Правое окно
+            this.ctx.fillRect(this.canvas.width - 300, 100, 200, 300);
+        }
+        
+        drawFurniture() {
+            // Столы
+            const tableWidth = 200;
+            const tableHeight = 100;
+            const tableSpacingX = this.canvas.width / 4;
+            const tableSpacingY = this.canvas.height / 3;
+            
+            this.ctx.fillStyle = '#8B4513'; // Коричневый цвет столов
+            
+            // 3x2 расположение столов
+            for (let row = 0; row < 2; row++) {
+                for (let col = 0; col < 3; col++) {
+                    const x = tableSpacingX * (col + 1) - tableWidth / 2;
+                    const y = tableSpacingY * (row + 1) - tableHeight / 2;
+                    
+                    this.ctx.fillRect(x, y, tableWidth, tableHeight);
+                    this.employees[row * 3 + col].x = x + tableWidth / 2;
+                    this.employees[row * 3 + col].y = y + tableHeight / 2;
+                    
+                    // Компьютеры на столах
+                    this.ctx.fillStyle = this.officeColors.black;
+                    this.ctx.fillRect(x + 20, y + 20, 40, 30);
+                    this.ctx.fillStyle = '#8B4513';
+                }
             }
             
-            modalBody.innerHTML = `
-                <h2>${agent.name}</h2>
-                <p><strong>Роль:</strong> ${agent.role}</p>
-                <p><strong>Опыт:</strong> ${agent.experience}</p>
-                <p><strong>Статистика:</strong> ${agent.tasks}</p>
-                <p><strong>Результативность:</strong> ${agent.success}</p>
-                <p><strong>Текущий статус:</strong> ${agent.status}</p>
-                <p style="margin-top: 15px; opacity: 0.8;">${agent.description}</p>
+            // Кулер
+            this.ctx.fillStyle = this.officeColors.cyan;
+            this.ctx.fillRect(this.canvas.width - 200, this.canvas.height - 250, 50, 100);
+        }
+        
+        drawEmployees() {
+            this.employees.forEach(emp => {
+                // Тело
+                this.ctx.fillStyle = emp.color;
+                this.ctx.fillRect(emp.x - 20, emp.y - 40, 40, 60);
+                
+                // Голова
+                this.ctx.fillStyle = '#FFD700';
+                this.ctx.fillRect(emp.x - 15, emp.y - 70, 30, 30);
+                
+                // Очки для некоторых
+                if (emp.glasses) {
+                    this.ctx.fillStyle = this.officeColors.black;
+                    this.ctx.fillRect(emp.x - 10, emp.y - 65, 20, 10);
+                }
+            });
+        }
+        
+        drawDecorations() {
+            // Цветы
+            this.ctx.fillStyle = 'green';
+            const flowerPositions = [
+                { x: 100, y: 500 },
+                { x: this.canvas.width - 150, y: 500 },
+                { x: this.canvas.width / 2, y: 100 }
+            ];
+            
+            flowerPositions.forEach(pos => {
+                this.ctx.fillRect(pos.x, pos.y, 30, 50);
+            });
+            
+            // Часы
+            this.ctx.fillStyle = this.officeColors.black;
+            this.ctx.fillRect(this.canvas.width / 2 - 25, 70, 50, 50);
+        }
+        
+        handleCanvasClick(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            const clickedEmployee = this.employees.find(emp => 
+                x >= emp.x - 20 && x <= emp.x + 20 &&
+                y >= emp.y - 70 && y <= emp.y + 20
+            );
+            
+            if (clickedEmployee) {
+                this.showEmployeeModal(clickedEmployee);
+            }
+        }
+        
+        showEmployeeModal(employee) {
+            this.modalContent.innerHTML = `
+                <h2>${employee.name}</h2>
+                <p>Роль: ${employee.role}</p>
+                <p>Одежда: ${employee.shirt}</p>
+                ${employee.glasses ? '<p>Носит очки</p>' : ''}
             `;
-            
-            modal.style.display = 'flex';
+            this.modal.style.display = 'flex';
         }
         
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+        closeModal() {
+            this.modal.style.display = 'none';
         }
-        
-        // Handle escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
+    }
+
+    const officeScene = new OfficeScene();
     </script>
 </body>
 </html>
