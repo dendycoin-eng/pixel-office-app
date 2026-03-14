@@ -8,9 +8,12 @@
 html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 body { 
     background: #0d0d1a; 
@@ -302,14 +305,9 @@ function render() {
   requestAnimationFrame(render);
 }
 
-// Предотвращаем любые клики или взаимодействия
-canvas.addEventListener('click', (e) => e.preventDefault());
-canvas.addEventListener('mousedown', (e) => e.preventDefault());
-canvas.addEventListener('mouseup', (e) => e.preventDefault());
-canvas.addEventListener('mousemove', (e) => e.preventDefault());
-canvas.addEventListener('touchstart', (e) => e.preventDefault());
-canvas.addEventListener('touchend', (e) => e.preventDefault());
-canvas.addEventListener('touchmove', (e) => e.preventDefault());
+// ПОЛНОСТЬЮ БЛОКИРУЕМ ВСЕ ВЗАИМОДЕЙСТВИЯ
+canvas.style.pointerEvents = 'none';
+document.body.style.pointerEvents = 'none';
 
 // Запрещаем масштабирование
 document.addEventListener('gesturestart', (e) => e.preventDefault());
