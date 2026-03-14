@@ -330,8 +330,8 @@ function drawCharacter(x, y, shirtColor, hairColor, name) {
     // Дужки очков
     drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
     drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
-  } else if (name === 'ЕВГЕНИЯ') {
-    // Белые круглые очки
+  } else if (name === 'ЕВГЕНИЯ' || name === 'ДОННИ') {
+    // Белые круглые очки (для Евгении и Донни)
     drawPixel(x+3, y-4, 3, 3, P.white); // левая линза
     drawPixel(x+8, y-4, 3, 3, P.white); // правая линза
     drawPixel(x+4, y-3, 1, 1, '#ddd'); // блик левой линзы
@@ -416,7 +416,7 @@ function render() {
   // Рабочие места - новое расположение
   drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
   drawDesk(130, 65, true, 'ЛЕХА', P.red, '#000000'); // красная футболка, кучерявые чёрные волосы
-  drawDesk(210, 65, false, 'СВОБОДНО', null, null);
+  drawDesk(210, 65, true, 'ДОННИ', '#8b4513', '#000000'); // коричневая футболка, чёрные волосы
   
   drawDesk(50, 140, true, 'МАЙКЛ', P.cyan, '#888888'); // синяя футболка, серые волосы  
   drawDesk(130, 140, true, 'ЕВГЕНИЯ', '#ff69b4', '#000000'); // розовая футболка, чёрные волосы
@@ -436,7 +436,7 @@ function render() {
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '6px monospace';
-  ctx.fillText('Агенты: 5/6', 140, H-7);
+  ctx.fillText('Агенты: 6/6', 140, H-7);
   
   frame++;
   requestAnimationFrame(render);
