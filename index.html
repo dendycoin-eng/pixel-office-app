@@ -653,8 +653,11 @@ function isTraderClick(cx, cy) {
   return x >= 120 && x <= 175 && y >= 50 && y <= 115;
 }
 
-// Клик обработчик
+// Клик обработчик (только для мыши, тач обрабатывается отдельно)
 canvas.addEventListener('click', (e) => {
+  // Игнорируем если это тач-устройство
+  if ('ontouchstart' in window) return;
+  
   if (modalOpen || johnnyModalOpen) {
     modalOpen = false;
     johnnyModalOpen = false;
@@ -677,6 +680,7 @@ let panTargetX = 0, panTargetY = 0;
 let isPinching = false;
 let lastPinchDist = 0;
 let lastTouchX = 0, lastTouchY = 0;
+let touchStartX = 0, touchStartY = 0;
 let isSingleTouch = false;
 let touchStartTime = 0;
 const MIN_ZOOM = 1;
@@ -733,6 +737,8 @@ canvas.addEventListener('touchstart', (e) => {
   } else if (e.touches.length === 1) {
     isSingleTouch = true;
     touchStartTime = Date.now();
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
     lastTouchX = e.touches[0].clientX;
     lastTouchY = e.touches[0].clientY;
     
@@ -778,16 +784,26 @@ canvas.addEventListener('touchend', (e) => {
   // Если это был быстрый тап (не пан и не зум) — обработать как клик
   if (isSingleTouch && !isPinching && (Date.now() - touchStartTime) < 300) {
     const touch = e.changedTouches[0];
+    // Проверяем что палец не сильно сдвинулся (иначе это пан)
+    const dx = Math.abs(touch.clientX - touchStartX);
+    const dy = Math.abs(touch.clientY - touchStartY);
     
-    if (modalOpen || johnnyModalOpen) {
-      modalOpen = false;
-      johnnyModalOpen = false;
-    } else if (isTraderClick(touch.clientX, touch.clientY)) {
-      modalOpen = true;
-      loadBalance();
-    } else if (isJohnnyClick(touch.clientX, touch.clientY)) {
-      johnnyModalOpen = true;
-      loadJohnny();
+    if (dx < 10 && dy < 10) {
+      if (modalOpen || johnnyModalOpen) {
+        // Закрываем модалку
+        modalOpen = false;
+        johnnyModalOpen = false;
+      } else if (isTraderClick(touch.clientX, touch.clientY)) {
+        modalOpen = true;
+        loadBalance();
+      } else if (isJohnnyClick(touch.clientX, touch.clientY)) {
+        johnnyModalOpen = true;
+        loadJohnny();
+      }
+      // Предотвращаем повторную обработку
+      e.preventDefault();
+      // Проверяем двойной тап для зума
+      handleTap(touch);
     }
   }
   
@@ -802,23 +818,32 @@ canvas.addEventListener('touchend', (e) => {
   }
 });
 
-// Двойной тап для сброса зума
+// Двойной тап для зума — встроен в основной touchend
+// Чтобы не конфликтовать с одиночным тапом, используем таймер
 let lastTapTime = 0;
-canvas.addEventListener('touchend', (e) => {
+let tapTimeout = null;
+
+function handleTap(touch) {
   const now = Date.now();
-  if (now - lastTapTime < 300 && e.changedTouches.length === 1) {
-    // Двойной тап — toggle zoom
-    if (zoomTarget > 1.05) {
-      zoomTarget = 1;
-      panTargetX = 0;
-      panTargetY = 0;
-    } else {
-      zoomTarget = 2;
+  
+  if (now - lastTapTime < 300) {
+    // Двойной тап — toggle zoom (только если модалки закрыты)
+    clearTimeout(tapTimeout);
+    if (!modalOpen && !johnnyModalOpen) {
+      if (zoomTarget > 1.05) {
+        zoomTarget = 1;
+        panTargetX = 0;
+        panTargetY = 0;
+      } else {
+        zoomTarget = 2;
+      }
+      requestAnimationFrame(applyZoom);
     }
-    requestAnimationFrame(applyZoom);
+    lastTapTime = 0; // сброс, чтобы тройной тап не сработал
+  } else {
+    lastTapTime = now;
   }
-  lastTapTime = now;
-});
+}
 
 // Запуск
 render();
