@@ -399,12 +399,153 @@ function render() {
   ctx.font = '6px monospace';
   ctx.fillText('Агенты: 2/6', 140, H-7);
   
+  // Модальное окно поверх всего
+  drawModal();
+  
   frame++;
   requestAnimationFrame(render);
 }
 
-// ОТКЛЮЧАЕМ ВСЕ КЛИКИ И АЛЕРТЫ
-canvas.style.pointerEvents = 'none';
+// Модальное окно
+let modalOpen = false;
+let balanceData = null;
+
+// Загружаем баланс
+async function loadBalance() {
+  try {
+    const r = await fetch('balance.json?t=' + Date.now());
+    balanceData = await r.json();
+  } catch(e) {
+    balanceData = {status: 'offline', totalUSD: 0, balances: {}, prices: {}, updated: 'нет данных'};
+  }
+}
+loadBalance();
+setInterval(loadBalance, 60000); // обновляем каждую минуту
+
+// Рисуем модальное окно
+function drawModal() {
+  if (!modalOpen || !balanceData) return;
+  
+  const mx = 40, my = 30, mw = 240, mh = 180;
+  
+  // Фон
+  drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
+  drawPixel(mx, my, mw, mh, '#0d0d2a');
+  drawPixel(mx, my, mw, 2, P.cyan);
+  drawPixel(mx, my+mh-2, mw, 2, P.cyan);
+  drawPixel(mx, my, 2, mh, P.cyan);
+  drawPixel(mx+mw-2, my, 2, mh, P.cyan);
+  
+  // Заголовок
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 8px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('📊 ТРЕЙДЕР — MEXC', W/2, my+14);
+  
+  // Статус
+  ctx.fillStyle = balanceData.status === 'online' ? P.green : P.red;
+  ctx.font = '6px monospace';
+  ctx.fillText((balanceData.status === 'online' ? '● ONLINE' : '● OFFLINE'), W/2, my+24);
+  
+  // Баланс
+  ctx.fillStyle = P.gold;
+  ctx.font = 'bold 9px monospace';
+  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2), W/2, my+40);
+  
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '5px monospace';
+  ctx.fillText('Общий баланс USDT', W/2, my+48);
+  
+  // Активы
+  ctx.textAlign = 'left';
+  ctx.fillStyle = P.white;
+  ctx.font = '6px monospace';
+  let yOff = my + 60;
+  
+  if (balanceData.balances) {
+    const assets = Object.entries(balanceData.balances);
+    for (let i = 0; i < Math.min(assets.length, 5); i++) {
+      const [asset, amount] = assets[i];
+      const displayAmt = amount > 1000000 ? (amount/1000000).toFixed(1) + 'M' : 
+                          amount > 1000 ? (amount/1000).toFixed(1) + 'K' : 
+                          amount.toFixed(4);
+      ctx.fillStyle = P.grayLight;
+      ctx.fillText(asset + ':', mx+10, yOff);
+      ctx.fillStyle = P.white;
+      ctx.fillText(displayAmt, mx+50, yOff);
+      yOff += 10;
+    }
+  }
+  
+  // Цены
+  yOff += 5;
+  ctx.fillStyle = P.cyan;
+  ctx.font = '6px monospace';
+  ctx.fillText('Рынок:', mx+10, yOff);
+  yOff += 10;
+  
+  if (balanceData.prices) {
+    for (const [sym, data] of Object.entries(balanceData.prices)) {
+      const name = sym.replace('USDT', '');
+      const changeColor = data.change >= 0 ? P.green : P.red;
+      const arrow = data.change >= 0 ? '▲' : '▼';
+      ctx.fillStyle = P.grayLight;
+      ctx.fillText(name, mx+10, yOff);
+      ctx.fillStyle = P.white;
+      ctx.fillText('$' + data.price.toFixed(2), mx+40, yOff);
+      ctx.fillStyle = changeColor;
+      ctx.fillText(arrow + Math.abs(data.change).toFixed(1) + '%', mx+120, yOff);
+      yOff += 10;
+    }
+  }
+  
+  // Время обновления
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '5px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(balanceData.updated || '', W/2, my+mh-10);
+  
+  // Кнопка закрыть
+  ctx.fillStyle = P.red;
+  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
+}
+
+// Определяем зону ТРЕЙДЕРА (130, 65 — координаты стола)
+function isTraderClick(cx, cy) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = 640 / rect.width;
+  const scaleY = 480 / rect.height;
+  const x = (cx - rect.left) * scaleX / S;
+  const y = (cy - rect.top) * scaleY / S;
+  // Зона ТРЕЙДЕРА: стол на позиции (130, 65), размер ~34x50
+  return x >= 120 && x <= 175 && y >= 50 && y <= 115;
+}
+
+// Клик обработчик
+canvas.addEventListener('click', (e) => {
+  if (modalOpen) {
+    modalOpen = false;
+    return;
+  }
+  if (isTraderClick(e.clientX, e.clientY)) {
+    modalOpen = true;
+    loadBalance(); // обновляем при клике
+  }
+});
+
+// Touch обработчик
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  if (modalOpen) {
+    modalOpen = false;
+    return;
+  }
+  if (isTraderClick(touch.clientX, touch.clientY)) {
+    modalOpen = true;
+    loadBalance();
+  }
+});
 
 // Запуск
 render();
