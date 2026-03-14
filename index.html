@@ -213,7 +213,7 @@ function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
   drawPixel(x+20, y+32, 3, 4, P.grayDark);
   
   if (hasAgent) {
-    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair);
+    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair, name);
   }
   
   if (name) {
@@ -229,23 +229,51 @@ function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
 }
 
 // ПИКСЕЛЬНЫЙ ПЕРСОНАЖ
-function drawCharacter(x, y, shirtColor, hairColor) {
+function drawCharacter(x, y, shirtColor, hairColor, name) {
   drawPixel(x-1, y+12, 14, 2, 'rgba(0,0,0,0.2)');
   drawPixel(x+2, y+10, 3, 3, P.wallDark);
   drawPixel(x+7, y+10, 3, 3, P.wallDark);
   drawPixel(x+1, y+2, 10, 8, shirtColor);
-  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : shirtColor);
+  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : (shirtColor === P.black ? '#333' : shirtColor));
   drawPixel(x-1, y+3, 2, 6, P.skin);
   drawPixel(x+11, y+3, 2, 6, P.skin);
   drawPixel(x+2, y-6, 8, 8, P.skin);
   drawPixel(x+3, y-5, 6, 6, P.skin);
-  drawPixel(x+2, y-8, 8, 3, hairColor);
-  drawPixel(x+1, y-7, 1, 4, hairColor);
-  drawPixel(x+10, y-7, 1, 4, hairColor);
+  
+  // Волосы
+  if (name === 'ТРЕЙДЕР') {
+    // Длинные седые волосы
+    drawPixel(x+1, y-8, 10, 3, hairColor); // основа
+    drawPixel(x, y-7, 1, 6, hairColor); // левая сторона
+    drawPixel(x+11, y-7, 1, 6, hairColor); // правая сторона
+    drawPixel(x-1, y-5, 1, 4, hairColor); // ещё длиннее слева
+    drawPixel(x+12, y-5, 1, 4, hairColor); // ещё длиннее справа
+  } else {
+    // Обычные волосы
+    drawPixel(x+2, y-8, 8, 3, hairColor);
+    drawPixel(x+1, y-7, 1, 4, hairColor);
+    drawPixel(x+10, y-7, 1, 4, hairColor);
+  }
+  
+  // Глаза
   drawPixel(x+4, y-3, 2, 2, P.black);
   drawPixel(x+7, y-3, 2, 2, P.black);
-  drawPixel(x+4, y-3, 1, 1, P.white);
-  drawPixel(x+7, y-3, 1, 1, P.white);
+  
+  // Солнцезащитные очки для трейдера
+  if (name === 'ТРЕЙДЕР') {
+    // Оправа
+    drawPixel(x+3, y-4, 6, 3, P.black);
+    // Тёмные стёкла
+    drawPixel(x+4, y-3, 2, 2, '#111');
+    drawPixel(x+7, y-3, 2, 2, '#111');
+    // Перемычка
+    drawPixel(x+6, y-3, 1, 1, P.black);
+  } else {
+    // Обычные глаза
+    drawPixel(x+4, y-3, 1, 1, P.white);
+    drawPixel(x+7, y-3, 1, 1, P.white);
+  }
+  
   drawPixel(x+5, y, 3, 1, '#cc8866');
 }
 
@@ -309,8 +337,8 @@ function render() {
   drawWaterCooler(290, 85);
   
   // Рабочие места
-  drawDesk(50, 65, true, 'ДЖОННИ', P.cyan, P.hair);
-  drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#8b4513');
+  drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
+  drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#cccccc'); // зелёная футболка, седые волосы
   drawDesk(210, 65, false, 'СВОБОДНО', null, null);
   
   drawDesk(50, 140, false, 'СВОБОДНО', null, null);
