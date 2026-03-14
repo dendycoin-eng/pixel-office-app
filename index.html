@@ -397,7 +397,7 @@ function render() {
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '6px monospace';
-  ctx.fillText('Агенты: 2/6', 140, H-7);
+  ctx.fillText('Агенты: 3/6', 140, H-7);
   
   // Модальные окна поверх всего
   drawModal();
@@ -442,7 +442,7 @@ setInterval(loadJohnny, 60000);
 function drawModal() {
   if (!modalOpen || !balanceData) return;
   
-  const mx = 40, my = 30, mw = 240, mh = 180;
+  const mx = 20, my = 10, mw = 280, mh = 230;
   
   // Фон
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
@@ -512,6 +512,42 @@ function drawModal() {
       ctx.fillStyle = changeColor;
       ctx.fillText(arrow + Math.abs(data.change).toFixed(1) + '%', mx+120, yOff);
       yOff += 10;
+    }
+  }
+  
+  // AI Trader блок
+  if (balanceData.aiTrader) {
+    const ai = balanceData.aiTrader;
+    yOff += 5;
+    ctx.fillStyle = P.gold;
+    ctx.font = 'bold 6px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('🧠 AI TRADER:', mx+10, yOff);
+    ctx.fillStyle = ai.status === 'active' ? P.green : P.red;
+    ctx.fillText(ai.status === 'active' ? '● ACTIVE' : '● OFF', mx+90, yOff);
+    yOff += 10;
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.font = '5px monospace';
+    ctx.fillText('Модель: ' + (ai.model || '?'), mx+10, yOff);
+    yOff += 8;
+    ctx.fillText('Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0), mx+10, yOff);
+    yOff += 8;
+    
+    if (ai.totalTrades > 0) {
+      ctx.fillText('Win rate: ' + (ai.winRate || 0) + '% | P&L: $' + (ai.totalPnL || 0), mx+10, yOff);
+      yOff += 8;
+    }
+    
+    if (ai.openPositions > 0) {
+      ctx.fillStyle = P.gold;
+      ctx.fillText('📍 Открытых позиций: ' + ai.openPositions, mx+10, yOff);
+      yOff += 8;
+    }
+    
+    if (ai.strategy) {
+      ctx.fillStyle = P.grayLight;
+      ctx.fillText('SL: ' + ai.strategy.stopLoss + '% | TP: ' + ai.strategy.takeProfit + '% | Уроков: ' + (ai.strategy.lessons || 0), mx+10, yOff);
     }
   }
   
