@@ -1,6 +1,6 @@
 {
-  "updated": "15 Mar 2026, 00:20 MSK",
-  "timestamp": 1773523216,
+  "updated": "15 Mar 2026, 00:22 MSK",
+  "timestamp": 1773523341,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "tasks": [
@@ -8,6 +8,12 @@
       "name": "Morning Market Review",
       "schedule": "09:00 MSK",
       "model": "deepseek-v3.2",
+      "status": "active"
+    },
+    {
+      "name": "Crypto News Digest",
+      "schedule": "12:00 MSK",
+      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
@@ -41,7 +47,7 @@
       "status": "active"
     }
   ],
-  "totalTasks": 6,
+  "totalTasks": 7,
   "agentsOnline": 2,
   "agentsTotal": 6,
   "status": "online"
