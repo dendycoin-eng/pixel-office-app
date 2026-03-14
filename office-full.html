@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>51ASIC Pixel Office</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             background-color: #f0f0f0;
             overflow: hidden;
         }
@@ -30,11 +32,56 @@
             align-items: center;
         }
         #modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 80%;
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #00FFFF;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,255,255,0.2);
+            position: relative;
+            border: 2px solid #00FFFF;
+        }
+        #modal-content h2 {
+            margin-top: 0;
+            color: #00FFFF;
+            font-size: 2rem;
+            border-bottom: 2px solid #00FFFF;
+            padding-bottom: 10px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .stats-grid strong {
+            color: white;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #00FFFF;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+        .status-tag {
+            display: inline-block;
+            background-color: #00FFFF;
+            color: #121212;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -63,12 +110,99 @@
             };
             
             this.employees = [
-                { name: 'ДЖОННИ', color: '#FFA500', role: 'Координатор', shirt: 'оранжевая рубашка', x: 0, y: 0 },
-                { name: 'ЛЕХА', color: '#FF0000', role: 'Специалист', shirt: 'красная рубашка', x: 0, y: 0 },
-                { name: 'ДОННИ', color: '#8B4513', role: 'Эксперт', shirt: 'коричневая рубашка', glasses: true, x: 0, y: 0 },
-                { name: 'МАЙКЛ', color: '#0000FF', role: 'Аналитик', shirt: 'синяя рубашка', x: 0, y: 0 },
-                { name: 'ЕВГЕНИЯ', color: '#FFC0CB', role: 'Менеджер', shirt: 'розовая рубашка', glasses: true, x: 0, y: 0 },
-                { name: 'ТРЕЙДЕР', color: '#008000', role: 'Финансист', shirt: 'зелёная рубашка', glasses: true, x: 0, y: 0 }
+                { 
+                    name: 'ДЖОННИ', 
+                    color: '#FFA500', 
+                    role: 'Координатор', 
+                    shirt: 'оранжевая рубашка', 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '15 лет',
+                        tasksProcessed: '1,247',
+                        successRate: '98.5%',
+                        currentStatus: 'Координация команды',
+                        specialization: 'Управление проектами, планирование'
+                    }
+                },
+                { 
+                    name: 'ЛЕХА', 
+                    color: '#FF0000', 
+                    role: 'Специалист', 
+                    shirt: 'красная рубашка', 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '8 лет',
+                        tasksResolved: '892',
+                        successRate: '94.2%',
+                        currentStatus: 'Работа с клиентами',
+                        specialization: 'Техническая поддержка, диагностика'
+                    }
+                },
+                { 
+                    name: 'ДОННИ', 
+                    color: '#8B4513', 
+                    role: 'Эксперт', 
+                    shirt: 'коричневая рубашка', 
+                    glasses: true, 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '20 лет',
+                        consultationCount: '2,156',
+                        expertiseAccuracy: '99.1%',
+                        currentStatus: 'Анализ рынка',
+                        specialization: 'Аналитика, исследования'
+                    }
+                },
+                { 
+                    name: 'МАЙКЛ', 
+                    color: '#0000FF', 
+                    role: 'Аналитик', 
+                    shirt: 'синяя рубашка', 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '12 лет',
+                        reportsCreated: '567',
+                        forecastAccuracy: '87.3%',
+                        currentStatus: 'Подготовка отчета',
+                        specialization: 'Рыночная аналитика'
+                    }
+                },
+                { 
+                    name: 'ЕВГЕНИЯ', 
+                    color: '#FFC0CB', 
+                    role: 'Менеджер', 
+                    shirt: 'розовая рубашка', 
+                    glasses: true, 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '10 лет',
+                        projectsManaged: '15',
+                        projectSuccessRate: '91.8%',
+                        currentStatus: 'Планирование спринта',
+                        specialization: 'Управление командой'
+                    }
+                },
+                { 
+                    name: 'ТРЕЙДЕР', 
+                    color: '#008000', 
+                    role: 'Финансист', 
+                    shirt: 'зелёная рубашка', 
+                    glasses: true, 
+                    x: 0, 
+                    y: 0,
+                    stats: {
+                        experience: '7 лет',
+                        profitAndLoss: '+$2,847.50',
+                        successfulTradesRate: '73.2%',
+                        currentStatus: 'Мониторинг рынка',
+                        activePositions: 'BTC/USDT, ETH/USDT, SOL/USDT'
+                    }
+                }
             ];
         }
         
@@ -81,7 +215,9 @@
         setupEventListeners() {
             window.addEventListener('resize', () => this.setupCanvas());
             this.canvas.addEventListener('click', (e) => this.handleCanvasClick(e));
-            this.modal.addEventListener('click', () => this.closeModal());
+            this.modal.addEventListener('click', (e) => {
+                if (e.target === this.modal) this.closeModal();
+            });
         }
         
         drawOffice() {
@@ -192,11 +328,44 @@
         }
         
         showEmployeeModal(employee) {
+            let statsHtml = '';
+            const stats = employee.stats;
+            
+            // Dynamically generate stats based on available information
+            Object.keys(stats).forEach(key => {
+                let label = '';
+                switch(key) {
+                    case 'experience': label = 'Опыт работы'; break;
+                    case 'tasksProcessed': label = 'Обработано задач'; break;
+                    case 'successRate': label = 'Успешность'; break;
+                    case 'currentStatus': label = 'Текущий статус'; break;
+                    case 'specialization': label = 'Специализация'; break;
+                    case 'tasksResolved': label = 'Решённых задач'; break;
+                    case 'consultationCount': label = 'Консультаций проведено'; break;
+                    case 'expertiseAccuracy': label = 'Точность экспертизы'; break;
+                    case 'reportsCreated': label = 'Отчетов создано'; break;
+                    case 'forecastAccuracy': label = 'Точность прогнозов'; break;
+                    case 'projectsManaged': label = 'Проектов ведет'; break;
+                    case 'projectSuccessRate': label = 'Успешность проектов'; break;
+                    case 'profitAndLoss': label = 'P&L'; break;
+                    case 'successfulTradesRate': label = 'Успешных сделок'; break;
+                    case 'activePositions': label = 'Активные позиции'; break;
+                    default: label = key;
+                }
+                
+                statsHtml += `<div><strong>${label}:</strong> ${stats[key]}</div>`;
+            });
+            
             this.modalContent.innerHTML = `
+                <button class="close-btn" onclick="officeScene.closeModal()">×</button>
                 <h2>${employee.name}</h2>
-                <p>Роль: ${employee.role}</p>
-                <p>Одежда: ${employee.shirt}</p>
-                ${employee.glasses ? '<p>Носит очки</p>' : ''}
+                <p><strong>Роль:</strong> ${employee.role}</p>
+                <p><strong>Одежда:</strong> ${employee.shirt}</p>
+                ${employee.glasses ? '<p><strong>Примета:</strong> Носит очки</p>' : ''}
+                <div class="stats-grid">
+                    ${statsHtml}
+                </div>
+                <div class="status-tag">${stats.currentStatus}</div>
             `;
             this.modal.style.display = 'flex';
         }
