@@ -243,6 +243,21 @@ function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
         ctx.fillStyle = chartColor;
         ctx.fillRect(x+12 + i*2, y + i*2, chartWidth, 1);
       }
+    } else if (name === 'МАЙКЛ') {
+      // Логотип Zoom для Майкла
+      // Фон экрана Zoom (синий)
+      drawPixel(x+12, y-1, 10, 8, '#2D8CFF');
+      
+      // Буква "Z" белым цветом (упрощённая)
+      drawPixel(x+14, y+1, 4, 1, P.white); // верхняя линия Z
+      drawPixel(x+16, y+2, 1, 1, P.white); // диагональ
+      drawPixel(x+15, y+3, 1, 1, P.white); // диагональ
+      drawPixel(x+14, y+4, 4, 1, P.white); // нижняя линия Z
+      
+      // Мигающий эффект
+      const zoomGlow = Math.sin(frame * 0.06) * 0.2 + 0.8;
+      ctx.fillStyle = `rgba(45, 140, 255, ${zoomGlow * 0.3})`;
+      ctx.fillRect(x+11, y-2, 12, 10);
     } else {
       // Обычный код для других агентов
       for (let i = 0; i < 4; i++) {
