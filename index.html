@@ -12,9 +12,13 @@ body {
   justify-content: center; 
   align-items: center; 
   min-height: 100vh;
+  width: 100vw;
   font-family: monospace;
   overflow: hidden;
   touch-action: manipulation;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 canvas { 
   image-rendering: pixelated;
@@ -31,6 +35,20 @@ canvas {
 <canvas id="office" width="640" height="480"></canvas>
 
 <script>
+// Инициализация Telegram WebApp для полного экрана
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand(); // Развернуть на весь экран
+  tg.enableClosingConfirmation(); // Подтверждение закрытия
+  
+  // Скрыть заголовок если возможно
+  if (tg.isVersionAtLeast('6.1')) {
+    tg.setHeaderColor('#0d0d1a');
+    tg.setBackgroundColor('#0d0d1a');
+  }
+}
+
 const canvas = document.getElementById('office');
 const ctx = canvas.getContext('2d');
 
@@ -259,15 +277,17 @@ function drawCharacter(x, y, shirtColor, hairColor, name) {
   drawPixel(x+4, y-3, 2, 2, P.black);
   drawPixel(x+7, y-3, 2, 2, P.black);
   
-  // Солнцезащитные очки для трейдера
+  // Очки для трейдера
   if (name === 'ТРЕЙДЕР') {
-    // Оправа
-    drawPixel(x+3, y-4, 6, 3, P.black);
-    // Тёмные стёкла
-    drawPixel(x+4, y-3, 2, 2, '#111');
-    drawPixel(x+7, y-3, 2, 2, '#111');
-    // Перемычка
-    drawPixel(x+6, y-3, 1, 1, P.black);
+    // Чёрные круглые очки
+    drawPixel(x+3, y-4, 3, 3, P.black); // левая линза
+    drawPixel(x+8, y-4, 3, 3, P.black); // правая линза
+    drawPixel(x+4, y-3, 1, 1, '#222'); // блик левой линзы
+    drawPixel(x+9, y-3, 1, 1, '#222'); // блик правой линзы
+    drawPixel(x+6, y-3, 2, 1, P.black); // перемычка
+    // Дужки очков
+    drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
+    drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
   } else {
     // Обычные глаза
     drawPixel(x+4, y-3, 1, 1, P.white);
