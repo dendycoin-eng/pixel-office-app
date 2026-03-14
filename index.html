@@ -566,7 +566,7 @@ function drawModal() {
 function drawJohnnyModal() {
   if (!johnnyModalOpen || !johnnyData) return;
   
-  const mx = 30, my = 25, mw = 260, mh = 190;
+  const mx = 15, my = 5, mw = 290, mh = 235;
   
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
   drawPixel(mx, my, mw, mh, '#0d0d2a');
@@ -602,7 +602,7 @@ function drawJohnnyModal() {
   ctx.font = '5px monospace';
   
   if (johnnyData.tasks) {
-    for (let i = 0; i < Math.min(johnnyData.tasks.length, 5); i++) {
+    for (let i = 0; i < Math.min(johnnyData.tasks.length, 7); i++) {
       const t = johnnyData.tasks[i];
       const statusColor = t.status === 'active' ? P.green : P.red;
       ctx.fillStyle = statusColor;
@@ -617,10 +617,27 @@ function drawJohnnyModal() {
     }
   }
   
+  // Moltbook
+  if (johnnyData.moltbook && johnnyData.moltbook.status === 'online') {
+    yOff += 5;
+    ctx.fillStyle = P.cyan;
+    ctx.font = 'bold 6px monospace';
+    ctx.fillText('🦞 MOLTBOOK:', mx+10, yOff);
+    ctx.fillStyle = P.green;
+    ctx.fillText('● ONLINE', mx+80, yOff);
+    yOff += 8;
+    ctx.fillStyle = P.grayLight;
+    ctx.font = '5px monospace';
+    const mb = johnnyData.moltbook;
+    ctx.fillText('Karma: ' + (mb.karma || 0) + ' | Posts: ' + (mb.posts || 0) + ' | Comments: ' + (mb.comments || 0) + ' | Followers: ' + (mb.followers || 0), mx+10, yOff);
+    yOff += 8;
+  }
+  
   // Агенты
-  yOff += 5;
+  yOff += 3;
   ctx.fillStyle = P.gold;
   ctx.font = '6px monospace';
+  ctx.textAlign = 'left';
   ctx.fillText('Агенты: ' + (johnnyData.agentsOnline || 0) + '/' + (johnnyData.agentsTotal || 6) + ' онлайн', mx+10, yOff);
   
   ctx.fillStyle = P.grayLight;
