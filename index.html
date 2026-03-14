@@ -2,35 +2,32 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>51ASIC Pixel Office - Fullscreen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>51ASIC Pixel Office</title>
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
-    background: #0d0d1a; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    overscroll-behavior: none;
+  background: #0d0d1a; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh;
+  width: 100vw;
+  font-family: monospace;
+  overflow: hidden;
+  touch-action: manipulation;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 canvas { 
-    width: 100vw !important;
-    height: 100vh !important;
-    object-fit: cover;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    position: fixed;
-    top: 0;
-    left: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  max-width: 100vw;
+  max-height: 100vh;
+  border: 1px solid #333;
 }
 </style>
 </head>
@@ -38,17 +35,48 @@ canvas {
 <canvas id="office" width="640" height="480"></canvas>
 
 <script>
-// Stripped down script without any interactivity
+// Инициализация Telegram WebApp для полного экрана
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand(); // Развернуть на весь экран
+  tg.enableClosingConfirmation(); // Подтверждение закрытия
+  
+  // Скрыть заголовок если возможно
+  if (tg.isVersionAtLeast('6.1')) {
+    tg.setHeaderColor('#0d0d1a');
+    tg.setBackgroundColor('#0d0d1a');
+  }
+}
+
 const canvas = document.getElementById('office');
 const ctx = canvas.getContext('2d');
 
-// Use the most suitable scale for the screen
-const S = Math.min(window.innerWidth / 320, window.innerHeight / 240, 2);
+// Отключаем сглаживание
+ctx.imageSmoothingEnabled = false;
+if (ctx.webkitImageSmoothingEnabled !== undefined) ctx.webkitImageSmoothingEnabled = false;
+if (ctx.mozImageSmoothingEnabled !== undefined) ctx.mozImageSmoothingEnabled = false;
+if (ctx.msImageSmoothingEnabled !== undefined) ctx.msImageSmoothingEnabled = false;
+
+// Масштабирование под экран
+function resizeCanvas() {
+  const maxW = Math.min(window.innerWidth - 20, 640);
+  const maxH = Math.min(window.innerHeight - 20, 480);
+  const scale = Math.min(maxW / 640, maxH / 480);
+  
+  canvas.style.width = (640 * scale) + 'px';
+  canvas.style.height = (480 * scale) + 'px';
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const S = 2;
 ctx.scale(S, S);
 const W = 320, H = 240;
 let frame = 0;
 
-// Палитра (как и раньше)
+// Палитра
 const P = {
   bg: '#0d0d1a',
   wallDark: '#1a1a3a', wallMid: '#252550', wallLight: '#303060', wallAccent: '#3a3a6a',
@@ -70,22 +98,12 @@ const P = {
   gray: '#888', grayDark: '#555', grayLight: '#aaa',
 };
 
-// Агенты (как и раньше, но без возможности изменения)
-const agents = [
-  { id: 1, x: 50, y: 65, active: true, name: 'ДЖОННИ', color: P.cyan },
-  { id: 2, x: 130, y: 65, active: false, name: 'СВОБОДНО', color: null },
-  { id: 3, x: 210, y: 65, active: false, name: 'СВОБОДНО', color: null },
-  { id: 4, x: 50, y: 140, active: false, name: 'СВОБОДНО', color: null },
-  { id: 5, x: 130, y: 140, active: false, name: 'СВОБОДНО', color: null },
-  { id: 6, x: 210, y: 140, active: false, name: 'СВОБОДНО', color: null },
-];
-
 function drawPixel(x, y, w, h, color) {
   ctx.fillStyle = color;
   ctx.fillRect(Math.floor(x), Math.floor(y), w, h);
 }
 
-// Все функции рисования (ТОЧНО ТАКИЕ ЖЕ КАК В ОРИГИНАЛЕ)
+// ПОЛ
 function drawFloor() {
   for (let y = 40; y < H; y += 8) {
     for (let x = 0; x < W; x += 8) {
@@ -96,6 +114,7 @@ function drawFloor() {
   }
 }
 
+// СТЕНЫ
 function drawWalls() {
   drawPixel(0, 0, W, 44, P.wallDark);
   drawPixel(0, 30, W, 14, P.wallMid);
@@ -103,6 +122,7 @@ function drawWalls() {
   drawPixel(0, 38, W, 2, P.wallAccent);
 }
 
+// ЛОГОТИП 51ASIC
 function drawLogo() {
   drawPixel(130, 4, 60, 28, P.gold);
   drawPixel(131, 5, 58, 26, P.wallDark);
@@ -121,6 +141,7 @@ function drawLogo() {
   ctx.fillRect(128, 2, 64, 32);
 }
 
+// ОКНА
 function drawWindow(x) {
   drawPixel(x-1, 4, 30, 26, P.grayDark);
   drawPixel(x, 5, 28, 24, P.windowSky);
@@ -134,6 +155,7 @@ function drawWindow(x) {
   drawPixel(x-5, 2, 38, 2, P.grayLight);
 }
 
+// РАСТЕНИЕ
 function drawPlant(x, y) {
   drawPixel(x+2, y+10, 10, 6, P.potDark);
   drawPixel(x+3, y+10, 8, 5, P.potLight);
@@ -149,6 +171,7 @@ function drawPlant(x, y) {
   drawPixel(x+8-sway, y-7, 3, 3, P.plantMid);
 }
 
+// ЛАМПА
 function drawLamp(x, y) {
   drawPixel(x+3, y, 2, 20, P.gray);
   drawPixel(x+1, y+18, 6, 3, P.grayDark);
@@ -161,8 +184,10 @@ function drawLamp(x, y) {
   ctx.fill();
 }
 
+// СТОЛ С КОМПЬЮТЕРОМ
 function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
   drawPixel(x+2, y+22, 34, 4, 'rgba(0,0,0,0.3)');
+  
   drawPixel(x, y+10, 34, 3, P.deskTop);
   drawPixel(x, y+13, 34, 2, P.deskWood);
   drawPixel(x+1, y+9, 32, 1, '#b88a20');
@@ -175,10 +200,21 @@ function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
   drawPixel(x+14, y+10, 6, 1, P.gray);
   
   if (hasAgent) {
-    for (let i = 0; i < 4; i++) {
-      const lw = 4 + Math.floor(Math.random() * 6);
-      ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.random()*0.5})`;
-      ctx.fillRect(x+12, y + i*2, lw, 1);
+    if (name === 'ТРЕЙДЕР') {
+      // Торговые графики для трейдера
+      for (let i = 0; i < 4; i++) {
+        const chartColor = (Math.sin(frame * 0.1 + i) > 0) ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)';
+        const chartWidth = 3 + Math.floor(Math.abs(Math.sin(frame * 0.05 + i)) * 4);
+        ctx.fillStyle = chartColor;
+        ctx.fillRect(x+12 + i*2, y + i*2, chartWidth, 1);
+      }
+    } else {
+      // Обычный код для других агентов
+      for (let i = 0; i < 4; i++) {
+        const lw = 4 + Math.floor(Math.random() * 6);
+        ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.random()*0.5})`;
+        ctx.fillRect(x+12, y + i*2, lw, 1);
+      }
     }
   }
   
@@ -195,39 +231,73 @@ function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
   drawPixel(x+20, y+32, 3, 4, P.grayDark);
   
   if (hasAgent) {
-    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair);
+    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair, name);
   }
   
   if (name) {
-    drawPixel(0, H-18, W, 18, 'rgba(0,0,0,0.7)');
-    drawPixel(0, H-18, W, 1, P.cyan);
-    ctx.fillStyle = P.white;
+    const nameW = name.length * 4 + 6;
+    const nx = x + 17 - nameW/2;
+    drawPixel(nx, y+38, nameW, 9, 'rgba(0,0,0,0.7)');
+    drawPixel(nx, y+38, nameW, 1, hasAgent ? P.cyan : P.grayDark);
+    ctx.fillStyle = hasAgent ? P.white : P.grayLight;
     ctx.font = '6px monospace';
     ctx.textAlign = 'center';
     ctx.fillText(name, x+17, y+45);
   }
 }
 
-function drawCharacter(x, y, shirtColor, hairColor) {
+// ПИКСЕЛЬНЫЙ ПЕРСОНАЖ
+function drawCharacter(x, y, shirtColor, hairColor, name) {
   drawPixel(x-1, y+12, 14, 2, 'rgba(0,0,0,0.2)');
   drawPixel(x+2, y+10, 3, 3, P.wallDark);
   drawPixel(x+7, y+10, 3, 3, P.wallDark);
   drawPixel(x+1, y+2, 10, 8, shirtColor);
-  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : shirtColor);
+  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : (shirtColor === P.black ? '#333' : shirtColor));
   drawPixel(x-1, y+3, 2, 6, P.skin);
   drawPixel(x+11, y+3, 2, 6, P.skin);
   drawPixel(x+2, y-6, 8, 8, P.skin);
   drawPixel(x+3, y-5, 6, 6, P.skin);
-  drawPixel(x+2, y-8, 8, 3, hairColor);
-  drawPixel(x+1, y-7, 1, 4, hairColor);
-  drawPixel(x+10, y-7, 1, 4, hairColor);
+  
+  // Волосы
+  if (name === 'ТРЕЙДЕР') {
+    // Длинные седые волосы
+    drawPixel(x+1, y-8, 10, 3, hairColor); // основа
+    drawPixel(x, y-7, 1, 6, hairColor); // левая сторона
+    drawPixel(x+11, y-7, 1, 6, hairColor); // правая сторона
+    drawPixel(x-1, y-5, 1, 4, hairColor); // ещё длиннее слева
+    drawPixel(x+12, y-5, 1, 4, hairColor); // ещё длиннее справа
+  } else {
+    // Обычные волосы
+    drawPixel(x+2, y-8, 8, 3, hairColor);
+    drawPixel(x+1, y-7, 1, 4, hairColor);
+    drawPixel(x+10, y-7, 1, 4, hairColor);
+  }
+  
+  // Глаза
   drawPixel(x+4, y-3, 2, 2, P.black);
   drawPixel(x+7, y-3, 2, 2, P.black);
-  drawPixel(x+4, y-3, 1, 1, P.white);
-  drawPixel(x+7, y-3, 1, 1, P.white);
+  
+  // Очки для трейдера
+  if (name === 'ТРЕЙДЕР') {
+    // Чёрные круглые очки
+    drawPixel(x+3, y-4, 3, 3, P.black); // левая линза
+    drawPixel(x+8, y-4, 3, 3, P.black); // правая линза
+    drawPixel(x+4, y-3, 1, 1, '#222'); // блик левой линзы
+    drawPixel(x+9, y-3, 1, 1, '#222'); // блик правой линзы
+    drawPixel(x+6, y-3, 2, 1, P.black); // перемычка
+    // Дужки очков
+    drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
+    drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
+  } else {
+    // Обычные глаза
+    drawPixel(x+4, y-3, 1, 1, P.white);
+    drawPixel(x+7, y-3, 1, 1, P.white);
+  }
+  
   drawPixel(x+5, y, 3, 1, '#cc8866');
 }
 
+// КУЛЕР С ВОДОЙ
 function drawWaterCooler(x, y) {
   drawPixel(x+2, y, 8, 4, '#aaddff');
   drawPixel(x+3, y+1, 6, 2, '#88bbff');
@@ -238,6 +308,7 @@ function drawWaterCooler(x, y) {
   drawPixel(x+7, y+7, 2, 1, P.cyan);
 }
 
+// ДОСКА НА СТЕНЕ
 function drawBoard(x) {
   drawPixel(x, 6, 28, 22, P.white);
   drawPixel(x+1, 7, 26, 20, '#f0f0f0');
@@ -254,13 +325,16 @@ function drawBoard(x) {
   drawPixel(x+20, 18, 5, 5, '#ff9800');
 }
 
+// ОСНОВНОЙ РЕНДЕР
 function render() {
   drawPixel(0, 0, W, H, P.bg);
   
   drawFloor();
   drawWalls();
+  
   drawWindow(20);
   drawWindow(260);
+  
   drawLogo();
   drawBoard(70);
   
@@ -282,10 +356,16 @@ function render() {
   
   drawWaterCooler(290, 85);
   
-  agents.forEach(a => {
-    drawDesk(a.x, a.y, a.active, a.name, a.color, a.hairColor);
-  });
+  // Рабочие места
+  drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
+  drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#cccccc'); // зелёная футболка, седые волосы
+  drawDesk(210, 65, false, 'СВОБОДНО', null, null);
   
+  drawDesk(50, 140, false, 'СВОБОДНО', null, null);
+  drawDesk(130, 140, false, 'СВОБОДНО', null, null);
+  drawDesk(210, 140, false, 'СВОБОДНО', null, null);
+  
+  // Статусная панель
   drawPixel(0, H-18, W, 18, 'rgba(13,13,26,0.9)');
   drawPixel(0, H-18, W, 1, P.cyan);
   ctx.fillStyle = P.cyan;
@@ -297,43 +377,32 @@ function render() {
   ctx.fillText('● ONLINE', W-6, H-7);
   ctx.textAlign = 'left';
   
-  const activeCount = agents.filter(a => a.active).length;
   ctx.fillStyle = P.grayLight;
   ctx.font = '6px monospace';
-  ctx.fillText(`Агенты: ${activeCount}/6`, 140, H-7);
+  ctx.fillText('Агенты: 2/6', 140, H-7);
   
   frame++;
   requestAnimationFrame(render);
 }
 
-// ПОЛНОСТЬЮ БЛОКИРУЕМ ВСЕ ВЗАИМОДЕЙСТВИЯ
-canvas.style.pointerEvents = 'none';
-document.body.style.pointerEvents = 'none';
+// Клики
+canvas.addEventListener('click', (e) => {
+  alert('🏢 51ASIC Pixel Office\n\nВерсия 2.0 работает!\nКлик зарегистрирован 👌');
+});
 
-// Запрещаем масштабирование
-document.addEventListener('gesturestart', (e) => e.preventDefault());
-document.addEventListener('gesturechange', (e) => e.preventDefault());
-document.addEventListener('gestureend', (e) => e.preventDefault());
+// Touch поддержка
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const clickEvent = new MouseEvent('click', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  canvas.dispatchEvent(clickEvent);
+});
 
-// Убираем возможность выделения
-canvas.style.userSelect = 'none';
-canvas.style.webkitUserSelect = 'none';
-
-// Telegram WebApp полноэкранный режим
-if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
-    window.Telegram.WebApp.disableVerticalSwipes();
-    window.Telegram.WebApp.setBackgroundColor('#0d0d1a');
-    window.Telegram.WebApp.setHeaderColor('#0d0d1a');
-    
-    // Принудительное скрытие заголовка
-    setTimeout(() => {
-        window.Telegram.WebApp.expand();
-    }, 100);
-}
-
-// Запуск рендеринга
+// Запуск
 render();
 </script>
 </body>
