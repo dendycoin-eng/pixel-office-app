@@ -312,7 +312,7 @@ function drawCharacter(x, y, shirtColor, hairColor, name) {
   drawPixel(x+4, y-3, 2, 2, P.black);
   drawPixel(x+7, y-3, 2, 2, P.black);
   
-  // Очки для трейдера
+  // Очки/глаза по персонажам
   if (name === 'ТРЕЙДЕР') {
     // Чёрные круглые очки
     drawPixel(x+3, y-4, 3, 3, P.black); // левая линза
@@ -324,7 +324,9 @@ function drawCharacter(x, y, shirtColor, hairColor, name) {
     drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
     drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
   } else {
-    // Обычные глаза
+    // Обычные глаза для Джонни и Майкла
+    drawPixel(x+4, y-3, 2, 2, P.black);
+    drawPixel(x+7, y-3, 2, 2, P.black);
     drawPixel(x+4, y-3, 1, 1, P.white);
     drawPixel(x+7, y-3, 1, 1, P.white);
   }
@@ -396,7 +398,7 @@ function render() {
   drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#cccccc'); // зелёная футболка, седые волосы
   drawDesk(210, 65, false, 'СВОБОДНО', null, null);
   
-  drawDesk(50, 140, false, 'СВОБОДНО', null, null);
+  drawDesk(50, 140, true, 'МАЙКЛ', P.cyan, '#888888'); // синяя футболка, серые волосы
   drawDesk(130, 140, false, 'СВОБОДНО', null, null);
   drawDesk(210, 140, false, 'СВОБОДНО', null, null);
   
@@ -414,7 +416,7 @@ function render() {
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '6px monospace';
-  ctx.fillText('Агенты: 2/6', 140, H-7);
+  ctx.fillText('Агенты: 3/6', 140, H-7);
   
   frame++;
   requestAnimationFrame(render);
