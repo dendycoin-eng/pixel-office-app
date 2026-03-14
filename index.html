@@ -3,225 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51ASIC Pixel Office v4.1</title>
+    <title>51ASIC Pixel Office</title>
     <style>
         body {
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #1a1a1a;
-            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
         canvas {
-            border: 4px solid #00ffff; /* Фирменный циановый цвет 51ASIC */
+            border: 2px solid #333;
             max-width: 100%;
-            max-height: 100vh;
+            height: auto;
         }
-        #modalOverlay {
+        #modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            background-color: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
         }
-        #modalContent {
-            background-color: #ffffff;
+        .modal-content {
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
             max-width: 400px;
+            width: 90%;
             text-align: center;
-            color: #000;
         }
     </style>
 </head>
 <body>
-    <canvas id="officeCanvas" width="800" height="600"></canvas>
+    <canvas id="pixelOffice" width="600" height="400"></canvas>
     
-    <div id="modalOverlay">
-        <div id="modalContent"></div>
+    <div id="modal">
+        <div class="modal-content">
+            <h2 id="modalName"></h2>
+            <p id="modalRole"></p>
+            <p id="modalStats"></p>
+            <button onclick="closeModal()">Закрыть</button>
+        </div>
     </div>
 
     <script>
-        // Pixel Office Canvas Configuration
-        const canvas = document.getElementById('officeCanvas');
+        const canvas = document.getElementById('pixelOffice');
         const ctx = canvas.getContext('2d');
-        
-        // Color Palette
-        const COLORS = {
-            BLACK: '#000000',
-            WHITE: '#FFFFFF',
-            CYAN: '#00FFFF',
-            OFFICE_BACKGROUND: '#2C3E50',
-            DESK: '#34495E',
-            COMPUTER: '#7F8C8D'
-        };
 
-        // Agent Colors
-        const AGENT_COLORS = {
-            JOHNNY: '#FFA500',   // Оранжевый
-            TRADER: '#808080',   // Серый
-            ANALYST: '#0000FF',  // Синий
-            MINER: '#FF0000',    // Красный
-            SUPPORT: '#800080',  // Фиолетовый
-            DEVELOPER: '#008000' // Зеленый
-        };
-
-        // Agent Statistics
-        const AGENT_STATS = {
-            JOHNNY: {
-                name: 'ДЖОННИ',
-                role: 'Координатор',
-                stats: '1,247 задач, 98.5% успешность'
+        // Agent data
+        const agents = [
+            { 
+                name: 'Джонни', 
+                role: 'Координатор', 
+                color: 'black', 
+                hairColor: '#FF6B00', 
+                x: 50, 
+                y: 50,
+                stats: 'Координация проектов: 95%\nОпыт работы: 15 лет'
             },
-            TRADER: {
-                name: 'ТРЕЙДЕР',
-                role: 'Финансист',
-                stats: 'P&L +$2,847.50, 73.2% сделок'
+            { 
+                name: 'Леха', 
+                role: 'Специалист', 
+                color: 'red', 
+                hairColor: 'black', 
+                x: 200, 
+                y: 50,
+                stats: 'Технические навыки: 90%\nРешение сложных задач: 88%'
             },
-            ANALYST: {
-                name: 'АНАЛИТИК', 
-                role: 'Исследователь',
-                stats: '156 отчетов, 84.7% точность'
+            { 
+                name: 'Донни', 
+                role: 'Эксперт', 
+                color: '#8B4513', 
+                hairColor: 'black', 
+                x: 350, 
+                y: 50,
+                stats: 'Экспертиза: 98%\nАналитические навыки: 92%'
             },
-            MINER: {
-                name: 'МАЙНЕР',
-                role: 'Техник',
-                stats: '12 ферм, 2.4 EH/s, 95.8% эффективность'
+            { 
+                name: 'Майкл', 
+                role: 'Аналитик', 
+                color: 'blue', 
+                hairColor: 'gray', 
+                x: 50, 
+                y: 250,
+                stats: 'Точность прогнозов: 85%\nГлубина анализа: 93%'
             },
-            SUPPORT: {
-                name: 'ПОДДЕРЖКА',
-                role: 'Помощник',
-                stats: '2,341 тикетов, 4.9/5 оценка'
+            { 
+                name: 'Евгения', 
+                role: 'Менеджер', 
+                color: 'pink', 
+                hairColor: 'black', 
+                x: 200, 
+                y: 250,
+                stats: 'Управление проектами: 87%\nКоммуникативность: 95%'
             },
-            DEVELOPER: {
-                name: 'ДЕВЕЛОПЕР',
-                role: 'Программист',
-                stats: '47,892 строк кода, 234 багов исправлено'
+            { 
+                name: 'Трейдер', 
+                role: 'Финансист', 
+                color: 'green', 
+                hairColor: 'gray', 
+                x: 350, 
+                y: 250,
+                stats: 'Успешность сделок: 82%\nРиск-менеджмент: 90%'
             }
-        };
+        ];
 
-        // Draw Office Background
-        function drawOfficeBackground() {
-            ctx.fillStyle = COLORS.OFFICE_BACKGROUND;
+        // Draw pixel person function
+        function drawPixelPerson(x, y, hairColor, shirtColor) {
+            // Head
+            ctx.fillStyle = '#FFC78E';
+            ctx.fillRect(x + 10, y, 20, 20);
+
+            // Hair
+            ctx.fillStyle = hairColor;
+            ctx.fillRect(x + 10, y, 20, 10);
+
+            // Eyes
+            ctx.fillStyle = 'black';
+            ctx.fillRect(x + 13, y + 5, 4, 4);
+            ctx.fillRect(x + 23, y + 5, 4, 4);
+
+            // Body
+            ctx.fillStyle = shirtColor;
+            ctx.fillRect(x + 10, y + 20, 20, 30);
+
+            // Legs
+            ctx.fillStyle = '#4A4A4A';
+            ctx.fillRect(x + 10, y + 50, 20, 20);
+        }
+
+        // Draw office
+        function drawOffice() {
+            // Clear canvas
+            ctx.fillStyle = '#F0F0F0';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Desks
-            ctx.fillStyle = COLORS.DESK;
-            const deskWidth = 120;
-            const deskHeight = 80;
-            const deskPositions = [
-                {x: 100, y: 100},   // Johnny
-                {x: 250, y: 100},   // Trader
-                {x: 400, y: 100},   // Analyst
-                {x: 100, y: 300},   // Miner
-                {x: 250, y: 300},   // Support
-                {x: 400, y: 300}    // Developer
-            ];
+            // Title
+            ctx.fillStyle = 'black';
+            ctx.font = '20px Arial';
+            ctx.fillText('51ASIC PIXEL OFFICE', 200, 30);
 
-            deskPositions.forEach(pos => {
-                ctx.fillRect(pos.x, pos.y, deskWidth, deskHeight);
+            // Status
+            ctx.font = '15px Arial';
+            ctx.fillText('Агенты: 6/6', 250, canvas.height - 50);
+            ctx.fillText('ONLINE', 270, canvas.height - 30);
+
+            // Draw agents
+            agents.forEach(agent => {
+                drawPixelPerson(agent.x, agent.y, agent.hairColor, agent.color);
             });
         }
 
-        // Draw Pixel Character
-        function drawPixelCharacter(x, y, color) {
-            const pixelSize = 10;
-            ctx.fillStyle = color;
-            
-            // Simple pixel character body
-            const bodyPositions = [
-                {x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0},
-                {x: 0, y: 1}, {x: 1, y: 1}, {x: 2, y: 1},
-                {x: 1, y: 2}
-            ];
+        // Show modal
+        function showModal(agent) {
+            const modal = document.getElementById('modal');
+            const nameEl = document.getElementById('modalName');
+            const roleEl = document.getElementById('modalRole');
+            const statsEl = document.getElementById('modalStats');
 
-            bodyPositions.forEach(pos => {
-                ctx.fillRect(
-                    x + pos.x * pixelSize, 
-                    y + pos.y * pixelSize, 
-                    pixelSize, 
-                    pixelSize
-                );
-            });
+            nameEl.textContent = agent.name;
+            roleEl.textContent = `Роль: ${agent.role}`;
+            statsEl.textContent = `Статистика:\n${agent.stats}`;
+
+            modal.style.display = 'flex';
         }
 
-        // Agent Positions
-        const AGENT_POSITIONS = {
-            JOHNNY: {x: 130, y: 130, color: AGENT_COLORS.JOHNNY},
-            TRADER: {x: 280, y: 130, color: AGENT_COLORS.TRADER},
-            ANALYST: {x: 430, y: 130, color: AGENT_COLORS.ANALYST},
-            MINER: {x: 130, y: 330, color: AGENT_COLORS.MINER},
-            SUPPORT: {x: 280, y: 330, color: AGENT_COLORS.SUPPORT},
-            DEVELOPER: {x: 430, y: 330, color: AGENT_COLORS.DEVELOPER}
-        };
-
-        // Draw All Characters
-        function drawCharacters() {
-            Object.values(AGENT_POSITIONS).forEach(agent => {
-                drawPixelCharacter(agent.x, agent.y, agent.color);
-            });
-        }
-
-        // Show Modal with Agent Stats
-        function showAgentModal(agentKey) {
-            const agent = AGENT_STATS[agentKey];
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalContent = document.getElementById('modalContent');
-
-            modalContent.innerHTML = `
-                <h2>${agent.name}</h2>
-                <p><strong>Роль:</strong> ${agent.role}</p>
-                <p><strong>Статистика:</strong> ${agent.stats}</p>
-                <button onclick="closeModal()">Закрыть</button>
-            `;
-            
-            modalOverlay.style.display = 'flex';
-        }
-
-        // Close Modal
+        // Close modal
         function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
         }
 
-        // Check if click is on an agent
-        function checkAgentClick(event) {
+        // Initial draw
+        drawOffice();
+
+        // Click handling
+        canvas.addEventListener('click', (event) => {
             const rect = canvas.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
 
-            for (const [agentKey, agent] of Object.entries(AGENT_POSITIONS)) {
-                if (
-                    x >= agent.x && x <= agent.x + 30 &&
-                    y >= agent.y && y <= agent.y + 30
-                ) {
-                    showAgentModal(agentKey);
-                    break;
+            agents.forEach(agent => {
+                if (x >= agent.x && x <= agent.x + 40 && 
+                    y >= agent.y && y <= agent.y + 70) {
+                    showModal(agent);
                 }
-            }
-        }
-
-        // Initialize Canvas
-        function init() {
-            drawOfficeBackground();
-            drawCharacters();
-            
-            // Add Click Event Listener
-            canvas.addEventListener('click', checkAgentClick);
-            canvas.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Prevent mouse event
-                checkAgentClick(e.touches[0]);
             });
-        }
-
-        // Run Initialization
-        init();
+        });
     </script>
 </body>
 </html>
