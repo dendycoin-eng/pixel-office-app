@@ -385,22 +385,8 @@ function render() {
   requestAnimationFrame(render);
 }
 
-// Клики
-canvas.addEventListener('click', (e) => {
-  alert('🏢 51ASIC Pixel Office\n\nВерсия 2.0 работает!\nКлик зарегистрирован 👌');
-});
-
-// Touch поддержка
-canvas.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  const touch = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const clickEvent = new MouseEvent('click', {
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  canvas.dispatchEvent(clickEvent);
-});
+// ОТКЛЮЧАЕМ ВСЕ КЛИКИ И АЛЕРТЫ
+canvas.style.pointerEvents = 'none';
 
 // Запуск
 render();
