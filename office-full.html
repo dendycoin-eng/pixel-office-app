@@ -2,224 +2,280 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>51ASIC Office - Pixel Edition v3.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>51ASIC Pixel Office</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --pixel-scale: 4px;
-            --primary-bg: #f4f4f4;
-            --secondary-bg: #e0e0e0;
-            --accent-color: #6a4caf;
-            --shadow-color: rgba(0,0,0,0.2);
-        }
-
-        * {
-            box-sizing: border-box;
+        body {
             margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
         }
-
-        body, html {
-            height: 100%;
-            background-color: var(--primary-bg);
-            overflow: hidden;
-            touch-action: manipulation;
+        
+        .office-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 20px auto;
         }
-
-        /* ... [Previous CSS remains the same until .agent section] ... */
-
+        
         .agent {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            transition: transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            border: calc(var(--pixel-scale) * 2) solid #333;
-            background-color: transparent;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
-
+        
         .agent:hover {
+            background: rgba(0, 255, 255, 0.2);
             transform: scale(1.05);
         }
-
-        .pixel-person {
+        
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
             position: relative;
-            width: 100%;
-            height: 100%;
         }
-
-        .pixel-head {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50%;
-            height: 25%;
-            background-color: #333;
-            border: 2px solid #000;
+        
+        .johnny { background: #FFA500; }
+        .leha { background: #FF0000; }
+        .donni { background: #8B4513; }
+        .michael { background: #0066FF; }
+        .evgenia { background: #FFC0CB; }
+        .trader { background: #00AA00; }
+        
+        .agent-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
         }
-
-        .pixel-hair {
-            position: absolute;
+        
+        .agent-role {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background-color: transparent;
-        }
-
-        .pixel-body {
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 40%;
-            border: 2px solid #000;
-        }
-
-        .pixel-arms {
-            position: absolute;
-            top: 35%;
-            left: 0;
-            width: 100%;
-            height: 20%;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .pixel-arm {
-            width: 20%;
             height: 100%;
-            background-color: #000;
-            transform: rotate(10deg);
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
-
-        .pixel-glasses {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70%;
-            height: 10%;
-            background-color: transparent;
-            border: 2px solid white;
+        
+        .modal-content {
+            background: #1a1a2e;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #00ffff;
+            max-width: 90%;
+            text-align: center;
+        }
+        
+        .modal h2 {
+            color: #00ffff;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            background: #00ffff;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .office-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+        
+        .office-subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 30px;
+        }
+        
+        .status-bar {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
             border-radius: 10px;
-            z-index: 10;
         }
-
-        /* Specific agent styles */
-        #jonny .pixel-body { background-color: black; }
-        #jonny .pixel-hair { background-color: #ff6b00; }
-
-        #lekha .pixel-body { background-color: red; }
-        #lekha .pixel-hair { 
-            background-color: black;
-            clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
-            border-radius: 50% 50% 0 0;
-        }
-
-        #donnie .pixel-body { background-color: #8B4513; }
-        #donnie .pixel-hair { background-color: black; }
-
-        #michael .pixel-body { background-color: blue; }
-        #michael .pixel-hair { background-color: #808080; }
-
-        #evgenia .pixel-body { background-color: pink; }
-        #evgenia .pixel-hair { background-color: black; }
-
-        #trader .pixel-body { background-color: green; }
-        #trader .pixel-hair { background-color: #808080; }
-
-        /* Media queries remain the same as in previous version */
     </style>
 </head>
 <body>
-    <div class="office-container">
-        <div class="office-interior pixel-border">
-            <!-- [Previous interior elements remain the same] -->
-
-            <div id="jonny" class="agent" data-name="Джонни" data-role="Координатор" data-description="Рыжие волосы, чёрная футболка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="lekha" class="agent" data-name="Леха" data-role="Специалист" data-description="Кучерявые чёрные волосы, красная футболка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="donnie" class="agent" data-name="Донни" data-role="Эксперт" data-description="Чёрные волосы, белые очки, коричневая футболка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-glasses"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="michael" class="agent" data-name="Майкл" data-role="Аналитик" data-description="Серые волосы, синяя футболка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="evgenia" class="agent" data-name="Евгения" data-role="Менеджер" data-description="Чёрные волосы, белые очки, розовая футболка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-glasses"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="trader" class="agent" data-name="Трейдер" data-role="Финансист" data-description="Седые волосы, чёрные очки, зелёная рубашка">
-                <div class="pixel-person">
-                    <div class="pixel-head"></div>
-                    <div class="pixel-hair"></div>
-                    <div class="pixel-glasses" style="border-color: black;"></div>
-                    <div class="pixel-body"></div>
-                    <div class="pixel-arms">
-                        <div class="pixel-arm"></div>
-                        <div class="pixel-arm"></div>
-                    </div>
-                </div>
-            </div>
+    <div class="office-title">51ASIC Pixel Office</div>
+    <div class="office-subtitle">Команда агентов готова к работе</div>
+    
+    <div class="office-grid">
+        <div class="agent" onclick="showModal('johnny')">
+            <div class="agent-avatar johnny"></div>
+            <div class="agent-name">ДЖОННИ</div>
+            <div class="agent-role">Координатор</div>
+        </div>
+        
+        <div class="agent" onclick="showModal('leha')">
+            <div class="agent-avatar leha"></div>
+            <div class="agent-name">ЛЕХА</div>
+            <div class="agent-role">Специалист</div>
+        </div>
+        
+        <div class="agent" onclick="showModal('donni')">
+            <div class="agent-avatar donni"></div>
+            <div class="agent-name">ДОННИ</div>
+            <div class="agent-role">Эксперт</div>
+        </div>
+        
+        <div class="agent" onclick="showModal('michael')">
+            <div class="agent-avatar michael"></div>
+            <div class="agent-name">МАЙКЛ</div>
+            <div class="agent-role">Аналитик</div>
+        </div>
+        
+        <div class="agent" onclick="showModal('evgenia')">
+            <div class="agent-avatar evgenia"></div>
+            <div class="agent-name">ЕВГЕНИЯ</div>
+            <div class="agent-role">Менеджер</div>
+        </div>
+        
+        <div class="agent" onclick="showModal('trader')">
+            <div class="agent-avatar trader"></div>
+            <div class="agent-name">ТРЕЙДЕР</div>
+            <div class="agent-role">Финансист</div>
         </div>
     </div>
-
-    <!-- [Previous modal and script sections remain the same] -->
+    
+    <div class="status-bar">
+        <div>Агенты: 6/6 • Все онлайн • Готовы к задачам</div>
+    </div>
+    
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="modal-body"></div>
+            <button class="close-btn" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+    
+    <script>
+        // Telegram WebApp initialization
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+            window.Telegram.WebApp.setBackgroundColor('#1a1a2e');
+        }
+        
+        const agents = {
+            johnny: {
+                name: 'ДЖОННИ',
+                role: 'Координатор команды',
+                experience: '15 лет опыта',
+                tasks: 'Обработано задач: 1,247',
+                success: 'Успешность: 98.5%',
+                status: 'Координация проектов',
+                description: 'Главный координатор офиса 51ASIC. Управляет всеми процессами и следит за выполнением задач команды.'
+            },
+            leha: {
+                name: 'ЛЕХА',
+                role: 'Технический специалист',
+                experience: '8 лет опыта',
+                tasks: 'Решено задач: 892',
+                success: 'Успешность: 94.2%',
+                status: 'Техническая поддержка',
+                description: 'Эксперт по техническим вопросам. Специализируется на диагностике и решении сложных проблем.'
+            },
+            donni: {
+                name: 'ДОННИ',
+                role: 'Старший эксперт',
+                experience: '20 лет опыта',
+                tasks: 'Консультаций: 2,156',
+                success: 'Точность: 99.1%',
+                status: 'Анализ рынка',
+                description: 'Самый опытный член команды. Проводит экспертизы и дает ценные консультации.'
+            },
+            michael: {
+                name: 'МАЙКЛ',
+                role: 'Аналитик данных',
+                experience: '12 лет опыта',
+                tasks: 'Отчетов создано: 567',
+                success: 'Точность прогнозов: 87.3%',
+                status: 'Подготовка отчета',
+                description: 'Специалист по анализу данных и рыночной аналитике. Создает детальные отчеты для принятия решений.'
+            },
+            evgenia: {
+                name: 'ЕВГЕНИЯ',
+                role: 'Проект-менеджер',
+                experience: '10 лет опыта',
+                tasks: 'Проектов ведет: 15',
+                success: 'Успешность: 91.8%',
+                status: 'Планирование спринта',
+                description: 'Управляет проектами и координирует работу команды. Отвечает за планирование и контроль сроков.'
+            },
+            trader: {
+                name: 'ТРЕЙДЕР',
+                role: 'Финансовый аналитик',
+                experience: '7 лет опыта',
+                tasks: 'P&L: +$2,847.50',
+                success: 'Успешных сделок: 73.2%',
+                status: 'Мониторинг рынка',
+                description: 'Профессиональный трейдер с консервативной стратегией. Управляет торговыми операциями компании.'
+            }
+        };
+        
+        function showModal(agentId) {
+            const agent = agents[agentId];
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            // Haptic feedback for Telegram
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
+            
+            modalBody.innerHTML = `
+                <h2>${agent.name}</h2>
+                <p><strong>Роль:</strong> ${agent.role}</p>
+                <p><strong>Опыт:</strong> ${agent.experience}</p>
+                <p><strong>Статистика:</strong> ${agent.tasks}</p>
+                <p><strong>Результативность:</strong> ${agent.success}</p>
+                <p><strong>Текущий статус:</strong> ${agent.status}</p>
+                <p style="margin-top: 15px; opacity: 0.8;">${agent.description}</p>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
