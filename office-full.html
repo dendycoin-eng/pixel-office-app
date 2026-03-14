@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>51ASIC Pixel Office v3.0</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #0d0d1a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-family: monospace;
+  touch-action: manipulation;
+}
+canvas { 
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  background: #0d0d1a;
+}
+</style>
+</head>
+<body>
+<canvas id="office" width="640" height="480"></canvas>
+
+<script>
+// Telegram WebApp полный экран v3.0
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+  tg.enableClosingConfirmation();
+  
+  // Максимизируем приложение
+  if (tg.isVersionAtLeast('6.1')) {
+    tg.setHeaderColor('#0d0d1a');
+    tg.setBackgroundColor('#0d0d1a');
+  }
+  
+  // Дополнительная настройка для полного экрана
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      tg.expand();
+      if (tg.viewportHeight) {
+        document.body.style.height = tg.viewportHeight + 'px';
+      }
+    }, 100);
+  });
+}
+
+const canvas = document.getElementById('office');
+const ctx = canvas.getContext('2d');
+
+// Отключаем сглаживание
+ctx.imageSmoothingEnabled = false;
+if (ctx.webkitImageSmoothingEnabled !== undefined) ctx.webkitImageSmoothingEnabled = false;
+if (ctx.mozImageSmoothingEnabled !== undefined) ctx.mozImageSmoothingEnabled = false;
+if (ctx.msImageSmoothingEnabled !== undefined) ctx.msImageSmoothingEnabled = false;
+
+// Полноэкранное масштабирование
+function resizeCanvas() {
+  const viewWidth = window.innerWidth;
+  const viewHeight = window.innerHeight;
+  
+  canvas.width = 640;
+  canvas.height = 480;
+  
+  // Масштабируем на весь экран сохраняя пропорции
+  const scaleX = viewWidth / 640;
+  const scaleY = viewHeight / 480;
+  const scale = Math.min(scaleX, scaleY);
+  
+  canvas.style.width = (640 * scale) + 'px';
+  canvas.style.height = (480 * scale) + 'px';
+  
+  // Центрируем
+  const offsetX = (viewWidth - 640 * scale) / 2;
+  const offsetY = (viewHeight - 480 * scale) / 2;
+  
+  canvas.style.position = 'absolute';
+  canvas.style.left = offsetX + 'px';
+  canvas.style.top = offsetY + 'px';
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const S = 2;
+ctx.scale(S, S);
+const W = 320, H = 240;
+let frame = 0;
+
+// Палитра
+const P = {
+  bg: '#0d0d1a',
+  wallDark: '#1a1a3a', wallMid: '#252550', wallLight: '#303060', wallAccent: '#3a3a6a',
+  floorA: '#3a3a5a', floorB: '#444470',
+  deskWood: '#8b6914', deskTop: '#a67c1a', deskLeg: '#6b4c0a',
+  monBase: '#222', monFrame: '#333', monScreen: '#00ff88', monOff: '#1a1a2e',
+  chairBack: '#2a2a4a', chairSeat: '#3a3a5a',
+  skin: '#ffcc99', skinDark: '#e6b280',
+  hair: '#2a2a2a', hairLight: '#3a3a3a',
+  plantDark: '#1a6b1a', plantMid: '#228b22', plantLight: '#32cd32',
+  potDark: '#6b3410', potLight: '#8b4513',
+  windowSky: '#4a90d9', windowLight: '#87ceeb',
+  curtain: '#4a3060', curtainLight: '#5a4070',
+  carpet: '#2a1a4a', carpetBorder: '#3a2a5a', carpetPattern: '#352050',
+  gold: '#ffd700', goldDark: '#cc9900',
+  white: '#ffffff', black: '#000000',
+  cyan: '#3b82f6', cyanLight: '#60a5fa', cyanDark: '#2563eb',
+  red: '#ef4444', green: '#22c55e',
+  gray: '#888', grayDark: '#555', grayLight: '#aaa',
+};
+
+function drawPixel(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(Math.floor(x), Math.floor(y), w, h);
+}
+
+// ПОЛ
+function drawFloor() {
+  for (let y = 40; y < H; y += 8) {
+    for (let x = 0; x < W; x += 8) {
+      const alt = ((x/8 + y/8) % 2 === 0);
+      drawPixel(x, y, 8, 8, alt ? P.floorA : P.floorB);
+      if (alt) drawPixel(x, y, 8, 1, '#4a4a6a');
+    }
+  }
+}
+
+// СТЕНЫ
+function drawWalls() {
+  drawPixel(0, 0, W, 44, P.wallDark);
+  drawPixel(0, 30, W, 14, P.wallMid);
+  drawPixel(0, 42, W, 2, P.wallLight);
+  drawPixel(0, 38, W, 2, P.wallAccent);
+}
+
+// ЛОГОТИП 51ASIC
+function drawLogo() {
+  drawPixel(130, 4, 60, 28, P.gold);
+  drawPixel(131, 5, 58, 26, P.wallDark);
+  
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 10px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('51ASIC', 160, 17);
+  
+  ctx.fillStyle = P.gold;
+  ctx.font = '5px monospace';
+  ctx.fillText('MINING CO.', 160, 26);
+  
+  const glow = Math.sin(frame * 0.05) * 0.3 + 0.5;
+  ctx.fillStyle = `rgba(59, 130, 246, ${glow * 0.3})`;
+  ctx.fillRect(128, 2, 64, 32);
+}
+
+// ОКНА
+function drawWindow(x) {
+  drawPixel(x-1, 4, 30, 26, P.grayDark);
+  drawPixel(x, 5, 28, 24, P.windowSky);
+  drawPixel(x, 5, 28, 8, P.windowLight);
+  drawPixel(x+13, 5, 2, 24, P.grayDark);
+  drawPixel(x, 16, 28, 2, P.grayDark);
+  drawPixel(x-3, 3, 4, 28, P.curtain);
+  drawPixel(x+27, 3, 4, 28, P.curtain);
+  drawPixel(x-2, 3, 2, 28, P.curtainLight);
+  drawPixel(x+28, 3, 2, 28, P.curtainLight);
+  drawPixel(x-5, 2, 38, 2, P.grayLight);
+}
+
+// РАСТЕНИЕ
+function drawPlant(x, y) {
+  drawPixel(x+2, y+10, 10, 6, P.potDark);
+  drawPixel(x+3, y+10, 8, 5, P.potLight);
+  drawPixel(x, y+8, 14, 3, P.potDark);
+  drawPixel(x+3, y+8, 8, 2, '#3a2a1a');
+  drawPixel(x+6, y-2, 2, 12, P.plantDark);
+  drawPixel(x+3, y-4, 4, 4, P.plantMid);
+  drawPixel(x+7, y-6, 5, 4, P.plantLight);
+  drawPixel(x+1, y, 4, 3, P.plantMid);
+  drawPixel(x+9, y-2, 4, 3, P.plantLight);
+  const sway = Math.sin(frame * 0.03 + x) * 1;
+  drawPixel(x+4+sway, y-8, 3, 3, P.plantLight);
+  drawPixel(x+8-sway, y-7, 3, 3, P.plantMid);
+}
+
+// ЛАМПА
+function drawLamp(x, y) {
+  drawPixel(x+3, y, 2, 20, P.gray);
+  drawPixel(x+1, y+18, 6, 3, P.grayDark);
+  drawPixel(x-1, y-4, 10, 5, P.gold);
+  drawPixel(x, y-3, 8, 3, P.goldDark);
+  const glow = Math.sin(frame * 0.04) * 0.15 + 0.25;
+  ctx.fillStyle = `rgba(255, 215, 0, ${glow})`;
+  ctx.beginPath();
+  ctx.arc(x+4, y+8, 18, 0, Math.PI*2);
+  ctx.fill();
+}
+
+// СТОЛ С КОМПЬЮТЕРОМ
+function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
+  drawPixel(x+2, y+22, 34, 4, 'rgba(0,0,0,0.3)');
+  
+  drawPixel(x, y+10, 34, 3, P.deskTop);
+  drawPixel(x, y+13, 34, 2, P.deskWood);
+  drawPixel(x+1, y+9, 32, 1, '#b88a20');
+  drawPixel(x+2, y+15, 3, 8, P.deskLeg);
+  drawPixel(x+29, y+15, 3, 8, P.deskLeg);
+  
+  drawPixel(x+10, y-2, 14, 12, P.monFrame);
+  drawPixel(x+11, y-1, 12, 10, hasAgent ? P.monScreen : P.monOff);
+  drawPixel(x+15, y+10, 4, 2, P.grayDark);
+  drawPixel(x+14, y+10, 6, 1, P.gray);
+  
+  if (hasAgent) {
+    if (name === 'ТРЕЙДЕР') {
+      // Торговые графики для трейдера
+      for (let i = 0; i < 4; i++) {
+        const chartColor = (Math.sin(frame * 0.1 + i) > 0) ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)';
+        const chartWidth = 3 + Math.floor(Math.abs(Math.sin(frame * 0.05 + i)) * 4);
+        ctx.fillStyle = chartColor;
+        ctx.fillRect(x+12 + i*2, y + i*2, chartWidth, 1);
+      }
+    } else {
+      // Обычный код для других агентов
+      for (let i = 0; i < 4; i++) {
+        const lw = 4 + Math.floor(Math.random() * 6);
+        ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.random()*0.5})`;
+        ctx.fillRect(x+12, y + i*2, lw, 1);
+      }
+    }
+  }
+  
+  drawPixel(x+12, y+6, 10, 3, P.grayDark);
+  drawPixel(x+13, y+7, 8, 1, P.gray);
+  drawPixel(x+24, y+7, 3, 2, P.gray);
+  drawPixel(x+3, y+5, 4, 5, '#cc4444');
+  drawPixel(x+4, y+6, 2, 3, '#dd6666');
+  drawPixel(x+7, y+7, 1, 2, '#cc4444');
+  
+  drawPixel(x+10, y+24, 14, 2, P.chairBack);
+  drawPixel(x+9, y+26, 16, 6, P.chairSeat);
+  drawPixel(x+11, y+32, 3, 4, P.grayDark);
+  drawPixel(x+20, y+32, 3, 4, P.grayDark);
+  
+  if (hasAgent) {
+    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair, name);
+  }
+  
+  if (name) {
+    const nameW = name.length * 4 + 6;
+    const nx = x + 17 - nameW/2;
+    drawPixel(nx, y+38, nameW, 9, 'rgba(0,0,0,0.7)');
+    drawPixel(nx, y+38, nameW, 1, hasAgent ? P.cyan : P.grayDark);
+    ctx.fillStyle = hasAgent ? P.white : P.grayLight;
+    ctx.font = '6px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(name, x+17, y+45);
+  }
+}
+
+// ПИКСЕЛЬНЫЙ ПЕРСОНАЖ
+function drawCharacter(x, y, shirtColor, hairColor, name) {
+  drawPixel(x-1, y+12, 14, 2, 'rgba(0,0,0,0.2)');
+  drawPixel(x+2, y+10, 3, 3, P.wallDark);
+  drawPixel(x+7, y+10, 3, 3, P.wallDark);
+  drawPixel(x+1, y+2, 10, 8, shirtColor);
+  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : (shirtColor === P.black ? '#333' : shirtColor));
+  drawPixel(x-1, y+3, 2, 6, P.skin);
+  drawPixel(x+11, y+3, 2, 6, P.skin);
+  drawPixel(x+2, y-6, 8, 8, P.skin);
+  drawPixel(x+3, y-5, 6, 6, P.skin);
+  
+  // Волосы
+  if (name === 'ТРЕЙДЕР') {
+    // Длинные седые волосы
+    drawPixel(x+1, y-8, 10, 3, hairColor); // основа
+    drawPixel(x, y-7, 1, 6, hairColor); // левая сторона
+    drawPixel(x+11, y-7, 1, 6, hairColor); // правая сторона
+    drawPixel(x-1, y-5, 1, 4, hairColor); // ещё длиннее слева
+    drawPixel(x+12, y-5, 1, 4, hairColor); // ещё длиннее справа
+  } else {
+    // Обычные волосы
+    drawPixel(x+2, y-8, 8, 3, hairColor);
+    drawPixel(x+1, y-7, 1, 4, hairColor);
+    drawPixel(x+10, y-7, 1, 4, hairColor);
+  }
+  
+  // Глаза
+  drawPixel(x+4, y-3, 2, 2, P.black);
+  drawPixel(x+7, y-3, 2, 2, P.black);
+  
+  // Очки для трейдера
+  if (name === 'ТРЕЙДЕР') {
+    // Чёрные круглые очки
+    drawPixel(x+3, y-4, 3, 3, P.black); // левая линза
+    drawPixel(x+8, y-4, 3, 3, P.black); // правая линза
+    drawPixel(x+4, y-3, 1, 1, '#222'); // блик левой линзы
+    drawPixel(x+9, y-3, 1, 1, '#222'); // блик правой линзы
+    drawPixel(x+6, y-3, 2, 1, P.black); // перемычка
+    // Дужки очков
+    drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
+    drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
+  } else {
+    // Обычные глаза
+    drawPixel(x+4, y-3, 1, 1, P.white);
+    drawPixel(x+7, y-3, 1, 1, P.white);
+  }
+  
+  drawPixel(x+5, y, 3, 1, '#cc8866');
+}
+
+// КУЛЕР С ВОДОЙ
+function drawWaterCooler(x, y) {
+  drawPixel(x+2, y, 8, 4, '#aaddff');
+  drawPixel(x+3, y+1, 6, 2, '#88bbff');
+  drawPixel(x+1, y+4, 10, 10, P.grayLight);
+  drawPixel(x+2, y+5, 8, 8, P.gray);
+  drawPixel(x+3, y+14, 6, 2, P.grayDark);
+  drawPixel(x+4, y+7, 2, 1, P.red);
+  drawPixel(x+7, y+7, 2, 1, P.cyan);
+}
+
+// ДОСКА НА СТЕНЕ
+function drawBoard(x) {
+  drawPixel(x, 6, 28, 22, P.white);
+  drawPixel(x+1, 7, 26, 20, '#f0f0f0');
+  drawPixel(x, 6, 28, 1, P.grayDark);
+  drawPixel(x, 27, 28, 1, P.grayDark);
+  drawPixel(x, 6, 1, 22, P.grayDark);
+  drawPixel(x+27, 6, 1, 22, P.grayDark);
+  drawPixel(x+3, 10, 10, 1, P.cyan);
+  drawPixel(x+3, 13, 14, 1, P.red);
+  drawPixel(x+3, 16, 8, 1, P.green);
+  drawPixel(x+3, 19, 12, 1, P.cyan);
+  drawPixel(x+3, 22, 6, 1, P.gold);
+  drawPixel(x+18, 10, 6, 6, '#ffeb3b');
+  drawPixel(x+20, 18, 5, 5, '#ff9800');
+}
+
+// ОСНОВНОЙ РЕНДЕР
+function render() {
+  drawPixel(0, 0, W, H, P.bg);
+  
+  drawFloor();
+  drawWalls();
+  
+  drawWindow(20);
+  drawWindow(260);
+  
+  drawLogo();
+  drawBoard(70);
+  
+  drawPixel(40, 55, 240, 140, P.carpet);
+  drawPixel(42, 57, 236, 136, P.carpetBorder);
+  drawPixel(44, 59, 232, 132, P.carpet);
+  for (let i = 0; i < 10; i++) {
+    drawPixel(60 + i*22, 80, 12, 1, P.carpetPattern);
+    drawPixel(60 + i*22, 150, 12, 1, P.carpetPattern);
+  }
+  
+  drawPlant(6, 50);
+  drawPlant(298, 50);
+  drawPlant(298, 130);
+  drawPlant(6, 180);
+  
+  drawLamp(100, 44);
+  drawLamp(210, 44);
+  
+  drawWaterCooler(290, 85);
+  
+  // Рабочие места
+  drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
+  drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#cccccc'); // зелёная футболка, седые волосы
+  drawDesk(210, 65, false, 'СВОБОДНО', null, null);
+  
+  drawDesk(50, 140, false, 'СВОБОДНО', null, null);
+  drawDesk(130, 140, false, 'СВОБОДНО', null, null);
+  drawDesk(210, 140, false, 'СВОБОДНО', null, null);
+  
+  // Статусная панель
+  drawPixel(0, H-18, W, 18, 'rgba(13,13,26,0.9)');
+  drawPixel(0, H-18, W, 1, P.cyan);
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 7px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('🏢 51ASIC PIXEL OFFICE', 6, H-7);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = P.green;
+  ctx.fillText('● ONLINE', W-6, H-7);
+  ctx.textAlign = 'left';
+  
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '6px monospace';
+  ctx.fillText('Агенты: 2/6', 140, H-7);
+  
+  frame++;
+  requestAnimationFrame(render);
+}
+
+// Клики
+canvas.addEventListener('click', (e) => {
+  alert('🏢 51ASIC Pixel Office\n\nВерсия 2.0 работает!\nКлик зарегистрирован 👌');
+});
+
+// Touch поддержка
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const clickEvent = new MouseEvent('click', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  canvas.dispatchEvent(clickEvent);
+});
+
+// Запуск
+render();
+</script>
+</body>
+</html>
