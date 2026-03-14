@@ -399,8 +399,9 @@ function render() {
   ctx.font = '6px monospace';
   ctx.fillText('Агенты: 2/6', 140, H-7);
   
-  // Модальное окно поверх всего
+  // Модальные окна поверх всего
   drawModal();
+  drawJohnnyModal();
   
   frame++;
   requestAnimationFrame(render);
@@ -420,7 +421,22 @@ async function loadBalance() {
   }
 }
 loadBalance();
-setInterval(loadBalance, 60000); // обновляем каждую минуту
+setInterval(loadBalance, 60000);
+
+// Данные Джонни
+let johnnyData = null;
+let johnnyModalOpen = false;
+
+async function loadJohnny() {
+  try {
+    const r = await fetch('johnny.json?t=' + Date.now());
+    johnnyData = await r.json();
+  } catch(e) {
+    johnnyData = {status: 'offline', model: 'unknown', tasks: [], updated: 'нет данных'};
+  }
+}
+loadJohnny();
+setInterval(loadJohnny, 60000);
 
 // Рисуем модальное окно
 function drawModal() {
@@ -510,26 +526,110 @@ function drawModal() {
   ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
 }
 
-// Определяем зону ТРЕЙДЕРА (130, 65 — координаты стола)
-function isTraderClick(cx, cy) {
+// Рисуем модальное окно Джонни
+function drawJohnnyModal() {
+  if (!johnnyModalOpen || !johnnyData) return;
+  
+  const mx = 30, my = 25, mw = 260, mh = 190;
+  
+  drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
+  drawPixel(mx, my, mw, mh, '#0d0d2a');
+  drawPixel(mx, my, mw, 2, P.gold);
+  drawPixel(mx, my+mh-2, mw, 2, P.gold);
+  drawPixel(mx, my, 2, mh, P.gold);
+  drawPixel(mx+mw-2, my, 2, mh, P.gold);
+  
+  ctx.fillStyle = P.gold;
+  ctx.font = 'bold 8px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('🤖 ДЖОННИ — КООРДИНАТОР', W/2, my+14);
+  
+  ctx.fillStyle = P.green;
+  ctx.font = '6px monospace';
+  ctx.fillText('● ONLINE', W/2, my+24);
+  
+  // Модель
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 7px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('Модель:', mx+10, my+38);
+  ctx.fillStyle = P.white;
+  ctx.font = '6px monospace';
+  ctx.fillText(johnnyData.model || 'unknown', mx+55, my+38);
+  
+  // Задачи
+  ctx.fillStyle = P.gold;
+  ctx.font = 'bold 7px monospace';
+  ctx.fillText('Активные задачи: ' + (johnnyData.totalTasks || 0), mx+10, my+52);
+  
+  let yOff = my + 64;
+  ctx.font = '5px monospace';
+  
+  if (johnnyData.tasks) {
+    for (let i = 0; i < Math.min(johnnyData.tasks.length, 5); i++) {
+      const t = johnnyData.tasks[i];
+      const statusColor = t.status === 'active' ? P.green : P.red;
+      ctx.fillStyle = statusColor;
+      ctx.fillText('●', mx+10, yOff);
+      ctx.fillStyle = P.white;
+      ctx.fillText(t.name, mx+18, yOff);
+      ctx.fillStyle = P.grayLight;
+      ctx.fillText(t.schedule, mx+150, yOff);
+      ctx.fillStyle = P.cyan;
+      ctx.fillText(t.model, mx+200, yOff);
+      yOff += 10;
+    }
+  }
+  
+  // Агенты
+  yOff += 5;
+  ctx.fillStyle = P.gold;
+  ctx.font = '6px monospace';
+  ctx.fillText('Агенты: ' + (johnnyData.agentsOnline || 0) + '/' + (johnnyData.agentsTotal || 6) + ' онлайн', mx+10, yOff);
+  
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '5px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(johnnyData.updated || '', W/2, my+mh-10);
+  
+  ctx.fillStyle = P.red;
+  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
+}
+
+// Координаты агентов
+function getClickCoords(cx, cy) {
   const rect = canvas.getBoundingClientRect();
   const scaleX = 640 / rect.width;
   const scaleY = 480 / rect.height;
-  const x = (cx - rect.left) * scaleX / S;
-  const y = (cy - rect.top) * scaleY / S;
-  // Зона ТРЕЙДЕРА: стол на позиции (130, 65), размер ~34x50
+  return {
+    x: (cx - rect.left) * scaleX / S,
+    y: (cy - rect.top) * scaleY / S
+  };
+}
+
+function isJohnnyClick(cx, cy) {
+  const {x, y} = getClickCoords(cx, cy);
+  return x >= 40 && x <= 95 && y >= 50 && y <= 115;
+}
+
+function isTraderClick(cx, cy) {
+  const {x, y} = getClickCoords(cx, cy);
   return x >= 120 && x <= 175 && y >= 50 && y <= 115;
 }
 
 // Клик обработчик
 canvas.addEventListener('click', (e) => {
-  if (modalOpen) {
+  if (modalOpen || johnnyModalOpen) {
     modalOpen = false;
+    johnnyModalOpen = false;
     return;
   }
   if (isTraderClick(e.clientX, e.clientY)) {
     modalOpen = true;
-    loadBalance(); // обновляем при клике
+    loadBalance();
+  } else if (isJohnnyClick(e.clientX, e.clientY)) {
+    johnnyModalOpen = true;
+    loadJohnny();
   }
 });
 
@@ -537,13 +637,17 @@ canvas.addEventListener('click', (e) => {
 canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
   const touch = e.touches[0];
-  if (modalOpen) {
+  if (modalOpen || johnnyModalOpen) {
     modalOpen = false;
+    johnnyModalOpen = false;
     return;
   }
   if (isTraderClick(touch.clientX, touch.clientY)) {
     modalOpen = true;
     loadBalance();
+  } else if (isJohnnyClick(touch.clientX, touch.clientY)) {
+    johnnyModalOpen = true;
+    loadJohnny();
   }
 });
 
