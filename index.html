@@ -1,409 +1,503 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>51ASIC Pixel Office</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
-  background: #0d0d1a; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  min-height: 100vh;
-  width: 100vw;
-  font-family: monospace;
-  overflow: hidden;
-  touch-action: manipulation;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-canvas { 
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  max-width: 100vw;
-  max-height: 100vh;
-  border: 1px solid #333;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>51ASIC Pixel Office</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #1a1a2e;
+            font-family: 'Courier New', monospace;
+            user-select: none;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .office {
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(90deg, #16213e 1px, transparent 1px),
+                linear-gradient(180deg, #16213e 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: relative;
+            cursor: crosshair;
+        }
+        
+        .agent {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        
+        .agent:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 5px;
+            image-rendering: pixelated;
+            border: 2px solid #0ff;
+            border-radius: 50%;
+        }
+        
+        .name {
+            text-align: center;
+            font-size: 10px;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        .status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin: 2px auto;
+        }
+        
+        .online { background: #0f0; }
+        .busy { background: #ff0; }
+        .away { background: #f80; }
+        
+        .furniture {
+            position: absolute;
+            image-rendering: pixelated;
+        }
+        
+        .desk {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(45deg, #8B4513 25%, #A0522D 25%, #A0522D 50%, #8B4513 50%);
+            background-size: 8px 8px;
+            border: 2px solid #654321;
+        }
+        
+        .computer {
+            width: 30px;
+            height: 20px;
+            background: #333;
+            border: 1px solid #555;
+            margin: 10px auto;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #0ff;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .modal h2 {
+            color: #0ff;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000;
+        }
+        
+        .modal p {
+            color: #fff;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #0ff;
+        }
+        
+        .stat-label {
+            color: #0ff;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .trading-panel {
+            background: rgba(0, 20, 40, 0.8);
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .position {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        
+        .green { color: #0f0; }
+        .red { color: #f44; }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
+        }
+    </style>
 </head>
 <body>
-<canvas id="office" width="640" height="480"></canvas>
-
-<script>
-// Инициализация Telegram WebApp для полного экрана
-if (window.Telegram && window.Telegram.WebApp) {
-  const tg = window.Telegram.WebApp;
-  tg.ready();
-  tg.expand(); // Развернуть на весь экран
-  tg.enableClosingConfirmation(); // Подтверждение закрытия
-  
-  // Скрыть заголовок если возможно
-  if (tg.isVersionAtLeast('6.1')) {
-    tg.setHeaderColor('#0d0d1a');
-    tg.setBackgroundColor('#0d0d1a');
-  }
-}
-
-const canvas = document.getElementById('office');
-const ctx = canvas.getContext('2d');
-
-// Отключаем сглаживание
-ctx.imageSmoothingEnabled = false;
-if (ctx.webkitImageSmoothingEnabled !== undefined) ctx.webkitImageSmoothingEnabled = false;
-if (ctx.mozImageSmoothingEnabled !== undefined) ctx.mozImageSmoothingEnabled = false;
-if (ctx.msImageSmoothingEnabled !== undefined) ctx.msImageSmoothingEnabled = false;
-
-// Масштабирование под экран
-function resizeCanvas() {
-  const maxW = Math.min(window.innerWidth - 20, 640);
-  const maxH = Math.min(window.innerHeight - 20, 480);
-  const scale = Math.min(maxW / 640, maxH / 480);
-  
-  canvas.style.width = (640 * scale) + 'px';
-  canvas.style.height = (480 * scale) + 'px';
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-const S = 2;
-ctx.scale(S, S);
-const W = 320, H = 240;
-let frame = 0;
-
-// Палитра
-const P = {
-  bg: '#0d0d1a',
-  wallDark: '#1a1a3a', wallMid: '#252550', wallLight: '#303060', wallAccent: '#3a3a6a',
-  floorA: '#3a3a5a', floorB: '#444470',
-  deskWood: '#8b6914', deskTop: '#a67c1a', deskLeg: '#6b4c0a',
-  monBase: '#222', monFrame: '#333', monScreen: '#00ff88', monOff: '#1a1a2e',
-  chairBack: '#2a2a4a', chairSeat: '#3a3a5a',
-  skin: '#ffcc99', skinDark: '#e6b280',
-  hair: '#2a2a2a', hairLight: '#3a3a3a',
-  plantDark: '#1a6b1a', plantMid: '#228b22', plantLight: '#32cd32',
-  potDark: '#6b3410', potLight: '#8b4513',
-  windowSky: '#4a90d9', windowLight: '#87ceeb',
-  curtain: '#4a3060', curtainLight: '#5a4070',
-  carpet: '#2a1a4a', carpetBorder: '#3a2a5a', carpetPattern: '#352050',
-  gold: '#ffd700', goldDark: '#cc9900',
-  white: '#ffffff', black: '#000000',
-  cyan: '#3b82f6', cyanLight: '#60a5fa', cyanDark: '#2563eb',
-  red: '#ef4444', green: '#22c55e',
-  gray: '#888', grayDark: '#555', grayLight: '#aaa',
-};
-
-function drawPixel(x, y, w, h, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(Math.floor(x), Math.floor(y), w, h);
-}
-
-// ПОЛ
-function drawFloor() {
-  for (let y = 40; y < H; y += 8) {
-    for (let x = 0; x < W; x += 8) {
-      const alt = ((x/8 + y/8) % 2 === 0);
-      drawPixel(x, y, 8, 8, alt ? P.floorA : P.floorB);
-      if (alt) drawPixel(x, y, 8, 1, '#4a4a6a');
-    }
-  }
-}
-
-// СТЕНЫ
-function drawWalls() {
-  drawPixel(0, 0, W, 44, P.wallDark);
-  drawPixel(0, 30, W, 14, P.wallMid);
-  drawPixel(0, 42, W, 2, P.wallLight);
-  drawPixel(0, 38, W, 2, P.wallAccent);
-}
-
-// ЛОГОТИП 51ASIC
-function drawLogo() {
-  drawPixel(130, 4, 60, 28, P.gold);
-  drawPixel(131, 5, 58, 26, P.wallDark);
-  
-  ctx.fillStyle = P.cyan;
-  ctx.font = 'bold 10px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillText('51ASIC', 160, 17);
-  
-  ctx.fillStyle = P.gold;
-  ctx.font = '5px monospace';
-  ctx.fillText('MINING CO.', 160, 26);
-  
-  const glow = Math.sin(frame * 0.05) * 0.3 + 0.5;
-  ctx.fillStyle = `rgba(59, 130, 246, ${glow * 0.3})`;
-  ctx.fillRect(128, 2, 64, 32);
-}
-
-// ОКНА
-function drawWindow(x) {
-  drawPixel(x-1, 4, 30, 26, P.grayDark);
-  drawPixel(x, 5, 28, 24, P.windowSky);
-  drawPixel(x, 5, 28, 8, P.windowLight);
-  drawPixel(x+13, 5, 2, 24, P.grayDark);
-  drawPixel(x, 16, 28, 2, P.grayDark);
-  drawPixel(x-3, 3, 4, 28, P.curtain);
-  drawPixel(x+27, 3, 4, 28, P.curtain);
-  drawPixel(x-2, 3, 2, 28, P.curtainLight);
-  drawPixel(x+28, 3, 2, 28, P.curtainLight);
-  drawPixel(x-5, 2, 38, 2, P.grayLight);
-}
-
-// РАСТЕНИЕ
-function drawPlant(x, y) {
-  drawPixel(x+2, y+10, 10, 6, P.potDark);
-  drawPixel(x+3, y+10, 8, 5, P.potLight);
-  drawPixel(x, y+8, 14, 3, P.potDark);
-  drawPixel(x+3, y+8, 8, 2, '#3a2a1a');
-  drawPixel(x+6, y-2, 2, 12, P.plantDark);
-  drawPixel(x+3, y-4, 4, 4, P.plantMid);
-  drawPixel(x+7, y-6, 5, 4, P.plantLight);
-  drawPixel(x+1, y, 4, 3, P.plantMid);
-  drawPixel(x+9, y-2, 4, 3, P.plantLight);
-  const sway = Math.sin(frame * 0.03 + x) * 1;
-  drawPixel(x+4+sway, y-8, 3, 3, P.plantLight);
-  drawPixel(x+8-sway, y-7, 3, 3, P.plantMid);
-}
-
-// ЛАМПА
-function drawLamp(x, y) {
-  drawPixel(x+3, y, 2, 20, P.gray);
-  drawPixel(x+1, y+18, 6, 3, P.grayDark);
-  drawPixel(x-1, y-4, 10, 5, P.gold);
-  drawPixel(x, y-3, 8, 3, P.goldDark);
-  const glow = Math.sin(frame * 0.04) * 0.15 + 0.25;
-  ctx.fillStyle = `rgba(255, 215, 0, ${glow})`;
-  ctx.beginPath();
-  ctx.arc(x+4, y+8, 18, 0, Math.PI*2);
-  ctx.fill();
-}
-
-// СТОЛ С КОМПЬЮТЕРОМ
-function drawDesk(x, y, hasAgent, name, shirtCol, hairCol) {
-  drawPixel(x+2, y+22, 34, 4, 'rgba(0,0,0,0.3)');
-  
-  drawPixel(x, y+10, 34, 3, P.deskTop);
-  drawPixel(x, y+13, 34, 2, P.deskWood);
-  drawPixel(x+1, y+9, 32, 1, '#b88a20');
-  drawPixel(x+2, y+15, 3, 8, P.deskLeg);
-  drawPixel(x+29, y+15, 3, 8, P.deskLeg);
-  
-  drawPixel(x+10, y-2, 14, 12, P.monFrame);
-  drawPixel(x+11, y-1, 12, 10, hasAgent ? P.monScreen : P.monOff);
-  drawPixel(x+15, y+10, 4, 2, P.grayDark);
-  drawPixel(x+14, y+10, 6, 1, P.gray);
-  
-  if (hasAgent) {
-    if (name === 'ТРЕЙДЕР') {
-      // Торговые графики для трейдера
-      for (let i = 0; i < 4; i++) {
-        const chartColor = (Math.sin(frame * 0.1 + i) > 0) ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)';
-        const chartWidth = 3 + Math.floor(Math.abs(Math.sin(frame * 0.05 + i)) * 4);
-        ctx.fillStyle = chartColor;
-        ctx.fillRect(x+12 + i*2, y + i*2, chartWidth, 1);
-      }
-    } else {
-      // Обычный код для других агентов
-      for (let i = 0; i < 4; i++) {
-        const lw = 4 + Math.floor(Math.random() * 6);
-        ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.random()*0.5})`;
-        ctx.fillRect(x+12, y + i*2, lw, 1);
-      }
-    }
-  }
-  
-  drawPixel(x+12, y+6, 10, 3, P.grayDark);
-  drawPixel(x+13, y+7, 8, 1, P.gray);
-  drawPixel(x+24, y+7, 3, 2, P.gray);
-  drawPixel(x+3, y+5, 4, 5, '#cc4444');
-  drawPixel(x+4, y+6, 2, 3, '#dd6666');
-  drawPixel(x+7, y+7, 1, 2, '#cc4444');
-  
-  drawPixel(x+10, y+24, 14, 2, P.chairBack);
-  drawPixel(x+9, y+26, 16, 6, P.chairSeat);
-  drawPixel(x+11, y+32, 3, 4, P.grayDark);
-  drawPixel(x+20, y+32, 3, 4, P.grayDark);
-  
-  if (hasAgent) {
-    drawCharacter(x+11, y+14, shirtCol || P.cyan, hairCol || P.hair, name);
-  }
-  
-  if (name) {
-    const nameW = name.length * 4 + 6;
-    const nx = x + 17 - nameW/2;
-    drawPixel(nx, y+38, nameW, 9, 'rgba(0,0,0,0.7)');
-    drawPixel(nx, y+38, nameW, 1, hasAgent ? P.cyan : P.grayDark);
-    ctx.fillStyle = hasAgent ? P.white : P.grayLight;
-    ctx.font = '6px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText(name, x+17, y+45);
-  }
-}
-
-// ПИКСЕЛЬНЫЙ ПЕРСОНАЖ
-function drawCharacter(x, y, shirtColor, hairColor, name) {
-  drawPixel(x-1, y+12, 14, 2, 'rgba(0,0,0,0.2)');
-  drawPixel(x+2, y+10, 3, 3, P.wallDark);
-  drawPixel(x+7, y+10, 3, 3, P.wallDark);
-  drawPixel(x+1, y+2, 10, 8, shirtColor);
-  drawPixel(x+2, y+2, 8, 1, shirtColor === P.cyan ? P.cyanLight : (shirtColor === P.black ? '#333' : shirtColor));
-  drawPixel(x-1, y+3, 2, 6, P.skin);
-  drawPixel(x+11, y+3, 2, 6, P.skin);
-  drawPixel(x+2, y-6, 8, 8, P.skin);
-  drawPixel(x+3, y-5, 6, 6, P.skin);
-  
-  // Волосы
-  if (name === 'ТРЕЙДЕР') {
-    // Длинные седые волосы
-    drawPixel(x+1, y-8, 10, 3, hairColor); // основа
-    drawPixel(x, y-7, 1, 6, hairColor); // левая сторона
-    drawPixel(x+11, y-7, 1, 6, hairColor); // правая сторона
-    drawPixel(x-1, y-5, 1, 4, hairColor); // ещё длиннее слева
-    drawPixel(x+12, y-5, 1, 4, hairColor); // ещё длиннее справа
-  } else {
-    // Обычные волосы
-    drawPixel(x+2, y-8, 8, 3, hairColor);
-    drawPixel(x+1, y-7, 1, 4, hairColor);
-    drawPixel(x+10, y-7, 1, 4, hairColor);
-  }
-  
-  // Глаза
-  drawPixel(x+4, y-3, 2, 2, P.black);
-  drawPixel(x+7, y-3, 2, 2, P.black);
-  
-  // Очки для трейдера
-  if (name === 'ТРЕЙДЕР') {
-    // Чёрные круглые очки
-    drawPixel(x+3, y-4, 3, 3, P.black); // левая линза
-    drawPixel(x+8, y-4, 3, 3, P.black); // правая линза
-    drawPixel(x+4, y-3, 1, 1, '#222'); // блик левой линзы
-    drawPixel(x+9, y-3, 1, 1, '#222'); // блик правой линзы
-    drawPixel(x+6, y-3, 2, 1, P.black); // перемычка
-    // Дужки очков
-    drawPixel(x+2, y-3, 1, 1, P.black); // левая дужка
-    drawPixel(x+11, y-3, 1, 1, P.black); // правая дужка
-  } else {
-    // Обычные глаза
-    drawPixel(x+4, y-3, 1, 1, P.white);
-    drawPixel(x+7, y-3, 1, 1, P.white);
-  }
-  
-  drawPixel(x+5, y, 3, 1, '#cc8866');
-}
-
-// КУЛЕР С ВОДОЙ
-function drawWaterCooler(x, y) {
-  drawPixel(x+2, y, 8, 4, '#aaddff');
-  drawPixel(x+3, y+1, 6, 2, '#88bbff');
-  drawPixel(x+1, y+4, 10, 10, P.grayLight);
-  drawPixel(x+2, y+5, 8, 8, P.gray);
-  drawPixel(x+3, y+14, 6, 2, P.grayDark);
-  drawPixel(x+4, y+7, 2, 1, P.red);
-  drawPixel(x+7, y+7, 2, 1, P.cyan);
-}
-
-// ДОСКА НА СТЕНЕ
-function drawBoard(x) {
-  drawPixel(x, 6, 28, 22, P.white);
-  drawPixel(x+1, 7, 26, 20, '#f0f0f0');
-  drawPixel(x, 6, 28, 1, P.grayDark);
-  drawPixel(x, 27, 28, 1, P.grayDark);
-  drawPixel(x, 6, 1, 22, P.grayDark);
-  drawPixel(x+27, 6, 1, 22, P.grayDark);
-  drawPixel(x+3, 10, 10, 1, P.cyan);
-  drawPixel(x+3, 13, 14, 1, P.red);
-  drawPixel(x+3, 16, 8, 1, P.green);
-  drawPixel(x+3, 19, 12, 1, P.cyan);
-  drawPixel(x+3, 22, 6, 1, P.gold);
-  drawPixel(x+18, 10, 6, 6, '#ffeb3b');
-  drawPixel(x+20, 18, 5, 5, '#ff9800');
-}
-
-// ОСНОВНОЙ РЕНДЕР
-function render() {
-  drawPixel(0, 0, W, H, P.bg);
-  
-  drawFloor();
-  drawWalls();
-  
-  drawWindow(20);
-  drawWindow(260);
-  
-  drawLogo();
-  drawBoard(70);
-  
-  drawPixel(40, 55, 240, 140, P.carpet);
-  drawPixel(42, 57, 236, 136, P.carpetBorder);
-  drawPixel(44, 59, 232, 132, P.carpet);
-  for (let i = 0; i < 10; i++) {
-    drawPixel(60 + i*22, 80, 12, 1, P.carpetPattern);
-    drawPixel(60 + i*22, 150, 12, 1, P.carpetPattern);
-  }
-  
-  drawPlant(6, 50);
-  drawPlant(298, 50);
-  drawPlant(298, 130);
-  drawPlant(6, 180);
-  
-  drawLamp(100, 44);
-  drawLamp(210, 44);
-  
-  drawWaterCooler(290, 85);
-  
-  // Рабочие места
-  drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
-  drawDesk(130, 65, true, 'ТРЕЙДЕР', P.green, '#cccccc'); // зелёная футболка, седые волосы
-  drawDesk(210, 65, false, 'СВОБОДНО', null, null);
-  
-  drawDesk(50, 140, false, 'СВОБОДНО', null, null);
-  drawDesk(130, 140, false, 'СВОБОДНО', null, null);
-  drawDesk(210, 140, false, 'СВОБОДНО', null, null);
-  
-  // Статусная панель
-  drawPixel(0, H-18, W, 18, 'rgba(13,13,26,0.9)');
-  drawPixel(0, H-18, W, 1, P.cyan);
-  ctx.fillStyle = P.cyan;
-  ctx.font = 'bold 7px monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText('🏢 51ASIC PIXEL OFFICE', 6, H-7);
-  ctx.textAlign = 'right';
-  ctx.fillStyle = P.green;
-  ctx.fillText('● ONLINE', W-6, H-7);
-  ctx.textAlign = 'left';
-  
-  ctx.fillStyle = P.grayLight;
-  ctx.font = '6px monospace';
-  ctx.fillText('Агенты: 2/6', 140, H-7);
-  
-  frame++;
-  requestAnimationFrame(render);
-}
-
-// Клики
-canvas.addEventListener('click', (e) => {
-  alert('🏢 51ASIC Pixel Office\n\nВерсия 2.0 работает!\nКлик зарегистрирован 👌');
-});
-
-// Touch поддержка
-canvas.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  const touch = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const clickEvent = new MouseEvent('click', {
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  canvas.dispatchEvent(clickEvent);
-});
-
-// Запуск
-render();
-</script>
+    <div class="office" id="office">
+        <!-- Furniture -->
+        <div class="furniture desk" style="top: 100px; left: 50px;">
+            <div class="computer"></div>
+        </div>
+        <div class="furniture desk" style="top: 100px; left: 200px;">
+            <div class="computer"></div>
+        </div>
+        <div class="furniture desk" style="top: 100px; left: 350px;">
+            <div class="computer"></div>
+        </div>
+        <div class="furniture desk" style="top: 250px; left: 100px;">
+            <div class="computer"></div>
+        </div>
+        <div class="furniture desk" style="top: 250px; left: 300px;">
+            <div class="computer"></div>
+        </div>
+        <div class="furniture desk" style="top: 400px; left: 150px;">
+            <div class="computer"></div>
+        </div>
+        
+        <!-- Agents -->
+        <div class="agent pulse" style="top: 120px; left: 60px;" onclick="showModal('johnny')">
+            <div class="avatar" style="background: linear-gradient(45deg, #ff8c00, #ffa500); border-color: #ff8c00;"></div>
+            <div class="name">ДЖОННИ</div>
+            <div class="status online"></div>
+        </div>
+        
+        <div class="agent" style="top: 120px; left: 210px;" onclick="showModal('trader')">
+            <div class="avatar" style="background: linear-gradient(45deg, #808080, #a0a0a0); border-color: #4CAF50;"></div>
+            <div class="name">ТРЕЙДЕР</div>
+            <div class="status busy"></div>
+        </div>
+        
+        <div class="agent" style="top: 120px; left: 360px;" onclick="showModal('analyst')">
+            <div class="avatar" style="background: linear-gradient(45deg, #4169e1, #6495ed);"></div>
+            <div class="name">АНАЛИТИК</div>
+            <div class="status online"></div>
+        </div>
+        
+        <div class="agent" style="top: 270px; left: 110px;" onclick="showModal('miner')">
+            <div class="avatar" style="background: linear-gradient(45deg, #ff6347, #ff7f50);"></div>
+            <div class="name">МАЙНЕР</div>
+            <div class="status online"></div>
+        </div>
+        
+        <div class="agent" style="top: 270px; left: 310px;" onclick="showModal('support')">
+            <div class="avatar" style="background: linear-gradient(45deg, #9370db, #ba55d3);"></div>
+            <div class="name">ПОДДЕРЖКА</div>
+            <div class="status away"></div>
+        </div>
+        
+        <div class="agent" style="top: 420px; left: 160px;" onclick="showModal('developer')">
+            <div class="avatar" style="background: linear-gradient(45deg, #32cd32, #90ee90);"></div>
+            <div class="name">ДЕВЕЛОПЕР</div>
+            <div class="status online"></div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Telegram WebApp
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+        
+        const agentData = {
+            johnny: {
+                title: "🤖 ДЖОННИ - Главный Координатор",
+                description: "Я — ваш главный помощник и координатор всего офиса. Управляю командой агентов и слежу за работой всех систем.",
+                stats: {
+                    "Время работы": "24/7 активен",
+                    "Обработано задач": "1,247",
+                    "Успешность": "98.5%",
+                    "Статус": "🟢 Онлайн"
+                },
+                special: `
+                    <div style="background: rgba(255, 140, 0, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ff8c00;">
+                        <div style="color: #ff8c00; font-weight: bold;">🎯 ТЕКУЩИЕ ЗАДАЧИ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            • Координация работы команды<br>
+                            • Мониторинг криптовалютных рынков<br>
+                            • Управление контентом для @FiftyOneAsic<br>
+                            • Разработка новых функций офиса
+                        </div>
+                    </div>
+                `
+            },
+            trader: {
+                title: "📈 ТРЕЙДЕР - Криптовалютный Специалист",
+                description: "Профессиональный трейдер с 15-летним опытом. Специализируюсь на криптовалютах, анализе рынка и консервативных торговых стратегиях.",
+                stats: {
+                    "Общий P&L": "+$2,847.50",
+                    "Успешных сделок": "73.2%",
+                    "Активные позиции": "3",
+                    "Статус": "🟡 Торгует"
+                },
+                special: `
+                    <div class="trading-panel">
+                        <div style="color: #0ff; font-weight: bold; margin-bottom: 10px;">💼 АКТИВНЫЕ ПОЗИЦИИ:</div>
+                        <div class="position">
+                            <span>BTC/USDT LONG</span>
+                            <span class="green">+$127.80 (+1.8%)</span>
+                        </div>
+                        <div class="position">
+                            <span>ETH/USDT LONG</span>
+                            <span class="green">+$89.45 (+2.1%)</span>
+                        </div>
+                        <div class="position">
+                            <span>SOL/USDT SHORT</span>
+                            <span class="red">-$34.20 (-0.9%)</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0, 255, 0, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #0f0;">
+                        <div style="color: #0f0; font-weight: bold;">📊 ТОРГОВАЯ СТРАТЕГИЯ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            • Консервативный подход<br>
+                            • Максимум $10 на сделку<br>
+                            • Стоп-лосс 1.5%, тейк-профит 2%<br>
+                            • Фокус на BTC, ETH, TON
+                        </div>
+                    </div>
+                `
+            },
+            analyst: {
+                title: "📊 АНАЛИТИК - Исследователь Рынка",
+                description: "Провожу глубокий анализ рынка криптовалют, изучаю тренды и создаю аналитические отчеты для принятия торговых решений.",
+                stats: {
+                    "Отчетов создано": "156",
+                    "Точность прогнозов": "84.7%",
+                    "Мониторимых активов": "25",
+                    "Статус": "🟢 Анализирует"
+                },
+                special: `
+                    <div style="background: rgba(65, 105, 225, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #4169e1;">
+                        <div style="color: #4169e1; font-weight: bold;">📈 ПОСЛЕДНИЙ АНАЛИЗ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            <b>Bitcoin (BTC):</b> Технический анализ показывает формирование восходящего треугольника. Вероятность роста к $75,000 - 68%<br><br>
+                            <b>Market Cap:</b> $2.34T (+2.4% за 24ч)<br>
+                            <b>Fear & Greed:</b> 8/100 (Экстремальный страх)<br>
+                            <b>Доминирование BTC:</b> 54.2%
+                        </div>
+                    </div>
+                `
+            },
+            miner: {
+                title: "⛏️ МАЙНЕР - Специалист по Оборудованию",
+                description: "Эксперт по промышленному майнингу. Знаю всё про ASIC-майнеры: от Antminer до Whatsminer. Рассчитываю доходность и оптимизирую фермы.",
+                stats: {
+                    "Мониторимых ферм": "12",
+                    "Общий хешрейт": "2.4 EH/s",
+                    "Эффективность": "95.8%",
+                    "Статус": "🟢 Мониторинг"
+                },
+                special: `
+                    <div style="background: rgba(255, 99, 71, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ff6347;">
+                        <div style="color: #ff6347; font-weight: bold;">🏭 ОБОРУДОВАНИЕ В РАБОТЕ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            • <b>Antminer S19 Pro:</b> 47 единиц<br>
+                            • <b>Antminer S21:</b> 23 единицы<br>
+                            • <b>Whatsminer M50S:</b> 31 единица<br>
+                            • <b>Средняя доходность:</b> $8.50/день на единицу<br>
+                            • <b>Упtime:</b> 99.2%
+                        </div>
+                    </div>
+                `
+            },
+            support: {
+                title: "🛠️ ПОДДЕРЖКА - Техническая Помощь",
+                description: "Отвечаю на вопросы клиентов, решаю технические проблемы и помогаю с настройкой оборудования.",
+                stats: {
+                    "Решено тикетов": "2,341",
+                    "Среднее время ответа": "2.3 мин",
+                    "Оценка клиентов": "4.9/5",
+                    "Статус": "🟠 Перерыв"
+                },
+                special: `
+                    <div style="background: rgba(147, 112, 219, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #9370db;">
+                        <div style="color: #9370db; font-weight: bold;">📞 КОНТАКТНАЯ ИНФОРМАЦИЯ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            <b>Telegram:</b> @ASIC_51<br>
+                            <b>Сайт:</b> www.51asic.ru<br>
+                            <b>Телефон:</b> +7 495 151 05 10<br>
+                            <b>Чат поддержки:</b> @chat_51asic
+                        </div>
+                    </div>
+                `
+            },
+            developer: {
+                title: "💻 ДЕВЕЛОПЕР - Программист",
+                description: "Разрабатываю новые функции для офиса, создаю автоматизацию процессов и поддерживаю техническую инфраструктуру.",
+                stats: {
+                    "Строк кода": "47,892",
+                    "Багов исправлено": "234",
+                    "Обновлений выпущено": "18",
+                    "Статус": "🟢 Кодинг"
+                },
+                special: `
+                    <div style="background: rgba(50, 205, 50, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #32cd32;">
+                        <div style="color: #32cd32; font-weight: bold;">🚀 ТЕКУЩИЕ ПРОЕКТЫ:</div>
+                        <div style="color: #fff; margin-top: 10px;">
+                            • <b>Pixel Office v4.0:</b> Статичная визуализация данных<br>
+                            • <b>MEXC API:</b> Интеграция торговых данных<br>
+                            • <b>Мобильная оптимизация:</b> 95% готовности<br>
+                            • <b>Автопостинг:</b> Система контента для каналов
+                        </div>
+                    </div>
+                `
+            }
+        };
+        
+        function showModal(agent) {
+            const data = agentData[agent];
+            if (!data) return;
+            
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            // Haptic feedback for Telegram
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
+            
+            const statsHtml = Object.entries(data.stats).map(([key, value]) => 
+                `<div class="stat">
+                    <div class="stat-label">${key}</div>
+                    <div class="stat-value">${value}</div>
+                </div>`
+            ).join('');
+            
+            document.getElementById('modalBody').innerHTML = `
+                <h2>${data.title}</h2>
+                <p>${data.description}</p>
+                <div class="stats">${statsHtml}</div>
+                ${data.special || ''}
+            `;
+            
+            document.getElementById('modal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // Random office activity simulation
+        function simulateActivity() {
+            const agents = document.querySelectorAll('.agent');
+            agents.forEach(agent => {
+                if (Math.random() < 0.1) { // 10% chance
+                    agent.style.filter = 'brightness(1.3)';
+                    setTimeout(() => {
+                        agent.style.filter = 'brightness(1)';
+                    }, 500);
+                }
+            });
+        }
+        
+        setInterval(simulateActivity, 3000);
+        
+        // Update trader stats periodically
+        function updateTraderStats() {
+            const trader = agentData.trader;
+            const baseProfit = 2847.50;
+            const variation = (Math.random() - 0.5) * 100; // ±$50
+            trader.stats["Общий P&L"] = `+$${(baseProfit + variation).toFixed(2)}`;
+        }
+        
+        setInterval(updateTraderStats, 10000); // Update every 10 seconds
+    </script>
 </body>
 </html>
