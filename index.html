@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>51ASIC Pixel Office</title>
     <style>
-        body {
+        body, html {
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            padding: 0;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            overflow: hidden;
         }
         canvas {
-            border: 2px solid #333;
+            display: block;
             max-width: 100%;
-            height: auto;
+            max-height: 100vh;
         }
         #modal {
             display: none;
@@ -31,172 +29,184 @@
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
+        #modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
+            max-width: 80%;
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <canvas id="pixelOffice" width="600" height="400"></canvas>
-    
+    <canvas id="officeCanvas"></canvas>
     <div id="modal">
-        <div class="modal-content">
-            <h2 id="modalName"></h2>
-            <p id="modalRole"></p>
-            <p id="modalStats"></p>
-            <button onclick="closeModal()">Закрыть</button>
-        </div>
+        <div id="modal-content"></div>
     </div>
 
     <script>
-        const canvas = document.getElementById('pixelOffice');
-        const ctx = canvas.getContext('2d');
-
-        // Agent data
-        const agents = [
-            { 
-                name: 'Джонни', 
-                role: 'Координатор', 
-                color: 'black', 
-                hairColor: '#FF6B00', 
-                x: 50, 
-                y: 50,
-                stats: 'Координация проектов: 95%\nОпыт работы: 15 лет'
-            },
-            { 
-                name: 'Леха', 
-                role: 'Специалист', 
-                color: 'red', 
-                hairColor: 'black', 
-                x: 200, 
-                y: 50,
-                stats: 'Технические навыки: 90%\nРешение сложных задач: 88%'
-            },
-            { 
-                name: 'Донни', 
-                role: 'Эксперт', 
-                color: '#8B4513', 
-                hairColor: 'black', 
-                x: 350, 
-                y: 50,
-                stats: 'Экспертиза: 98%\nАналитические навыки: 92%'
-            },
-            { 
-                name: 'Майкл', 
-                role: 'Аналитик', 
-                color: 'blue', 
-                hairColor: 'gray', 
-                x: 50, 
-                y: 250,
-                stats: 'Точность прогнозов: 85%\nГлубина анализа: 93%'
-            },
-            { 
-                name: 'Евгения', 
-                role: 'Менеджер', 
-                color: 'pink', 
-                hairColor: 'black', 
-                x: 200, 
-                y: 250,
-                stats: 'Управление проектами: 87%\nКоммуникативность: 95%'
-            },
-            { 
-                name: 'Трейдер', 
-                role: 'Финансист', 
-                color: 'green', 
-                hairColor: 'gray', 
-                x: 350, 
-                y: 250,
-                stats: 'Успешность сделок: 82%\nРиск-менеджмент: 90%'
+    class OfficeScene {
+        constructor() {
+            this.canvas = document.getElementById('officeCanvas');
+            this.ctx = this.canvas.getContext('2d');
+            this.modal = document.getElementById('modal');
+            this.modalContent = document.getElementById('modal-content');
+            
+            this.setupCanvas();
+            this.setupEventListeners();
+            
+            this.officeColors = {
+                background: '#f0f0f0',
+                black: '#000000',
+                white: '#FFFFFF', 
+                cyan: '#00FFFF'
+            };
+            
+            this.employees = [
+                { name: 'ДЖОННИ', color: '#FFA500', role: 'Координатор', shirt: 'оранжевая рубашка', x: 0, y: 0 },
+                { name: 'ЛЕХА', color: '#FF0000', role: 'Специалист', shirt: 'красная рубашка', x: 0, y: 0 },
+                { name: 'ДОННИ', color: '#8B4513', role: 'Эксперт', shirt: 'коричневая рубашка', glasses: true, x: 0, y: 0 },
+                { name: 'МАЙКЛ', color: '#0000FF', role: 'Аналитик', shirt: 'синяя рубашка', x: 0, y: 0 },
+                { name: 'ЕВГЕНИЯ', color: '#FFC0CB', role: 'Менеджер', shirt: 'розовая рубашка', glasses: true, x: 0, y: 0 },
+                { name: 'ТРЕЙДЕР', color: '#008000', role: 'Финансист', shirt: 'зелёная рубашка', glasses: true, x: 0, y: 0 }
+            ];
+        }
+        
+        setupCanvas() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.drawOffice();
+        }
+        
+        setupEventListeners() {
+            window.addEventListener('resize', () => this.setupCanvas());
+            this.canvas.addEventListener('click', (e) => this.handleCanvasClick(e));
+            this.modal.addEventListener('click', () => this.closeModal());
+        }
+        
+        drawOffice() {
+            this.ctx.fillStyle = this.officeColors.background;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            
+            // Рисуем стены
+            this.ctx.fillStyle = this.officeColors.white;
+            this.ctx.fillRect(50, 50, this.canvas.width - 100, this.canvas.height - 100);
+            
+            // Окна
+            this.drawWindows();
+            
+            // Мебель и интерьер
+            this.drawFurniture();
+            this.drawEmployees();
+            this.drawDecorations();
+        }
+        
+        drawWindows() {
+            this.ctx.fillStyle = this.officeColors.cyan;
+            // Левое окно
+            this.ctx.fillRect(100, 100, 200, 300);
+            // Правое окно
+            this.ctx.fillRect(this.canvas.width - 300, 100, 200, 300);
+        }
+        
+        drawFurniture() {
+            // Столы
+            const tableWidth = 200;
+            const tableHeight = 100;
+            const tableSpacingX = this.canvas.width / 4;
+            const tableSpacingY = this.canvas.height / 3;
+            
+            this.ctx.fillStyle = '#8B4513'; // Коричневый цвет столов
+            
+            // 3x2 расположение столов
+            for (let row = 0; row < 2; row++) {
+                for (let col = 0; col < 3; col++) {
+                    const x = tableSpacingX * (col + 1) - tableWidth / 2;
+                    const y = tableSpacingY * (row + 1) - tableHeight / 2;
+                    
+                    this.ctx.fillRect(x, y, tableWidth, tableHeight);
+                    this.employees[row * 3 + col].x = x + tableWidth / 2;
+                    this.employees[row * 3 + col].y = y + tableHeight / 2;
+                    
+                    // Компьютеры на столах
+                    this.ctx.fillStyle = this.officeColors.black;
+                    this.ctx.fillRect(x + 20, y + 20, 40, 30);
+                    this.ctx.fillStyle = '#8B4513';
+                }
             }
-        ];
-
-        // Draw pixel person function
-        function drawPixelPerson(x, y, hairColor, shirtColor) {
-            // Head
-            ctx.fillStyle = '#FFC78E';
-            ctx.fillRect(x + 10, y, 20, 20);
-
-            // Hair
-            ctx.fillStyle = hairColor;
-            ctx.fillRect(x + 10, y, 20, 10);
-
-            // Eyes
-            ctx.fillStyle = 'black';
-            ctx.fillRect(x + 13, y + 5, 4, 4);
-            ctx.fillRect(x + 23, y + 5, 4, 4);
-
-            // Body
-            ctx.fillStyle = shirtColor;
-            ctx.fillRect(x + 10, y + 20, 20, 30);
-
-            // Legs
-            ctx.fillStyle = '#4A4A4A';
-            ctx.fillRect(x + 10, y + 50, 20, 20);
+            
+            // Кулер
+            this.ctx.fillStyle = this.officeColors.cyan;
+            this.ctx.fillRect(this.canvas.width - 200, this.canvas.height - 250, 50, 100);
         }
-
-        // Draw office
-        function drawOffice() {
-            // Clear canvas
-            ctx.fillStyle = '#F0F0F0';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Title
-            ctx.fillStyle = 'black';
-            ctx.font = '20px Arial';
-            ctx.fillText('51ASIC PIXEL OFFICE', 200, 30);
-
-            // Status
-            ctx.font = '15px Arial';
-            ctx.fillText('Агенты: 6/6', 250, canvas.height - 50);
-            ctx.fillText('ONLINE', 270, canvas.height - 30);
-
-            // Draw agents
-            agents.forEach(agent => {
-                drawPixelPerson(agent.x, agent.y, agent.hairColor, agent.color);
-            });
-        }
-
-        // Show modal
-        function showModal(agent) {
-            const modal = document.getElementById('modal');
-            const nameEl = document.getElementById('modalName');
-            const roleEl = document.getElementById('modalRole');
-            const statsEl = document.getElementById('modalStats');
-
-            nameEl.textContent = agent.name;
-            roleEl.textContent = `Роль: ${agent.role}`;
-            statsEl.textContent = `Статистика:\n${agent.stats}`;
-
-            modal.style.display = 'flex';
-        }
-
-        // Close modal
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.style.display = 'none';
-        }
-
-        // Initial draw
-        drawOffice();
-
-        // Click handling
-        canvas.addEventListener('click', (event) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-
-            agents.forEach(agent => {
-                if (x >= agent.x && x <= agent.x + 40 && 
-                    y >= agent.y && y <= agent.y + 70) {
-                    showModal(agent);
+        
+        drawEmployees() {
+            this.employees.forEach(emp => {
+                // Тело
+                this.ctx.fillStyle = emp.color;
+                this.ctx.fillRect(emp.x - 20, emp.y - 40, 40, 60);
+                
+                // Голова
+                this.ctx.fillStyle = '#FFD700';
+                this.ctx.fillRect(emp.x - 15, emp.y - 70, 30, 30);
+                
+                // Очки для некоторых
+                if (emp.glasses) {
+                    this.ctx.fillStyle = this.officeColors.black;
+                    this.ctx.fillRect(emp.x - 10, emp.y - 65, 20, 10);
                 }
             });
-        });
+        }
+        
+        drawDecorations() {
+            // Цветы
+            this.ctx.fillStyle = 'green';
+            const flowerPositions = [
+                { x: 100, y: 500 },
+                { x: this.canvas.width - 150, y: 500 },
+                { x: this.canvas.width / 2, y: 100 }
+            ];
+            
+            flowerPositions.forEach(pos => {
+                this.ctx.fillRect(pos.x, pos.y, 30, 50);
+            });
+            
+            // Часы
+            this.ctx.fillStyle = this.officeColors.black;
+            this.ctx.fillRect(this.canvas.width / 2 - 25, 70, 50, 50);
+        }
+        
+        handleCanvasClick(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            const clickedEmployee = this.employees.find(emp => 
+                x >= emp.x - 20 && x <= emp.x + 20 &&
+                y >= emp.y - 70 && y <= emp.y + 20
+            );
+            
+            if (clickedEmployee) {
+                this.showEmployeeModal(clickedEmployee);
+            }
+        }
+        
+        showEmployeeModal(employee) {
+            this.modalContent.innerHTML = `
+                <h2>${employee.name}</h2>
+                <p>Роль: ${employee.role}</p>
+                <p>Одежда: ${employee.shirt}</p>
+                ${employee.glasses ? '<p>Носит очки</p>' : ''}
+            `;
+            this.modal.style.display = 'flex';
+        }
+        
+        closeModal() {
+            this.modal.style.display = 'none';
+        }
+    }
+
+    const officeScene = new OfficeScene();
     </script>
 </body>
 </html>
