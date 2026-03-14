@@ -297,15 +297,33 @@ function drawCharacter(x, y, shirtColor, hairColor, name) {
   drawPixel(x+5, y, 3, 1, '#cc8866');
 }
 
-// КУЛЕР С ВОДОЙ
-function drawWaterCooler(x, y) {
-  drawPixel(x+2, y, 8, 4, '#aaddff');
-  drawPixel(x+3, y+1, 6, 2, '#88bbff');
-  drawPixel(x+1, y+4, 10, 10, P.grayLight);
-  drawPixel(x+2, y+5, 8, 8, P.gray);
-  drawPixel(x+3, y+14, 6, 2, P.grayDark);
-  drawPixel(x+4, y+7, 2, 1, P.red);
-  drawPixel(x+7, y+7, 2, 1, P.cyan);
+// СТОЛИК С КОФЕМАШИНОЙ
+function drawCoffeeStation(x, y) {
+  // Столик
+  drawPixel(x, y+8, 12, 8, P.deskWood);
+  drawPixel(x+1, y+7, 10, 1, P.deskTop);
+  drawPixel(x+1, y+16, 3, 4, P.deskLeg);
+  drawPixel(x+8, y+16, 3, 4, P.deskLeg);
+  
+  // Кофемашина
+  drawPixel(x+2, y-2, 8, 10, P.grayDark);
+  drawPixel(x+3, y-1, 6, 8, P.gray);
+  drawPixel(x+4, y, 4, 2, P.black); // экран
+  drawPixel(x+5, y+3, 2, 1, P.red); // кнопка
+  drawPixel(x+7, y+3, 2, 1, P.green); // кнопка
+  
+  // Носик для кофе
+  drawPixel(x+8, y+5, 3, 2, P.grayLight);
+  
+  // Кружки
+  drawPixel(x+1, y+6, 2, 2, P.white); // белая кружка
+  drawPixel(x+9, y+6, 2, 2, P.cyan); // голубая кружка
+  
+  // Пар (анимированный)
+  const steam = Math.sin(frame * 0.08) * 0.3 + 0.5;
+  ctx.fillStyle = `rgba(255, 255, 255, ${steam * 0.4})`;
+  ctx.fillRect((x+5) * 2, (y-4) * 2, 2, 1);
+  ctx.fillRect((x+6) * 2, (y-5) * 2, 2, 1);
 }
 
 // ДОСКА НА СТЕНЕ
@@ -354,7 +372,7 @@ function render() {
   drawLamp(100, 44);
   drawLamp(210, 44);
   
-  drawWaterCooler(290, 85);
+  drawCoffeeStation(290, 85);
   
   // Рабочие места
   drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
