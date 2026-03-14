@@ -1,0 +1,28 @@
+{
+  "updated": "14 Mar 2026, 22:09 MSK",
+  "timestamp": 1773515379,
+  "canTrade": true,
+  "balances": {
+    "USDT": 0.00242315489574709,
+    "SHIRO": 9641525767.0,
+    "BLAST": 0.005734406372430222,
+    "SATOX": 0.0089,
+    "PIPPIN": 0.008717
+  },
+  "totalUSD": 0.0,
+  "prices": {
+    "BTCUSDT": {
+      "price": 70653.91,
+      "change": -0.76
+    },
+    "ETHUSDT": {
+      "price": 2076.02,
+      "change": -1.27
+    },
+    "SOLUSDT": {
+      "price": 86.98,
+      "change": -1.8800000000000001
+    }
+  },
+  "status": "online"
+}
