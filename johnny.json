@@ -1,6 +1,6 @@
 {
-  "updated": "14 Mar 2026, 23:53 MSK",
-  "timestamp": 1773521625,
+  "updated": "15 Mar 2026, 00:05 MSK",
+  "timestamp": 1773522343,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "tasks": [
@@ -48,7 +48,7 @@
     }
   ],
   "totalTasks": 7,
-  "agentsOnline": 3,
+  "agentsOnline": 2,
   "agentsTotal": 6,
   "status": "online"
 }
