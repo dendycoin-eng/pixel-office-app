@@ -465,12 +465,12 @@ function drawModal() {
   
   // Баланс
   ctx.fillStyle = P.gold;
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2), W/2, my+40);
+  ctx.font = 'bold 11px monospace';
+  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2) + ' USDT', W/2, my+40);
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Общий баланс USDT', W/2, my+48);
+  ctx.fillText('Общий баланс всей криптовалюты', W/2, my+48);
   
   // Активы
   ctx.textAlign = 'left';
