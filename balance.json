@@ -1,6 +1,6 @@
 {
-  "updated": "15 Mar 2026, 05:05 MSK",
-  "timestamp": 1773540345,
+  "updated": "15 Mar 2026, 05:35 MSK",
+  "timestamp": 1773542145,
   "canTrade": true,
   "balances": {
     "USDT": 83.42403897989574,
@@ -13,23 +13,23 @@
   "totalUSD": 83.42,
   "prices": {
     "BTCUSDT": {
-      "price": 71199.53,
-      "change": 0.47000000000000003
+      "price": 71199.11,
+      "change": 0.53
     },
     "ETHUSDT": {
-      "price": 2094.24,
-      "change": 0.06
+      "price": 2090.97,
+      "change": -0.1
     },
     "SOLUSDT": {
-      "price": 88.03,
-      "change": -0.22999999999999998
+      "price": 88.07,
+      "change": -0.09
     }
   },
   "status": "online",
   "aiTrader": {
     "status": "active",
     "model": "claude-3.5-haiku",
-    "totalChecks": 24,
+    "totalChecks": 26,
     "openPositions": 1,
     "positions": {
       "TONUSDT": {
