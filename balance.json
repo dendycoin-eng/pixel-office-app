@@ -1,39 +1,44 @@
 {
-  "updated": "15 Mar 2026, 04:05 MSK",
-  "timestamp": 1773536745,
+  "updated": "15 Mar 2026, 04:35 MSK",
+  "timestamp": 1773538545,
   "canTrade": true,
   "balances": {
-    "USDT": 93.49887387989575,
+    "USDT": 83.42403897989574,
     "SHIRO": 9641525767.0,
     "BLAST": 0.005734406372430222,
     "SATOX": 0.0089,
-    "TON": 7.65,
+    "TON": 15.45,
     "PIPPIN": 0.008717
   },
-  "totalUSD": 93.5,
+  "totalUSD": 83.42,
   "prices": {
     "BTCUSDT": {
-      "price": 71020.76,
-      "change": 0.38
+      "price": 70911.05,
+      "change": 0.27999999999999997
     },
     "ETHUSDT": {
-      "price": 2088.79,
-      "change": 0.0
+      "price": 2085.41,
+      "change": -0.15
     },
     "SOLUSDT": {
-      "price": 87.84,
-      "change": -0.27
+      "price": 87.75,
+      "change": -0.26
     }
   },
   "status": "online",
   "aiTrader": {
     "status": "active",
     "model": "claude-3.5-haiku",
-    "totalChecks": 20,
-    "openPositions": 0,
-    "positions": {},
-    "totalTrades": 0,
-    "winRate": 0,
+    "totalChecks": 22,
+    "openPositions": 1,
+    "positions": {
+      "TONUSDT": {
+        "entry": 1.29,
+        "amount": 10.0
+      }
+    },
+    "totalTrades": 1,
+    "winRate": 0.0,
     "totalPnL": 0,
     "strategy": {
       "buyThreshold": 30,
