@@ -533,14 +533,6 @@ function drawModal() {
     yOff += 8;
   }
   
-  // Grand Total
-  if (balanceData.grandTotalUSD) {
-    ctx.fillStyle = P.gold;
-    ctx.font = 'bold 6px monospace';
-    ctx.fillText('💎 GRAND TOTAL: $' + balanceData.grandTotalUSD.toFixed(2), mx+10, yOff);
-    yOff += 8;
-  }
-  
   // AI Trader блок
   if (balanceData.aiTrader) {
     const ai = balanceData.aiTrader;
