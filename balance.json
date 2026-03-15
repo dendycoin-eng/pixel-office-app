@@ -1,6 +1,6 @@
 {
-  "updated": "15 Mar 2026, 10:37 MSK",
-  "timestamp": 1773560225,
+  "updated": "15 Mar 2026, 10:40 MSK",
+  "timestamp": 1773560459,
   "canTrade": true,
   "balances": {
     "USDT": 83.42403897989574,
@@ -10,19 +10,32 @@
     "TON": 15.45,
     "PIPPIN": 0.008717
   },
-  "totalUSD": 83.42,
+  "balancesUSD": {
+    "USDT": 83.42403897989574,
+    "SHIRO": 9.252,
+    "TON": 19.9305
+  },
+  "totalUSD": 112.61,
   "prices": {
     "BTCUSDT": {
-      "price": 71495.99,
-      "change": 1.23
+      "price": 71484.52,
+      "change": 1.27
     },
     "ETHUSDT": {
-      "price": 2106.2,
-      "change": 1.34
+      "price": 2105.87,
+      "change": 1.3
     },
     "SOLUSDT": {
-      "price": 88.3,
-      "change": 1.11
+      "price": 88.24,
+      "change": 1.06
+    },
+    "TONUSDT": {
+      "price": 1.29,
+      "change": -0.9199999999999999
+    },
+    "SHIROUSDT": {
+      "price": 9.596e-10,
+      "change": -1.0699999999999998
     }
   },
   "status": "online",
