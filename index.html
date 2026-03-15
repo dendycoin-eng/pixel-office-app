@@ -636,6 +636,8 @@ function drawJohnnyModal() {
     ctx.font = '5px monospace';
     const mb = johnnyData.moltbook;
     ctx.fillText('Karma: ' + (mb.karma || 0) + ' | Posts: ' + (mb.posts || 0) + ' | Comments: ' + (mb.comments || 0) + ' | Followers: ' + (mb.followers || 0), mx+10, yOff);
+    yOff += 7;
+    ctx.fillText('Модель: ' + (mb.model || 'haiku'), mx+10, yOff);
     yOff += 8;
   }
   
