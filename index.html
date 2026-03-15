@@ -442,7 +442,7 @@ setInterval(loadJohnny, 60000);
 function drawModal() {
   if (!modalOpen || !balanceData) return;
   
-  const mx = 20, my = 10, mw = 280, mh = 230;
+  const mx = 20, my = 10, mw = 280, mh = 250;
   
   // Фон
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
@@ -569,11 +569,11 @@ function drawModal() {
     }
   }
   
-  // Время обновления
+  // Время обновления (фиксировано внизу модалки)
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
   ctx.textAlign = 'center';
-  ctx.fillText(balanceData.updated || '', W/2, my+mh-16);
+  ctx.fillText(balanceData.updated || '', W/2, my+mh-14);
   
   // Кнопка закрыть
   ctx.fillStyle = P.red;
