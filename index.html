@@ -515,6 +515,32 @@ function drawModal() {
     }
   }
   
+  // Polymarket блок
+  if (balanceData.polymarket) {
+    const pm = balanceData.polymarket;
+    yOff += 5;
+    ctx.fillStyle = P.cyan;
+    ctx.font = 'bold 6px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('🎯 POLYMARKET:', mx+10, yOff);
+    yOff += 9;
+    ctx.fillStyle = P.grayLight;
+    ctx.font = '5px monospace';
+    ctx.fillText('USDC: $' + (pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(1) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', mx+10, yOff);
+    yOff += 8;
+    ctx.fillStyle = P.gold;
+    ctx.fillText('Polymarket total: $' + (pm.totalUSD || 0).toFixed(2), mx+10, yOff);
+    yOff += 8;
+  }
+  
+  // Grand Total
+  if (balanceData.grandTotalUSD) {
+    ctx.fillStyle = P.gold;
+    ctx.font = 'bold 6px monospace';
+    ctx.fillText('💎 GRAND TOTAL: $' + balanceData.grandTotalUSD.toFixed(2), mx+10, yOff);
+    yOff += 8;
+  }
+  
   // AI Trader блок
   if (balanceData.aiTrader) {
     const ai = balanceData.aiTrader;
