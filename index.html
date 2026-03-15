@@ -499,11 +499,13 @@ function drawModal() {
   // Баланс
   ctx.fillStyle = P.gold;
   ctx.font = 'bold 11px monospace';
-  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2) + ' USDT', W/2, my+40);
+  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2) + ' USDT', W/2, my+38);
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Общий баланс всей криптовалюты', W/2, my+48);
+  const spotUSD = balanceData.spotTotalUSD || balanceData.totalUSD || 0;
+  const futUSD = balanceData.futuresTotalUSD || 0;
+  ctx.fillText('Спот: $' + spotUSD.toFixed(2) + ' | Фьючерсы: $' + futUSD.toFixed(2), W/2, my+46);
   
   // Активы
   ctx.textAlign = 'left';
