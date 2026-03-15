@@ -722,7 +722,7 @@ function getClickCoords(cx, cy) {
 // Модалка Тренера
 function drawTrainerModal() {
   if (!trainerModalOpen) return;
-  const mx = 20, my = 10, mw = 280, mh = 200;
+  const mx = 20, my = 5, mw = 280, mh = 235;
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
   drawPixel(mx, my, mw, mh, '#0d0d2a');
   drawPixel(mx, my, mw, 2, '#ef4444');
@@ -761,8 +761,18 @@ function drawTrainerModal() {
   ctx.fillText('✅ Напоминания пить воду (3л/день)', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Анализ фото еды и рецепты', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Дневник тренировок', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Трекинг веса и прогресса', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Мотивация и поддержка', mx+10, yOff); yOff += 10;
+  ctx.fillText('✅ Мотивация и поддержка', mx+10, yOff); yOff += 9;
+
+  ctx.fillStyle = '#00BFFF';
+  ctx.font = 'bold 6px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('⌚ WHOOP:', mx+10, yOff);
+  ctx.fillStyle = P.green;
+  ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '5px monospace';
+  ctx.fillText('Модель: claude-opus-4.6', mx+10, yOff); yOff += 7;
+  ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
