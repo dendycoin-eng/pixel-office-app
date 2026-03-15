@@ -735,29 +735,37 @@ function drawTrainerModal() {
 
   ctx.fillStyle = P.green;
   ctx.font = '6px monospace';
-  ctx.fillText('● СКОРО', W/2, my+24);
+  ctx.fillText('● ONLINE', W/2, my+24);
 
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 7px monospace';
+  ctx.textAlign = 'left';
+  let yOff = my + 36;
+  ctx.fillText('Модель:', mx+10, yOff);
   ctx.fillStyle = P.white;
   ctx.font = '6px monospace';
-  ctx.textAlign = 'left';
-  let yOff = my + 40;
-  ctx.fillText('Статус: в разработке', mx+10, yOff); yOff += 10;
+  ctx.fillText('claude-opus-4.6', mx+55, yOff); yOff += 10;
+
   ctx.fillStyle = '#ef4444';
-  ctx.fillText('Модель: TBD', mx+10, yOff); yOff += 10;
+  ctx.font = 'bold 6px monospace';
+  ctx.fillText('Бот: @Trainer51asic_bot', mx+10, yOff); yOff += 10;
+
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Будущие функции:', mx+10, yOff); yOff += 9;
+  ctx.fillText('📊 Функции:', mx+10, yOff); yOff += 8;
   ctx.fillStyle = P.white;
-  ctx.fillText('— Персональные тренировки', mx+10, yOff); yOff += 8;
-  ctx.fillText('— Планы питания', mx+10, yOff); yOff += 8;
-  ctx.fillText('— Мотивация и трекинг прогресса', mx+10, yOff); yOff += 8;
-  ctx.fillText('— Советы по восстановлению', mx+10, yOff); yOff += 8;
-  ctx.fillText('— Анекдоты про качалку', mx+10, yOff); yOff += 12;
+  ctx.fillText('✅ Анализ анализов крови', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Фармакология и ПКТ', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Напоминания пить воду (3л/день)', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Анализ фото еды и рецепты', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Дневник тренировок', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Трекинг веса и прогресса', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Мотивация и поддержка', mx+10, yOff); yOff += 10;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('🏋️ COMING SOON 🏋️', W/2, yOff);
+  ctx.fillText('🔥 NO PAIN — NO GAIN 🔥', W/2, yOff);
 
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
