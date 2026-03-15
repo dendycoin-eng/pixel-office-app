@@ -1,31 +1,39 @@
 {
-  "updated": "15 Mar 2026, 12:52 MSK",
-  "timestamp": 1773568366,
+  "updated": "15 Mar 2026, 13:00 MSK",
+  "timestamp": 1773568840,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
+  "chatModel": "openrouter/anthropic/claude-3.5-haiku",
+  "chat": {
+    "name": "@chat_51asic",
+    "status": "active",
+    "model": "claude-3.5-haiku",
+    "joined": "2026-03-15",
+    "description": "\u041e\u0431\u0449\u0435\u043d\u0438\u0435 \u0441 \u043f\u043e\u0434\u043f\u0438\u0441\u0447\u0438\u043a\u0430\u043c\u0438, \u043f\u043e\u043c\u043e\u0449\u044c, \u043e\u0442\u0432\u0435\u0442\u044b \u043d\u0430 \u0432\u043e\u043f\u0440\u043e\u0441\u044b"
+  },
   "tasks": [
     {
       "name": "Crypto News Digest",
       "schedule": "12:00 MSK",
-      "model": "claude-opus-4.6",
+      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
       "name": "Mining Profitability",
       "schedule": "14:00 MSK",
-      "model": "claude-opus-4.6",
+      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
       "name": "Evening Market Summary",
       "schedule": "19:00 MSK",
-      "model": "claude-opus-4.6",
+      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
       "name": "\u0412\u0435\u0447\u0435\u0440\u043d\u0438\u0435 \u043a\u0443\u0440\u0441\u044b",
       "schedule": "21:00 MSK",
-      "model": "claude-opus-4.6",
+      "model": "claude-3.5-haiku",
       "status": "active"
     },
     {
