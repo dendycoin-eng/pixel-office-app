@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 05:07 MSK",
-  "timestamp": 1773626826,
+  "updated": "16 Mar 2026, 05:37 MSK",
+  "timestamp": 1773628630,
   "canTrade": true,
   "balances": {
     "USDT": 9.89574709e-09,
@@ -12,37 +12,37 @@
   },
   "balancesUSD": {
     "USDT": 9.89574709e-09,
-    "SHIRO": 9.2896,
-    "TON": 10.1057
+    "SHIRO": 9.2559,
+    "TON": 10.0904
   },
-  "spotTotalUSD": 19.4,
+  "spotTotalUSD": 19.35,
   "futures": {
     "available": 93.51,
     "frozen": 0.0,
     "equity": 93.51
   },
   "futuresTotalUSD": 93.51,
-  "totalUSD": 112.91,
+  "totalUSD": 112.86,
   "prices": {
     "BTCUSDT": {
-      "price": 72772.77,
-      "change": 2.19
-    },
-    "ETHUSDT": {
-      "price": 2184.96,
-      "change": 4.31
-    },
-    "SOLUSDT": {
-      "price": 92.1,
-      "change": 4.67
-    },
-    "TONUSDT": {
-      "price": 1.321,
+      "price": 72414.97,
       "change": 1.69
     },
+    "ETHUSDT": {
+      "price": 2173.34,
+      "change": 3.92
+    },
+    "SOLUSDT": {
+      "price": 91.34,
+      "change": 3.7600000000000002
+    },
+    "TONUSDT": {
+      "price": 1.319,
+      "change": 1.46
+    },
     "SHIROUSDT": {
-      "price": 9.635e-10,
-      "change": 1.59
+      "price": 9.6e-10,
+      "change": 1.04
     }
   },
   "status": "online",
@@ -52,14 +52,14 @@
     "polUSD": 9.97,
     "totalUSD": 58.97
   },
-  "grandTotalUSD": 171.88,
+  "grandTotalUSD": 171.83,
   "aiTrader": {
     "status": "active",
     "model": "haiku (\u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u043d\u0433) + opus (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f)",
     "modelMonitoring": "claude-3.5-haiku",
     "modelStrategy": "claude-opus-4.6",
     "modelPolymarket": "claude-opus-4.6",
-    "totalChecks": 126,
+    "totalChecks": 129,
     "openPositions": 0,
     "positions": {},
     "totalTrades": 1,
