@@ -767,12 +767,12 @@ function drawTrainerModal() {
   ctx.font = 'bold 6px monospace';
   ctx.textAlign = 'left';
   ctx.fillText('⌚ WHOOP:', mx+10, yOff);
-  ctx.fillStyle = '#ef4444';
-  ctx.fillText('● DISCONNECTED', mx+65, yOff); yOff += 7;
+  ctx.fillStyle = P.green;
+  ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Модель: haiku (чат) / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
-  ctx.fillText('Нужна переавторизация токена', mx+10, yOff); yOff += 9;
+  ctx.fillText('Модель: deepseek-v3.2 (чат) / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
+  ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
