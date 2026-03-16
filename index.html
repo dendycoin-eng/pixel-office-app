@@ -582,14 +582,12 @@ function drawModal() {
     
     ctx.fillStyle = P.grayLight;
     ctx.font = '5px monospace';
-    ctx.fillText('' + (ai.model || '?') + ' | Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0), mx+10, yOff);
+    ctx.fillText('MEXC: sonnet-3.5 (30мин) + opus-4.6 (09:00)', mx+10, yOff);
     yOff += 7;
-    
-    if (ai.openPositions > 0) {
-      ctx.fillStyle = P.gold;
-      ctx.fillText('📍 Открытых: ' + ai.openPositions, mx+10, yOff);
-      yOff += 7;
-    }
+    ctx.fillText('Polymarket: deepseek-v3.1 (10:00+18:00)', mx+10, yOff);
+    yOff += 7;
+    ctx.fillText('Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0), mx+10, yOff);
+    yOff += 7;
   }
   
   // Время обновления (фиксировано внизу модалки)
@@ -643,7 +641,7 @@ function drawJohnnyModal() {
   ctx.font = '5px monospace';
   
   if (johnnyData.tasks) {
-    for (let i = 0; i < Math.min(johnnyData.tasks.length, 7); i++) {
+    for (let i = 0; i < Math.min(johnnyData.tasks.length, 8); i++) {
       const t = johnnyData.tasks[i];
       const statusColor = t.status === 'active' ? P.green : P.red;
       ctx.fillStyle = statusColor;
@@ -746,7 +744,7 @@ function drawTrainerModal() {
   ctx.fillText('Модель:', mx+10, yOff);
   ctx.fillStyle = P.white;
   ctx.font = '6px monospace';
-  ctx.fillText('claude-3.5-haiku', mx+55, yOff); yOff += 10;
+  ctx.fillText('deepseek-v3.2', mx+55, yOff); yOff += 10;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
@@ -756,10 +754,9 @@ function drawTrainerModal() {
   ctx.font = '5px monospace';
   ctx.fillText('📊 Функции:', mx+10, yOff); yOff += 8;
   ctx.fillStyle = P.white;
-  ctx.fillText('✅ Анализ анализов крови', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Фармакология и ПКТ', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Анализ фото еды (GPT-4 Vision)', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Анализы крови (opus-4.6)', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Фармакология и ПКТ', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Фото еды (GPT-4 Vision)', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Дневник тренировок', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Мотивация и поддержка', mx+10, yOff); yOff += 9;
 
@@ -771,7 +768,7 @@ function drawTrainerModal() {
   ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Модель: deepseek-v3.2 (чат) / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
+  ctx.fillText('deepseek-v3.2 / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
   ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
