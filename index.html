@@ -758,8 +758,8 @@ function drawTrainerModal() {
   ctx.fillStyle = P.white;
   ctx.fillText('✅ Анализ анализов крови', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Фармакология и ПКТ', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Напоминания пить воду (3л/день)', mx+10, yOff); yOff += 7;
-  ctx.fillText('✅ Анализ фото (GPT-4 Vision)', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Анализ фото еды (GPT-4 Vision)', mx+10, yOff); yOff += 7;
+  ctx.fillText('✅ Анализы крови (opus-4.6)', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Дневник тренировок', mx+10, yOff); yOff += 7;
   ctx.fillText('✅ Мотивация и поддержка', mx+10, yOff); yOff += 9;
 
@@ -767,12 +767,12 @@ function drawTrainerModal() {
   ctx.font = 'bold 6px monospace';
   ctx.textAlign = 'left';
   ctx.fillText('⌚ WHOOP:', mx+10, yOff);
-  ctx.fillStyle = P.green;
-  ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
+  ctx.fillStyle = '#ef4444';
+  ctx.fillText('● DISCONNECTED', mx+65, yOff); yOff += 7;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Модель: claude-3.5-haiku', mx+10, yOff); yOff += 7;
-  ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
+  ctx.fillText('Модель: haiku (чат) / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
+  ctx.fillText('Нужна переавторизация токена', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
