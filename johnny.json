@@ -1,8 +1,8 @@
 {
-  "updated": "16 Mar 2026, 10:37 MSK",
-  "timestamp": 1773646622,
-  "model": "claude-opus-4.6",
-  "activeModel": "openrouter/anthropic/claude-opus-4.6",
+  "updated": "16 Mar 2026, 10:42 MSK",
+  "timestamp": 1773646927,
+  "model": "claude-3.5-haiku",
+  "activeModel": "openrouter/anthropic/claude-3.5-haiku",
   "chatModel": "openrouter/anthropic/claude-3.5-haiku",
   "chat": {
     "name": "@chat_51asic",
