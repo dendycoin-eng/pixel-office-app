@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 19:45 MSK",
-  "timestamp": 1773679518,
+  "updated": "16 Mar 2026, 19:50 MSK",
+  "timestamp": 1773679847,
   "model": "claude-3.5-haiku",
   "activeModel": "openrouter/anthropic/claude-3.5-haiku",
   "chatModel": "openrouter/anthropic/claude-3.5-haiku",
@@ -49,7 +49,7 @@
     {
       "name": "AI Trader MEXC (стратегия)",
       "schedule": "09:00 MSK",
-      "model": "deepseek-v3.1",
+      "model": "opus-4.6",
       "status": "active"
     },
     {
@@ -60,7 +60,7 @@
     },
     {
       "name": "Moltbook Activity",
-      "schedule": "11:00 + 19:00 MSK",
+      "schedule": "11:00 + 19:00",
       "model": "haiku",
       "status": "active"
     },
