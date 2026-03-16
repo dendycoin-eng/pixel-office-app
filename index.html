@@ -475,137 +475,183 @@ setInterval(loadJohnny, 60000);
 function drawModal() {
   if (!modalOpen || !balanceData) return;
   
-  const mx = 20, my = 2, mw = 280, mh = 236;
+  const mx = 10, my = 2, mw = 300, mh = 236;
+  const L = mx + 8;          // левый отступ текста
+  const R = mx + mw - 8;     // правый край текста
+  const CX = mx + mw / 2;    // центр
   
-  // Фон
-  drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
-  drawPixel(mx, my, mw, mh, '#0d0d2a');
+  // Фон + рамка
+  drawPixel(0, 0, W, H, 'rgba(0,0,0,0.75)');
+  drawPixel(mx, my, mw, mh, '#0a0a1e');
   drawPixel(mx, my, mw, 2, P.cyan);
   drawPixel(mx, my+mh-2, mw, 2, P.cyan);
   drawPixel(mx, my, 2, mh, P.cyan);
   drawPixel(mx+mw-2, my, 2, mh, P.cyan);
   
-  // Заголовок + статус на одной строке
-  ctx.fillStyle = P.cyan;
-  ctx.font = 'bold 7px monospace';
+  // ═══ ЗАГОЛОВОК ═══ y: 10-18
   ctx.textAlign = 'center';
-  ctx.fillText('📊 ТРЕЙДЕР — MEXC', W/2, my+11);
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 8px monospace';
+  ctx.fillText('ТРЕЙДЕР', CX, my + 11);
   ctx.fillStyle = balanceData.status === 'online' ? P.green : P.red;
   ctx.font = '5px monospace';
-  ctx.fillText(balanceData.status === 'online' ? '● ONLINE' : '● OFFLINE', W/2, my+19);
-  
-  // Баланс
+  ctx.fillText(balanceData.status === 'online' ? '● ONLINE' : '● OFFLINE', CX, my + 18);
+
+  // ═══ ОБЩИЙ БАЛАНС ═══ y: 28-38
   ctx.fillStyle = P.gold;
-  ctx.font = 'bold 10px monospace';
-  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2), W/2, my+30);
+  ctx.font = 'bold 11px monospace';
+  ctx.fillText('$' + (balanceData.grandTotalUSD || balanceData.totalUSD || 0).toFixed(2), CX, my + 29);
   
-  const spotUSD = balanceData.spotTotalUSD || balanceData.totalUSD || 0;
+  const spotUSD = balanceData.spotTotalUSD || 0;
   const futUSD = balanceData.futuresTotalUSD || 0;
+  const pmUSD = balanceData.polymarket ? balanceData.polymarket.totalUSD || 0 : 0;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('Спот: $' + spotUSD.toFixed(2), W/2 - 50, my+38);
-  ctx.fillText('Фьючерсы: $' + futUSD.toFixed(2), W/2 + 30, my+38);
-  
-  // Активы — только значимые, в одну колонку
+  ctx.fillText('Спот $' + spotUSD.toFixed(0) + '  |  Фьюч $' + futUSD.toFixed(0) + '  |  PM $' + pmUSD.toFixed(0), CX, my + 37);
+
+  // ═══ РАЗДЕЛИТЕЛЬ ═══
+  drawPixel(L, my + 40, mw - 16, 1, '#1a1a3a');
+
+  // ═══ РЫНОК (цены) ═══ y: 45+
+  let y = my + 47;
   ctx.textAlign = 'left';
-  ctx.font = '5px monospace';
-  let yOff = my + 46;
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 5px monospace';
+  ctx.fillText('РЫНОК', L, y);
+  y += 8;
   
+  if (balanceData.prices) {
+    ctx.font = '5px monospace';
+    const mainCoins = ['BTCUSDT', 'ETHUSDT', 'TONUSDT', 'SOLUSDT'];
+    for (const sym of mainCoins) {
+      const data = balanceData.prices[sym];
+      if (!data) continue;
+      const name = sym.replace('USDT', '');
+      const changeColor = data.change >= 0 ? P.green : P.red;
+      const arrow = data.change >= 0 ? '▲' : '▼';
+      // Имя
+      ctx.fillStyle = P.white;
+      ctx.fillText(name, L, y);
+      // Цена
+      ctx.fillStyle = P.white;
+      const priceStr = data.price >= 1000 ? '$' + data.price.toFixed(0) : '$' + data.price.toFixed(2);
+      ctx.fillText(priceStr, L + 35, y);
+      // Изменение
+      ctx.fillStyle = changeColor;
+      ctx.textAlign = 'right';
+      ctx.fillText(arrow + ' ' + Math.abs(data.change).toFixed(1) + '%', L + 130, y);
+      ctx.textAlign = 'left';
+      y += 7;
+    }
+  }
+
+  // ═══ РАЗДЕЛИТЕЛЬ ═══
+  drawPixel(L, y + 1, mw - 16, 1, '#1a1a3a');
+  y += 5;
+
+  // ═══ ПОРТФЕЛЬ ═══
+  ctx.fillStyle = P.cyan;
+  ctx.font = 'bold 5px monospace';
+  ctx.fillText('ПОРТФЕЛЬ', L, y);
+  
+  // Правая колонка — Polymarket
+  ctx.fillText('POLYMARKET', L + 145, y);
+  y += 8;
+
+  // Спот активы (левая колонка)
+  ctx.font = '5px monospace';
+  const startY = y;
   if (balanceData.balances) {
     const assets = Object.entries(balanceData.balances)
       .filter(([k,v]) => {
         if (k === 'USDT' && v < 0.01) return false;
-        const usdVal = balanceData.balancesUSD ? balanceData.balancesUSD[k] : 0;
-        return v > 0 && (usdVal > 0.1 || v > 1);
-      })
-      .slice(0, 4);
-    for (let i = 0; i < assets.length; i++) {
-      const [asset, amount] = assets[i];
-      const displayAmt = amount > 1000000 ? (amount/1000000).toFixed(1) + 'M' : 
-                          amount > 1000 ? (amount/1000).toFixed(1) + 'K' : 
-                          amount.toFixed(4);
-      const usdVal = balanceData.balancesUSD ? balanceData.balancesUSD[asset] : null;
+        const uv = balanceData.balancesUSD ? (balanceData.balancesUSD[k] || 0) : 0;
+        return uv > 0.5 || v > 1;
+      }).slice(0, 3);
+    for (const [asset, amount] of assets) {
+      const displayAmt = amount > 1e6 ? (amount/1e6).toFixed(1)+'M' : amount > 1e3 ? (amount/1e3).toFixed(1)+'K' : amount.toFixed(2);
+      const uv = balanceData.balancesUSD ? (balanceData.balancesUSD[asset] || 0) : 0;
       ctx.fillStyle = P.grayLight;
-      ctx.fillText(asset, mx+10, yOff);
+      ctx.fillText(asset, L, y);
       ctx.fillStyle = P.white;
-      ctx.fillText(displayAmt, mx+50, yOff);
-      if (usdVal && usdVal > 0.01) {
-        ctx.fillStyle = P.gold;
-        ctx.fillText('$' + usdVal.toFixed(2), mx+110, yOff);
-      }
-      yOff += 7;
+      ctx.fillText(displayAmt, L + 38, y);
+      if (uv > 0.01) { ctx.fillStyle = P.gold; ctx.fillText('$'+uv.toFixed(2), L + 85, y); }
+      y += 7;
     }
+    // Фьючерсы
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('Futures', L, y);
+    ctx.fillStyle = P.gold;
+    ctx.fillText('$' + futUSD.toFixed(2), L + 50, y);
+    y += 7;
   }
   
-  // Цены — компактная таблица
-  yOff += 2;
-  ctx.fillStyle = P.cyan;
-  ctx.font = '5px monospace';
-  ctx.fillText('Рынок:', mx+10, yOff);
-  yOff += 7;
-  
-  if (balanceData.prices) {
-    for (const [sym, data] of Object.entries(balanceData.prices)) {
-      const name = sym.replace('USDT', '');
-      const changeColor = data.change >= 0 ? P.green : P.red;
-      const arrow = data.change >= 0 ? '▲' : '▼';
-      ctx.fillStyle = P.grayLight;
-      ctx.fillText(name, mx+10, yOff);
-      ctx.fillStyle = P.white;
-      ctx.fillText('$' + data.price.toFixed(2), mx+40, yOff);
-      ctx.fillStyle = changeColor;
-      ctx.fillText(arrow + Math.abs(data.change).toFixed(1) + '%', mx+115, yOff);
-      yOff += 7;
-    }
-  }
-  
-  // Polymarket — компактнее
+  // Polymarket (правая колонка)
+  let py = startY;
   if (balanceData.polymarket) {
     const pm = balanceData.polymarket;
-    yOff += 2;
-    ctx.fillStyle = P.cyan;
-    ctx.font = 'bold 5px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('🎯 POLYMARKET: ', mx+10, yOff);
-    ctx.fillStyle = P.gold;
-    ctx.fillText('$' + (pm.totalUSD || 0).toFixed(2), mx+80, yOff);
-    yOff += 6;
     ctx.fillStyle = P.grayLight;
-    ctx.font = '5px monospace';
-    ctx.fillText('USDC: $' + (pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(0) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', mx+10, yOff);
-    yOff += 7;
+    ctx.fillText('USDC', L + 145, py);
+    ctx.fillStyle = P.gold;
+    ctx.fillText('$' + (pm.usdc||0).toFixed(2), L + 185, py);
+    py += 7;
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('POL', L + 145, py);
+    ctx.fillStyle = P.white;
+    ctx.fillText((pm.pol||0).toFixed(0), L + 170, py);
+    ctx.fillStyle = P.gold;
+    ctx.fillText('$' + (pm.polUSD||0).toFixed(2), L + 200, py);
+    py += 7;
   }
-  
-  // AI Trader — компактно
+
+  // ═══ РАЗДЕЛИТЕЛЬ ═══
+  const sepY = Math.max(y, py) + 2;
+  drawPixel(L, sepY, mw - 16, 1, '#1a1a3a');
+
+  // ═══ AI TRADER ═══
+  let ay = sepY + 6;
   if (balanceData.aiTrader) {
     const ai = balanceData.aiTrader;
-    yOff += 2;
     ctx.fillStyle = P.gold;
     ctx.font = 'bold 5px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('🧠 AI TRADER:', mx+10, yOff);
+    ctx.fillText('AI TRADER', L, ay);
     ctx.fillStyle = ai.status === 'active' ? P.green : P.red;
-    ctx.fillText(ai.status === 'active' ? '● ACTIVE' : '● OFF', mx+80, yOff);
-    yOff += 6;
+    ctx.font = '5px monospace';
+    ctx.fillText(ai.status === 'active' ? '● ACTIVE' : '● OFF', L + 55, ay);
+    
+    // Статистика справа
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('Чеков: ' + (ai.totalChecks||0), L + 145, ay);
+    ay += 7;
     
     ctx.fillStyle = P.grayLight;
-    ctx.font = '4.5px monospace';
-    ctx.fillText('MEXC: sonnet(30м) + opus(9/15/21)', mx+10, yOff);
-    yOff += 6;
-    ctx.fillText('PM: opus(10/16/21/01) | ' + (ai.totalChecks || 0) + ' чек | ' + (ai.totalTrades || 0) + ' сд | ' + (ai.openPositions || 0) + ' поз', mx+10, yOff);
-    yOff += 6;
+    ctx.font = '5px monospace';
+    ctx.fillText('MEXC', L, ay);
+    ctx.fillStyle = P.white;
+    ctx.fillText('sonnet 30м + opus 9/15/21', L + 35, ay);
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('Сделок: ' + (ai.totalTrades||0), L + 145, ay);
+    ay += 7;
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('PM', L, ay);
+    ctx.fillStyle = P.white;
+    ctx.fillText('opus 10/16/21/01', L + 35, ay);
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.fillText('Позиций: ' + (ai.openPositions||0), L + 145, ay);
   }
-  
-  // Время обновления
-  ctx.fillStyle = P.grayLight;
-  ctx.font = '4.5px monospace';
+
+  // ═══ ФУТЕР ═══ (фиксирован внизу)
   ctx.textAlign = 'center';
-  ctx.fillText(balanceData.updated || '', W/2, my+mh-12);
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '4px monospace';
+  ctx.fillText(balanceData.updated || '', CX, my + mh - 13);
   
-  // Кнопка закрыть
   ctx.fillStyle = P.red;
   ctx.font = 'bold 6px monospace';
-  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
+  ctx.fillText('[ ЗАКРЫТЬ ]', CX, my + mh - 4);
 }
 
 // Рисуем модальное окно Джонни
