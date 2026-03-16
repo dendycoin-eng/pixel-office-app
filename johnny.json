@@ -1,9 +1,9 @@
 {
-  "updated": "16 Mar 2026, 19:50 MSK",
-  "timestamp": 1773679847,
-  "model": "claude-3.5-haiku",
-  "activeModel": "openrouter/anthropic/claude-3.5-haiku",
-  "chatModel": "openrouter/anthropic/claude-3.5-haiku",
+  "updated": "16 Mar 2026, 19:58 MSK",
+  "timestamp": 1773680296,
+  "model": "claude-3.5-sonnet",
+  "activeModel": "openrouter/anthropic/claude-3.5-sonnet",
+  "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
   "postModel": "openrouter/anthropic/claude-opus-4.6",
   "imageModel": {
     "model": "Flux 2 Pro (black-forest-labs)",
@@ -14,7 +14,7 @@
   "chat": {
     "name": "@chat_51asic",
     "status": "active",
-    "model": "claude-3.5-haiku",
+    "model": "claude-3.5-sonnet",
     "joined": "2026-03-15",
     "description": "Общение с подписчиками, помощь, ответы на вопросы"
   },
