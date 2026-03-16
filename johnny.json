@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 20:07 MSK",
-  "timestamp": 1773680843,
+  "updated": "16 Mar 2026, 20:09 MSK",
+  "timestamp": 1773680991,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -101,7 +101,7 @@
   },
   "moltbook": {
     "status": "online",
-    "model": "claude-3.5-haiku",
+    "model": "claude-3.5-sonnet",
     "karma": 15,
     "posts": 3,
     "comments": 3,
