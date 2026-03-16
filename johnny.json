@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 19:37 MSK",
-  "timestamp": 1773679023,
+  "updated": "16 Mar 2026, 19:45 MSK",
+  "timestamp": 1773679518,
   "model": "claude-3.5-haiku",
   "activeModel": "openrouter/anthropic/claude-3.5-haiku",
   "chatModel": "openrouter/anthropic/claude-3.5-haiku",
@@ -21,7 +21,7 @@
   "tasks": [
     {
       "name": "Crypto News Digest",
-      "schedule": "12:00 MSK",
+      "schedule": "11:00 MSK",
       "model": "opus-4.6",
       "status": "active",
       "note": "→ на проверку Жене"
@@ -72,7 +72,7 @@
     }
   ],
   "totalTasks": 8,
-  "agentsOnline": 4,
+  "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
   "trader": {
