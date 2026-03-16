@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 20:09 MSK",
-  "timestamp": 1773680991,
+  "updated": "16 Mar 2026, 20:11 MSK",
+  "timestamp": 1773681061,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -93,9 +93,9 @@
     "model": "claude-3.5-haiku",
     "bot": "@Trainer51asic_bot",
     "features": [
-      "Голосовые",
       "Фото еды",
-      "Анализы"
+      "Анализы (opus-4.6)",
+      "Голосовые"
     ],
     "whoop": "disconnected"
   },
