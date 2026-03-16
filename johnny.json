@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 21:20 MSK",
-  "timestamp": 1773685228,
+  "updated": "16 Mar 2026, 21:23 MSK",
+  "timestamp": 1773685389,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -43,7 +43,7 @@
     {
       "name": "AI Trader MEXC (мониторинг)",
       "schedule": "каждые 30 мин",
-      "model": "deepseek-v3.1",
+      "model": "sonnet-3.5",
       "status": "active"
     },
     {
