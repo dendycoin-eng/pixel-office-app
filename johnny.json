@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 21:37 MSK",
-  "timestamp": 1773686224,
+  "updated": "16 Mar 2026, 21:39 MSK",
+  "timestamp": 1773686358,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -55,7 +55,7 @@
     {
       "name": "Polymarket Trader",
       "schedule": "10:00 + 18:00",
-      "model": "deepseek-v3.1",
+      "model": "sonnet-3.5",
       "status": "active"
     },
     {
