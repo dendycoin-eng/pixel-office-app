@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 19:32 MSK",
-  "timestamp": 1773678739,
+  "updated": "16 Mar 2026, 19:37 MSK",
+  "timestamp": 1773679032,
   "canTrade": true,
   "balances": {
     "USDT": 9.89574709e-09,
@@ -12,37 +12,37 @@
   },
   "balancesUSD": {
     "USDT": 9.89574709e-09,
-    "SHIRO": 9.3166,
-    "TON": 10.1822
+    "SHIRO": 9.28,
+    "TON": 10.1669
   },
-  "spotTotalUSD": 19.5,
+  "spotTotalUSD": 19.45,
   "futures": {
     "available": 93.51,
     "frozen": 0.0,
     "equity": 93.51
   },
   "futuresTotalUSD": 93.51,
-  "totalUSD": 113.01,
+  "totalUSD": 112.96,
   "prices": {
     "BTCUSDT": {
-      "price": 73463.1,
-      "change": 2.9499999999999997
+      "price": 73402.87,
+      "change": 2.79
     },
     "ETHUSDT": {
-      "price": 2283.69,
-      "change": 9.22
+      "price": 2282.87,
+      "change": 9.139999999999999
     },
     "SOLUSDT": {
-      "price": 93.4,
-      "change": 6.63
+      "price": 93.31,
+      "change": 6.49
     },
     "TONUSDT": {
-      "price": 1.331,
-      "change": 2.93
+      "price": 1.329,
+      "change": 2.62
     },
     "SHIROUSDT": {
-      "price": 9.663e-10,
-      "change": 0.3
+      "price": 9.625e-10,
+      "change": -0.09
     }
   },
   "status": "online",
@@ -52,7 +52,7 @@
     "polUSD": 9.97,
     "totalUSD": 58.97
   },
-  "grandTotalUSD": 171.98,
+  "grandTotalUSD": 171.93,
   "aiTrader": {
     "status": "active",
     "model": "deepseek-v3.1 (MEXC) + opus-4.6 (Polymarket)",
