@@ -514,7 +514,11 @@ function drawModal() {
   let yOff = my + 60;
   
   if (balanceData.balances) {
-    const assets = Object.entries(balanceData.balances);
+    const assets = Object.entries(balanceData.balances).filter(([k,v]) => {
+      if (k === 'USDT' && v < 0.01) return false;
+      const uv = balanceData.balancesUSD ? (balanceData.balancesUSD[k] || 0) : 0;
+      return uv > 0.5 || v > 1;
+    });
     for (let i = 0; i < Math.min(assets.length, 5); i++) {
       const [asset, amount] = assets[i];
       const displayAmt = amount > 1000000 ? (amount/1000000).toFixed(1) + 'M' : 
