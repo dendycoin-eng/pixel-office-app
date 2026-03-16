@@ -497,36 +497,44 @@ function drawModal() {
   // Баланс
   ctx.fillStyle = P.gold;
   ctx.font = 'bold 10px monospace';
-  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2), W/2, my+31);
+  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2), W/2, my+30);
   
-  ctx.fillStyle = P.grayLight;
-  ctx.font = '5px monospace';
   const spotUSD = balanceData.spotTotalUSD || balanceData.totalUSD || 0;
   const futUSD = balanceData.futuresTotalUSD || 0;
-  ctx.fillText('Спот: $' + spotUSD.toFixed(2) + ' | Фьючерсы: $' + futUSD.toFixed(2), W/2, my+39);
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '5px monospace';
+  ctx.fillText('Спот: $' + spotUSD.toFixed(2), W/2 - 50, my+38);
+  ctx.fillText('Фьючерсы: $' + futUSD.toFixed(2), W/2 + 30, my+38);
   
-  // Активы — компактно, 2 колонки
+  // Активы — только значимые, в одну колонку
   ctx.textAlign = 'left';
   ctx.font = '5px monospace';
-  let yOff = my + 48;
+  let yOff = my + 46;
   
   if (balanceData.balances) {
-    const assets = Object.entries(balanceData.balances);
-    for (let i = 0; i < Math.min(assets.length, 6); i++) {
+    const assets = Object.entries(balanceData.balances)
+      .filter(([k,v]) => {
+        if (k === 'USDT' && v < 0.01) return false;
+        const usdVal = balanceData.balancesUSD ? balanceData.balancesUSD[k] : 0;
+        return v > 0 && (usdVal > 0.1 || v > 1);
+      })
+      .slice(0, 4);
+    for (let i = 0; i < assets.length; i++) {
       const [asset, amount] = assets[i];
       const displayAmt = amount > 1000000 ? (amount/1000000).toFixed(1) + 'M' : 
                           amount > 1000 ? (amount/1000).toFixed(1) + 'K' : 
                           amount.toFixed(4);
-      const col = i % 2;
-      const row = Math.floor(i / 2);
-      const cx = mx + 10 + col * 130;
-      const cy = yOff + row * 8;
+      const usdVal = balanceData.balancesUSD ? balanceData.balancesUSD[asset] : null;
       ctx.fillStyle = P.grayLight;
-      ctx.fillText(asset + ': ', cx, cy);
+      ctx.fillText(asset, mx+10, yOff);
       ctx.fillStyle = P.white;
-      ctx.fillText(displayAmt, cx + 40, cy);
+      ctx.fillText(displayAmt, mx+50, yOff);
+      if (usdVal && usdVal > 0.01) {
+        ctx.fillStyle = P.gold;
+        ctx.fillText('$' + usdVal.toFixed(2), mx+110, yOff);
+      }
+      yOff += 7;
     }
-    yOff += Math.ceil(Math.min(assets.length, 6) / 2) * 8;
   }
   
   // Цены — компактная таблица
