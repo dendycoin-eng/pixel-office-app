@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 19:19 MSK",
-  "timestamp": 1773677965,
+  "updated": "16 Mar 2026, 19:32 MSK",
+  "timestamp": 1773678736,
   "model": "claude-3.5-haiku",
   "activeModel": "openrouter/anthropic/claude-3.5-haiku",
   "chatModel": "openrouter/anthropic/claude-3.5-haiku",
@@ -41,15 +41,21 @@
       "note": "→ на проверку Жене"
     },
     {
-      "name": "AI Trader (мониторинг)",
+      "name": "AI Trader MEXC (мониторинг)",
       "schedule": "каждые 30 мин",
-      "model": "haiku",
+      "model": "deepseek-v3.1",
       "status": "active"
     },
     {
-      "name": "AI Trader (стратегия)",
+      "name": "AI Trader MEXC (стратегия)",
       "schedule": "09:00 MSK",
-      "model": "haiku",
+      "model": "deepseek-v3.1",
+      "status": "active"
+    },
+    {
+      "name": "Polymarket Trader",
+      "schedule": "каждый час",
+      "model": "opus-4.6",
       "status": "active"
     },
     {
@@ -65,16 +71,16 @@
       "status": "active"
     }
   ],
-  "totalTasks": 7,
+  "totalTasks": 8,
   "agentsOnline": 4,
-  "agentsTotal": 4,
+  "agentsTotal": 3,
   "status": "online",
   "trader": {
     "status": "online",
     "mode": "futures",
     "leverage": 2,
     "positions": 0,
-    "checks": 168,
+    "checks": 169,
     "pairs": [
       "BTC/USDT",
       "TON/USDT"
