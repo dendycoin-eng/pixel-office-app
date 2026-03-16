@@ -475,7 +475,7 @@ setInterval(loadJohnny, 60000);
 function drawModal() {
   if (!modalOpen || !balanceData) return;
   
-  const mx = 20, my = 5, mw = 280, mh = 233;
+  const mx = 20, my = 3, mw = 280, mh = 254;
   
   // Фон
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
@@ -583,24 +583,25 @@ function drawModal() {
     ctx.fillStyle = P.grayLight;
     ctx.font = '5px monospace';
     ctx.fillText('MEXC: sonnet-3.5 (30мин)', mx+10, yOff);
-    yOff += 7;
-    ctx.fillText('Стратегия: opus-4.6 (09:00+15:00+21:00)', mx+10, yOff);
-    yOff += 7;
-    ctx.fillText('Polymarket: opus-4.6 (10+16+21+01)', mx+10, yOff);
-    yOff += 7;
-    ctx.fillText('Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0), mx+10, yOff);
-    yOff += 7;
+    yOff += 6;
+    ctx.fillText('Стратегия: opus-4.6 (9+15+21)', mx+10, yOff);
+    yOff += 6;
+    ctx.fillText('Polymarket: opus-4.6 (10+16+21+1)', mx+10, yOff);
+    yOff += 6;
+    ctx.fillText('Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0) + ' | Поз: ' + (ai.openPositions || 0), mx+10, yOff);
+    yOff += 6;
   }
   
   // Время обновления (фиксировано внизу модалки)
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
   ctx.textAlign = 'center';
-  ctx.fillText(balanceData.updated || '', W/2, my+mh-12);
+  ctx.fillText(balanceData.updated || '', W/2, my+mh-14);
   
   // Кнопка закрыть
   ctx.fillStyle = P.red;
-  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
+  ctx.font = 'bold 6px monospace';
+  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-5);
 }
 
 // Рисуем модальное окно Джонни
