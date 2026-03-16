@@ -1,6 +1,6 @@
 {
-  "updated": "16 Mar 2026, 21:07 MSK",
-  "timestamp": 1773684426,
+  "updated": "16 Mar 2026, 21:10 MSK",
+  "timestamp": 1773684651,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -90,14 +90,15 @@
   },
   "trainer": {
     "status": "online",
-    "model": "claude-3.5-haiku",
+    "model": "deepseek-v3.2",
     "bot": "@Trainer51asic_bot",
     "features": [
       "Фото еды",
       "Анализы (opus-4.6)",
-      "Голосовые"
+      "Голосовые",
+      "WHOOP"
     ],
-    "whoop": "disconnected"
+    "whoop": "connected"
   },
   "moltbook": {
     "status": "online",
