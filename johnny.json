@@ -1,8 +1,8 @@
 {
-  "updated": "16 Mar 2026, 19:58 MSK",
-  "timestamp": 1773680296,
-  "model": "claude-3.5-sonnet",
-  "activeModel": "openrouter/anthropic/claude-3.5-sonnet",
+  "updated": "16 Mar 2026, 20:04 MSK",
+  "timestamp": 1773680667,
+  "model": "claude-opus-4.6",
+  "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
   "postModel": "openrouter/anthropic/claude-opus-4.6",
   "imageModel": {
@@ -14,7 +14,7 @@
   "chat": {
     "name": "@chat_51asic",
     "status": "active",
-    "model": "claude-3.5-sonnet",
+    "model": "claude-3.5-sonnet (чат) / opus-4.6 (личка)",
     "joined": "2026-03-15",
     "description": "Общение с подписчиками, помощь, ответы на вопросы"
   },
@@ -80,7 +80,7 @@
     "mode": "futures",
     "leverage": 2,
     "positions": 0,
-    "checks": 169,
+    "checks": 170,
     "pairs": [
       "BTC/USDT",
       "TON/USDT"
