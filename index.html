@@ -489,7 +489,7 @@ function drawModal() {
   ctx.fillStyle = P.cyan;
   ctx.font = 'bold 8px monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('📊 ТРЕЙДЕР — MEXC', W/2, my+14);
+  ctx.fillText('📊 ТРЕЙДЕР — BINANCE', W/2, my+14);
   
   // Статус
   ctx.fillStyle = balanceData.status === 'online' ? P.green : P.red;
@@ -586,7 +586,7 @@ function drawModal() {
     
     ctx.fillStyle = P.grayLight;
     ctx.font = '5px monospace';
-    ctx.fillText('MEXC: sonnet-3.5 (30мин) + opus-4.6 (9/15/21)', mx+10, yOff);
+    ctx.fillText('Binance: opus-4.6 (9/15/21) — ожидание ключей', mx+10, yOff);
     yOff += 6;
     ctx.fillText('Polymarket: opus-4.6 (10/16/21/01)', mx+10, yOff);
     yOff += 6;
