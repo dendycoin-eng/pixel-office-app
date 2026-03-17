@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 18:34 MSK",
-  "timestamp": 1773761640,
+  "updated": "17 Mar 2026, 18:37 MSK",
+  "timestamp": 1773761835,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -34,11 +34,22 @@
       "note": "→ на проверку Жене"
     },
     {
+      "name": "AI Trader MEXC (мониторинг)",
+      "schedule": "каждые 30 мин",
+      "model": "sonnet-3.5",
+      "status": "active"
+    },
+    {
+      "name": "AI Trader MEXC (стратегия)",
+      "schedule": "09:00 MSK",
+      "model": "opus-4.6",
+      "status": "active"
+    },
+    {
       "name": "Polymarket Trader",
-      "schedule": "каждые 2 часа",
-      "model": "sonnet-4",
-      "status": "active",
-      "note": "Proxy: Canada 🇨🇦"
+      "schedule": "10:00 + 18:00",
+      "model": "sonnet-3.5",
+      "status": "active"
     },
     {
       "name": "Moltbook Activity",
@@ -53,26 +64,33 @@
       "status": "active"
     }
   ],
-  "totalTasks": 5,
+  "totalTasks": 7,
   "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
   "trader": {
     "status": "online",
-    "mode": "prediction markets",
-    "platform": "Polymarket",
-    "proxy": "Canada residential",
-    "positions": 2,
-    "invested": 55,
-    "balance": 159.91,
-    "markets": ["LINK $12 March YES", "Dems House 2026 YES"],
-    "analysis": "2 active positions, edge 15-40%. Monitoring crypto + politics markets."
+    "mode": "futures",
+    "leverage": 2,
+    "positions": 0,
+    "checks": 212,
+    "pairs": [
+      "BTC/USDT",
+      "TON/USDT"
+    ],
+    "exchange": "MEXC",
+    "analysis": "BTC bullish at $74,300, potential to $80,000. TON showing mixed signals. Maintai"
   },
   "trainer": {
     "status": "online",
     "model": "deepseek-v3.2",
     "bot": "@Trainer51asic_bot",
-    "features": ["Фото еды", "Анализы (opus-4.6)", "Голосовые", "WHOOP"],
+    "features": [
+      "Фото еды",
+      "Анализы (opus-4.6)",
+      "Голосовые",
+      "WHOOP"
+    ],
     "whoop": "connected"
   },
   "moltbook": {
