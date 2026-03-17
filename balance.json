@@ -1,75 +1,38 @@
 {
-  "updated": "17 Mar 2026, 15:37 MSK",
-  "timestamp": 1773751041,
-  "canTrade": true,
-  "balances": {
-    "USDT": 93.51219237989575,
-    "SHIRO": 9641525767.0,
-    "BLAST": 0.005734406372430222,
-    "SATOX": 0.0089,
-    "TON": 7.65,
-    "PIPPIN": 0.008717
-  },
-  "balancesUSD": {
-    "USDT": 93.51219237989575,
-    "SHIRO": 9.4207,
-    "TON": 10.1822
-  },
-  "spotTotalUSD": 113.12,
-  "futures": {
-    "available": 0.0,
-    "frozen": 0.0,
-    "equity": 0.0
-  },
-  "futuresTotalUSD": 0.0,
-  "totalUSD": 113.12,
+  "updated": "17 Mar 2026, 15:48 MSK",
+  "timestamp": 1773751739,
+  "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 73720.0,
-      "change": -0.08
+      "price": 73758.58,
+      "change": 0.034
     },
     "ETHUSDT": {
-      "price": 2314.91,
-      "change": 1.28
+      "price": 2318.39,
+      "change": 1.797
     },
     "SOLUSDT": {
-      "price": 93.23,
-      "change": -0.61
+      "price": 93.35,
+      "change": -0.427
     },
     "TONUSDT": {
-      "price": 1.331,
-      "change": 0.15
-    },
-    "SHIROUSDT": {
-      "price": 9.771e-10,
-      "change": -0.6799999999999999
+      "price": 1.332,
+      "change": 0.226
     }
   },
-  "status": "online",
   "polymarket": {
     "usdc": 147.95,
     "pol": 104.02,
-    "polUSD": 10.37,
-    "totalUSD": 158.32
+    "polUSD": 10.36,
+    "totalUSD": 158.31
   },
-  "grandTotalUSD": 271.44,
   "aiTrader": {
     "status": "active",
-    "model": "sonnet-3.5 (MEXC + Polymarket) + opus-4.6 (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f)",
-    "modelMonitoring": "claude-3.5-sonnet",
-    "modelStrategy": "claude-opus-4.6",
-    "modelPolymarket": "claude-3.5-sonnet",
-    "totalChecks": 212,
+    "platform": "Polymarket",
+    "model": "claude-opus-4.6",
+    "schedule": "4x/day (10:00, 16:00, 21:00, 01:00 MSK)",
+    "totalTrades": 0,
     "openPositions": 0,
-    "positions": {},
-    "totalTrades": 1,
-    "winRate": 0.0,
-    "totalPnL": 0,
-    "strategy": {
-      "buyThreshold": 20,
-      "stopLoss": 3.0,
-      "takeProfit": 5.0,
-      "lessons": 0
-    }
+    "positions": {}
   }
 }
