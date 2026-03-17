@@ -1,38 +1,53 @@
 {
-  "updated": "17 Mar 2026, 18:07 MSK",
-  "timestamp": 1773760038,
+  "updated": "17 Mar 2026, 18:30 MSK",
+  "timestamp": 1773761435,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 74553.49,
-      "change": 1.474
+      "price": 74086.13,
+      "change": 0.209
     },
     "ETHUSDT": {
-      "price": 2348.5,
-      "change": 2.828
-    },
-    "SOLUSDT": {
-      "price": 94.71,
+      "price": 2324.85,
       "change": 1.359
     },
+    "SOLUSDT": {
+      "price": 93.88,
+      "change": -0.319
+    },
     "TONUSDT": {
-      "price": 1.349,
-      "change": 0.973
+      "price": 1.347,
+      "change": 0.975
     }
   },
   "polymarket": {
-    "usdc": 0.0,
-    "pol": 103.67,
-    "polUSD": 10.4,
-    "totalUSD": 10.4
+    "usdc_e": 159.91,
+    "usdc_native": 0.0,
+    "usdc_total": 159.91,
+    "pol": 103.36,
+    "polUSD": 10.27,
+    "totalUSD": 170.18
   },
   "aiTrader": {
     "status": "active",
     "platform": "Polymarket",
-    "model": "claude-opus-4.6",
-    "schedule": "4x/day (10:00, 16:00, 21:00, 01:00 MSK)",
-    "totalTrades": 0,
-    "openPositions": 0,
-    "positions": {}
+    "model": "claude-sonnet-4",
+    "schedule": "every 2h",
+    "proxy": "Canada residential",
+    "totalTrades": 2,
+    "openPositions": 2,
+    "invested": 55,
+    "positions": {
+      "LINK $12 March": {
+        "side": "YES",
+        "amount": 30,
+        "price": 0.52
+      },
+      "Dems House 2026": {
+        "side": "YES",
+        "amount": 25,
+        "price": 0.85
+      }
+    }
   }
 }
