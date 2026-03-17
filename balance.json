@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 13:37 MSK",
-  "timestamp": 1773743836,
+  "updated": "17 Mar 2026, 14:07 MSK",
+  "timestamp": 1773745640,
   "canTrade": true,
   "balances": {
     "USDT": 9.89574709e-09,
@@ -12,54 +12,54 @@
   },
   "balancesUSD": {
     "USDT": 9.89574709e-09,
-    "SHIRO": 9.4362,
-    "TON": 10.1745
+    "SHIRO": 9.4381,
+    "TON": 10.251
   },
-  "spotTotalUSD": 19.61,
+  "spotTotalUSD": 19.69,
   "futures": {
     "available": 93.51,
     "frozen": 0.0,
     "equity": 93.51
   },
   "futuresTotalUSD": 93.51,
-  "totalUSD": 113.12,
+  "totalUSD": 113.2,
   "prices": {
     "BTCUSDT": {
-      "price": 73742.06,
-      "change": 0.7000000000000001
+      "price": 73901.73,
+      "change": 0.27
     },
     "ETHUSDT": {
-      "price": 2314.28,
-      "change": 2.55
+      "price": 2319.7,
+      "change": 1.94
     },
     "SOLUSDT": {
-      "price": 93.65,
-      "change": 0.33
+      "price": 93.68,
+      "change": -0.18
     },
     "TONUSDT": {
-      "price": 1.33,
-      "change": 0.44999999999999996
+      "price": 1.34,
+      "change": 0.97
     },
     "SHIROUSDT": {
-      "price": 9.787e-10,
-      "change": -0.9199999999999999
+      "price": 9.789e-10,
+      "change": -0.44
     }
   },
   "status": "online",
   "polymarket": {
     "usdc": 147.95,
     "pol": 104.02,
-    "polUSD": 10.4,
-    "totalUSD": 158.35
+    "polUSD": 10.43,
+    "totalUSD": 158.38
   },
-  "grandTotalUSD": 271.47,
+  "grandTotalUSD": 271.58,
   "aiTrader": {
     "status": "active",
     "model": "sonnet-3.5 (MEXC + Polymarket) + opus-4.6 (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f)",
     "modelMonitoring": "claude-3.5-sonnet",
     "modelStrategy": "claude-opus-4.6",
     "modelPolymarket": "claude-3.5-sonnet",
-    "totalChecks": 205,
+    "totalChecks": 206,
     "openPositions": 0,
     "positions": {},
     "totalTrades": 1,
