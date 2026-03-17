@@ -511,7 +511,7 @@ function drawModal() {
     ctx.fillStyle = P.grayLight;
     ctx.font = '5px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('USDC: $' + (pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(1) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', W/2, yOff);
+    ctx.fillText('USDC.e: $' + (pm.usdc_e || pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(1) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', W/2, yOff);
     yOff += 12;
   }
   
@@ -528,12 +528,20 @@ function drawModal() {
     
     ctx.fillStyle = P.grayLight;
     ctx.font = '5px monospace';
-    ctx.fillText('Модель: opus-4.6 (4x/день)', mx+10, yOff);
+    ctx.fillText('Модель: ' + (ai.model || 'sonnet-4') + ' | Proxy: CA', mx+10, yOff);
     yOff += 7;
-    ctx.fillText('Расписание: 10:00 / 16:00 / 21:00 / 01:00', mx+10, yOff);
+    ctx.fillText('Расписание: ' + (ai.schedule || 'every 2h'), mx+10, yOff);
     yOff += 7;
-    ctx.fillText('Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0), mx+10, yOff);
-    yOff += 10;
+    ctx.fillText('Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0) + ' | Invest: $' + (ai.invested || 0), mx+10, yOff);
+    yOff += 7;
+    if (ai.positions) {
+      for (const [name, pos] of Object.entries(ai.positions)) {
+        ctx.fillStyle = P.cyan;
+        ctx.fillText('• ' + name + ': ' + (pos.side||'') + ' $' + (pos.amount||0) + ' @' + (pos.price||0), mx+10, yOff);
+        yOff += 7;
+      }
+    }
+    yOff += 3;
   }
   
   // Крипто-цены (информационно)
