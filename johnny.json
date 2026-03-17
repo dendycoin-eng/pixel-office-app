@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 10:07 MSK",
-  "timestamp": 1773731234,
+  "updated": "17 Mar 2026, 10:37 MSK",
+  "timestamp": 1773733027,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -80,7 +80,7 @@
     "mode": "futures",
     "leverage": 2,
     "positions": 0,
-    "checks": 199,
+    "checks": 200,
     "pairs": [
       "BTC/USDT",
       "TON/USDT"
@@ -101,10 +101,13 @@
     "whoop": "connected"
   },
   "moltbook": {
-    "status": "offline",
-    "karma": 0,
-    "posts": 0,
-    "model": "claude-3.5-sonnet"
+    "status": "online",
+    "model": "claude-3.5-sonnet",
+    "karma": 16,
+    "posts": 5,
+    "comments": 5,
+    "followers": 3,
+    "profile": "moltbook.com/u/johnny51asic"
   },
   "postWorkflow": "cron → Жене на проверку → публикация вручную"
 }
