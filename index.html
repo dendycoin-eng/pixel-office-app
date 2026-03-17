@@ -719,7 +719,7 @@ function drawTrainerModal() {
   ctx.fillText('Модель:', mx+10, yOff);
   ctx.fillStyle = P.white;
   ctx.font = '6px monospace';
-  ctx.fillText('deepseek-v3.2', mx+55, yOff); yOff += 10;
+  ctx.fillText(t.model || 'claude-3.5-sonnet', mx+55, yOff); yOff += 10;
 
   ctx.fillStyle = '#ef4444';
   ctx.font = 'bold 6px monospace';
@@ -743,7 +743,7 @@ function drawTrainerModal() {
   ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText('deepseek-v3.2 / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
+  ctx.fillText((t.model || 'claude-3.5-sonnet') + ' / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
   ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
