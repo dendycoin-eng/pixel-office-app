@@ -1,32 +1,32 @@
 {
-  "updated": "18 Mar 2026, 00:07 MSK",
-  "timestamp": 1773781644,
+  "updated": "18 Mar 2026, 00:37 MSK",
+  "timestamp": 1773783444,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 74463.42,
-      "change": 0.235
+      "price": 74729.79,
+      "change": 0.095
     },
     "ETHUSDT": {
-      "price": 2330.48,
-      "change": -0.77
+      "price": 2338.72,
+      "change": -1.312
     },
     "SOLUSDT": {
-      "price": 94.91,
-      "change": -0.867
+      "price": 95.17,
+      "change": -1.429
     },
     "TONUSDT": {
-      "price": 1.354,
-      "change": 1.272
+      "price": 1.353,
+      "change": 0.745
     }
   },
   "polymarket": {
-    "usdc_e": 94.58,
+    "usdc_e": 67.23,
     "usdc_native": 0.0,
-    "usdc_total": 94.58,
+    "usdc_total": 67.23,
     "pol": 103.36,
-    "polUSD": 10.3,
-    "totalUSD": 104.88
+    "polUSD": 10.35,
+    "totalUSD": 77.58
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 2h",
     "proxy": "Canada residential",
-    "totalTrades": 5,
-    "openPositions": 5,
-    "invested": 145.0,
+    "totalTrades": 7,
+    "openPositions": 7,
+    "invested": 180.0,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -57,6 +57,16 @@
         "side": "YES",
         "amount": 30.0,
         "price": 0.455
+      },
+      "Trump visit China by March 31": {
+        "side": "YES",
+        "amount": 20.0,
+        "price": 0.03
+      },
+      "Bitcoin dip to 5k March": {
+        "side": "YES",
+        "amount": 15.0,
+        "price": 0.24
       }
     }
   }
