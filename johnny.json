@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 00:07 MSK",
-  "timestamp": 1773781637,
+  "updated": "18 Mar 2026, 00:37 MSK",
+  "timestamp": 1773783436,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -62,8 +62,8 @@
     "mode": "prediction markets",
     "platform": "Polymarket",
     "proxy": "Canada residential",
-    "positions": 5,
-    "invested": 145.0,
+    "positions": 7,
+    "invested": 180.0,
     "markets": [
       "LINK $12 March",
       "Dems House 2026",
@@ -71,7 +71,7 @@
       "Bitcoin 0k March 2026",
       "Bitcoin 0k March 2026"
     ],
-    "analysis": "5 active positions"
+    "analysis": "7 active positions"
   },
   "trainer": {
     "status": "online",
