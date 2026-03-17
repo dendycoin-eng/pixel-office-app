@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 14:07 MSK",
-  "timestamp": 1773745632,
+  "updated": "17 Mar 2026, 14:08 MSK",
+  "timestamp": 1773745717,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -22,13 +22,6 @@
     {
       "name": "Crypto News Digest",
       "schedule": "11:00 MSK",
-      "model": "opus-4.6",
-      "status": "active",
-      "note": "→ на проверку Жене"
-    },
-    {
-      "name": "Mining Profitability",
-      "schedule": "14:00 MSK",
       "model": "opus-4.6",
       "status": "active",
       "note": "→ на проверку Жене"
@@ -71,7 +64,7 @@
       "status": "active"
     }
   ],
-  "totalTasks": 8,
+  "totalTasks": 7,
   "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
