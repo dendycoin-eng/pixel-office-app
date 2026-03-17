@@ -489,54 +489,57 @@ function drawModal() {
   ctx.fillStyle = P.cyan;
   ctx.font = 'bold 8px monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('📊 ТРЕЙДЕР — BINANCE', W/2, my+14);
+  ctx.fillText('📊 ТРЕЙДЕР — POLYMARKET', W/2, my+14);
   
   // Статус
   ctx.fillStyle = balanceData.status === 'online' ? P.green : P.red;
   ctx.font = '6px monospace';
   ctx.fillText((balanceData.status === 'online' ? '● ONLINE' : '● OFFLINE'), W/2, my+24);
   
-  // Баланс
-  ctx.fillStyle = P.gold;
-  ctx.font = 'bold 11px monospace';
-  ctx.fillText('$' + (balanceData.totalUSD || 0).toFixed(2) + ' USDT', W/2, my+38);
-  
-  ctx.fillStyle = P.grayLight;
-  ctx.font = '5px monospace';
-  const spotUSD = balanceData.spotTotalUSD || balanceData.totalUSD || 0;
-  const futUSD = balanceData.futuresTotalUSD || 0;
-  ctx.fillText('Спот: $' + spotUSD.toFixed(2) + ' | Фьючерсы: $' + futUSD.toFixed(2), W/2, my+46);
-  
-  // Активы
+  // Polymarket баланс (главный)
   ctx.textAlign = 'left';
-  ctx.fillStyle = P.white;
-  ctx.font = '6px monospace';
-  let yOff = my + 60;
+  let yOff = my + 38;
   
-  if (balanceData.balances) {
-    const assets = Object.entries(balanceData.balances).filter(([k,v]) => {
-      if (k === 'USDT' && v < 0.01) return false;
-      const uv = balanceData.balancesUSD ? (balanceData.balancesUSD[k] || 0) : 0;
-      return uv > 0.5 || v > 1;
-    });
-    for (let i = 0; i < Math.min(assets.length, 5); i++) {
-      const [asset, amount] = assets[i];
-      const displayAmt = amount > 1000000 ? (amount/1000000).toFixed(1) + 'M' : 
-                          amount > 1000 ? (amount/1000).toFixed(1) + 'K' : 
-                          amount.toFixed(4);
-      ctx.fillStyle = P.grayLight;
-      ctx.fillText(asset + ':', mx+10, yOff);
-      ctx.fillStyle = P.white;
-      ctx.fillText(displayAmt, mx+50, yOff);
-      yOff += 10;
-    }
+  if (balanceData.polymarket) {
+    const pm = balanceData.polymarket;
+    ctx.fillStyle = P.gold;
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('$' + (pm.totalUSD || 0).toFixed(2), W/2, yOff);
+    yOff += 12;
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.font = '5px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('USDC: $' + (pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(1) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', W/2, yOff);
+    yOff += 12;
   }
   
-  // Цены
-  yOff += 3;
+  // AI Trader блок
+  ctx.textAlign = 'left';
+  if (balanceData.aiTrader) {
+    const ai = balanceData.aiTrader;
+    ctx.fillStyle = P.gold;
+    ctx.font = 'bold 6px monospace';
+    ctx.fillText('🧠 AI TRADER:', mx+10, yOff);
+    ctx.fillStyle = ai.status === 'active' ? P.green : P.red;
+    ctx.fillText(ai.status === 'active' ? '● ACTIVE' : '● OFF', mx+90, yOff);
+    yOff += 8;
+    
+    ctx.fillStyle = P.grayLight;
+    ctx.font = '5px monospace';
+    ctx.fillText('Модель: opus-4.6 (4x/день)', mx+10, yOff);
+    yOff += 7;
+    ctx.fillText('Расписание: 10:00 / 16:00 / 21:00 / 01:00', mx+10, yOff);
+    yOff += 7;
+    ctx.fillText('Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0), mx+10, yOff);
+    yOff += 10;
+  }
+  
+  // Крипто-цены (информационно)
   ctx.fillStyle = P.cyan;
   ctx.font = '6px monospace';
-  ctx.fillText('Рынок:', mx+10, yOff);
+  ctx.fillText('📈 Рынок:', mx+10, yOff);
   yOff += 8;
   
   if (balanceData.prices) {
@@ -552,45 +555,6 @@ function drawModal() {
       ctx.fillText(arrow + Math.abs(data.change).toFixed(1) + '%', mx+120, yOff);
       yOff += 8;
     }
-  }
-  
-  // Polymarket блок
-  if (balanceData.polymarket) {
-    const pm = balanceData.polymarket;
-    yOff += 3;
-    ctx.fillStyle = P.cyan;
-    ctx.font = 'bold 6px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('🎯 POLYMARKET:', mx+10, yOff);
-    yOff += 7;
-    ctx.fillStyle = P.grayLight;
-    ctx.font = '5px monospace';
-    ctx.fillText('USDC: $' + (pm.usdc || 0).toFixed(2) + ' | POL: ' + (pm.pol || 0).toFixed(1) + ' ($' + (pm.polUSD || 0).toFixed(2) + ')', mx+10, yOff);
-    yOff += 7;
-    ctx.fillStyle = P.gold;
-    ctx.fillText('Total: $' + (pm.totalUSD || 0).toFixed(2), mx+10, yOff);
-    yOff += 7;
-  }
-  
-  // AI Trader блок
-  if (balanceData.aiTrader) {
-    const ai = balanceData.aiTrader;
-    yOff += 3;
-    ctx.fillStyle = P.gold;
-    ctx.font = 'bold 6px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('🧠 AI TRADER:', mx+10, yOff);
-    ctx.fillStyle = ai.status === 'active' ? P.green : P.red;
-    ctx.fillText(ai.status === 'active' ? '● ACTIVE' : '● OFF', mx+90, yOff);
-    yOff += 7;
-    
-    ctx.fillStyle = P.grayLight;
-    ctx.font = '5px monospace';
-    ctx.fillText('Binance: opus-4.6 (9/15/21) — ожидание ключей', mx+10, yOff);
-    yOff += 6;
-    ctx.fillText('Polymarket: opus-4.6 (10/16/21/01)', mx+10, yOff);
-    yOff += 6;
-    ctx.fillText('Проверок: ' + (ai.totalChecks || 0) + ' | Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0), mx+10, yOff);
   }
   
   // Время обновления
