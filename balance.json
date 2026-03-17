@@ -1,32 +1,32 @@
 {
-  "updated": "17 Mar 2026, 22:07 MSK",
-  "timestamp": 1773774445,
+  "updated": "17 Mar 2026, 22:37 MSK",
+  "timestamp": 1773776239,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 74691.52,
-      "change": 1.02
+      "price": 74660.02,
+      "change": 0.662
     },
     "ETHUSDT": {
-      "price": 2333.5,
-      "change": 0.282
+      "price": 2332.81,
+      "change": 0.006
     },
     "SOLUSDT": {
-      "price": 95.47,
-      "change": 1.112
+      "price": 95.07,
+      "change": -0.074
     },
     "TONUSDT": {
-      "price": 1.347,
-      "change": 0.975
+      "price": 1.35,
+      "change": 1.124
     }
   },
   "polymarket": {
-    "usdc_e": 159.91,
+    "usdc_e": 94.58,
     "usdc_native": 0.0,
-    "usdc_total": 159.91,
+    "usdc_total": 94.58,
     "pol": 103.36,
-    "polUSD": 10.33,
-    "totalUSD": 170.24
+    "polUSD": 10.3,
+    "totalUSD": 104.88
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 2h",
     "proxy": "Canada residential",
-    "totalTrades": 2,
-    "openPositions": 2,
-    "invested": 55,
+    "totalTrades": 5,
+    "openPositions": 5,
+    "invested": 145.0,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -47,6 +47,16 @@
         "side": "YES",
         "amount": 25,
         "price": 0.85
+      },
+      "Fed no change March 2026": {
+        "side": "YES",
+        "amount": 25.0,
+        "price": 0.9945
+      },
+      "Bitcoin 0k March 2026": {
+        "side": "YES",
+        "amount": 30.0,
+        "price": 0.455
       }
     }
   }
