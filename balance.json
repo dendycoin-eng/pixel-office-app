@@ -1,9 +1,9 @@
 {
-  "updated": "17 Mar 2026, 15:07 MSK",
-  "timestamp": 1773749230,
+  "updated": "17 Mar 2026, 15:37 MSK",
+  "timestamp": 1773751041,
   "canTrade": true,
   "balances": {
-    "USDT": 9.89574709e-09,
+    "USDT": 93.51219237989575,
     "SHIRO": 9641525767.0,
     "BLAST": 0.005734406372430222,
     "SATOX": 0.0089,
@@ -11,64 +11,64 @@
     "PIPPIN": 0.008717
   },
   "balancesUSD": {
-    "USDT": 9.89574709e-09,
-    "SHIRO": 9.4564,
-    "TON": 10.2586
+    "USDT": 93.51219237989575,
+    "SHIRO": 9.4207,
+    "TON": 10.1822
   },
-  "spotTotalUSD": 19.72,
+  "spotTotalUSD": 113.12,
   "futures": {
-    "available": 93.51,
+    "available": 0.0,
     "frozen": 0.0,
-    "equity": 93.51
+    "equity": 0.0
   },
-  "futuresTotalUSD": 93.51,
-  "totalUSD": 113.23,
+  "futuresTotalUSD": 0.0,
+  "totalUSD": 113.12,
   "prices": {
     "BTCUSDT": {
-      "price": 74060.07,
-      "change": 0.72
+      "price": 73720.0,
+      "change": -0.08
     },
     "ETHUSDT": {
-      "price": 2328.9,
-      "change": 2.13
+      "price": 2314.91,
+      "change": 1.28
     },
     "SOLUSDT": {
-      "price": 93.78,
-      "change": -0.13
+      "price": 93.23,
+      "change": -0.61
     },
     "TONUSDT": {
-      "price": 1.341,
-      "change": 0.97
+      "price": 1.331,
+      "change": 0.15
     },
     "SHIROUSDT": {
-      "price": 9.808e-10,
-      "change": -0.26
+      "price": 9.771e-10,
+      "change": -0.6799999999999999
     }
   },
   "status": "online",
   "polymarket": {
     "usdc": 147.95,
     "pol": 104.02,
-    "polUSD": 10.46,
-    "totalUSD": 158.41
+    "polUSD": 10.37,
+    "totalUSD": 158.32
   },
-  "grandTotalUSD": 271.64,
+  "grandTotalUSD": 271.44,
   "aiTrader": {
     "status": "active",
     "model": "sonnet-3.5 (MEXC + Polymarket) + opus-4.6 (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f)",
     "modelMonitoring": "claude-3.5-sonnet",
     "modelStrategy": "claude-opus-4.6",
     "modelPolymarket": "claude-3.5-sonnet",
-    "totalChecks": 209,
+    "totalChecks": 212,
     "openPositions": 0,
     "positions": {},
     "totalTrades": 1,
     "winRate": 0.0,
     "totalPnL": 0,
     "strategy": {
-      "buyThreshold": 30,
-      "stopLoss": 1.5,
-      "takeProfit": 2.0,
+      "buyThreshold": 20,
+      "stopLoss": 3.0,
+      "takeProfit": 5.0,
       "lessons": 0
     }
   }
