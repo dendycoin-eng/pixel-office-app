@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 19:07 MSK",
-  "timestamp": 1773763636,
+  "updated": "17 Mar 2026, 19:16 MSK",
+  "timestamp": 1773764168,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -34,22 +34,11 @@
       "note": "→ на проверку Жене"
     },
     {
-      "name": "AI Trader MEXC (мониторинг)",
-      "schedule": "каждые 30 мин",
-      "model": "sonnet-3.5",
-      "status": "active"
-    },
-    {
-      "name": "AI Trader MEXC (стратегия)",
-      "schedule": "09:00 MSK",
-      "model": "opus-4.6",
-      "status": "active"
-    },
-    {
       "name": "Polymarket Trader",
-      "schedule": "10:00 + 18:00",
-      "model": "sonnet-3.5",
-      "status": "active"
+      "schedule": "каждые 2 часа",
+      "model": "sonnet-4",
+      "status": "active",
+      "note": "Proxy: Canada 🇨🇦"
     },
     {
       "name": "Moltbook Activity",
@@ -64,22 +53,22 @@
       "status": "active"
     }
   ],
-  "totalTasks": 7,
+  "totalTasks": 5,
   "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
   "trader": {
     "status": "online",
-    "mode": "futures",
-    "leverage": 2,
-    "positions": 0,
-    "checks": 212,
-    "pairs": [
-      "BTC/USDT",
-      "TON/USDT"
+    "mode": "prediction markets",
+    "platform": "Polymarket",
+    "proxy": "Canada residential",
+    "positions": 2,
+    "invested": 55,
+    "markets": [
+      "LINK $12 March",
+      "Dems House 2026"
     ],
-    "exchange": "MEXC",
-    "analysis": "BTC bullish at $74,300, potential to $80,000. TON showing mixed signals. Maintai"
+    "analysis": "2 active positions"
   },
   "trainer": {
     "status": "online",
