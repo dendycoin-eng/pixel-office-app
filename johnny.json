@@ -1,6 +1,6 @@
 {
-  "updated": "17 Mar 2026, 20:37 MSK",
-  "timestamp": 1773769034,
+  "updated": "17 Mar 2026, 20:50 MSK",
+  "timestamp": 1773769855,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -72,7 +72,7 @@
   },
   "trainer": {
     "status": "online",
-    "model": "claude-3.5-haiku",
+    "model": "claude-3.5-sonnet",
     "bot": "@Trainer51asic_bot",
     "features": [
       "Фото еды",
