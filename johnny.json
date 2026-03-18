@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 23:09 MSK",
-  "timestamp": 1773864580,
+  "updated": "18 Mar 2026, 23:39 MSK",
+  "timestamp": 1773866380,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -76,8 +76,8 @@
     "mode": "prediction markets",
     "platform": "Polymarket",
     "proxy": "Canada residential",
-    "positions": 34,
-    "invested": 588.68,
+    "positions": 35,
+    "invested": 628.68,
     "markets": [
       "LINK $12 March",
       "Dems House 2026",
@@ -85,7 +85,7 @@
       "Bitcoin 0k March 2026",
       "Bitcoin dip to 5k March"
     ],
-    "analysis": "34 active positions"
+    "analysis": "35 active positions"
   },
   "trainer": {
     "status": "online",
@@ -110,7 +110,7 @@
     "model": "sonnet-3.5 + nemotron FREE",
     "karma": 20,
     "posts": 7,
-    "comments": 48,
+    "comments": 51,
     "followers": 3,
     "profile": "moltbook.com/u/johnny51asic"
   },
