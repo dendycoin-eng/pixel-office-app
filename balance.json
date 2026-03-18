@@ -1,23 +1,23 @@
 {
-  "updated": "18 Mar 2026, 16:19 MSK",
-  "timestamp": 1773839967,
+  "updated": "18 Mar 2026, 16:24 MSK",
+  "timestamp": 1773840275,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 72337.99,
-      "change": -1.995
+      "price": 72470.2,
+      "change": -1.75
     },
     "ETHUSDT": {
-      "price": 2233.29,
-      "change": -3.789
+      "price": 2237.94,
+      "change": -3.586
     },
     "SOLUSDT": {
-      "price": 90.32,
-      "change": -3.638
+      "price": 90.55,
+      "change": -3.269
     },
     "TONUSDT": {
-      "price": 1.305,
-      "change": -2.829
+      "price": 1.307,
+      "change": -2.608
     }
   },
   "polymarket": {
@@ -25,8 +25,8 @@
     "usdc_native": 0.0,
     "usdc_total": 7.06,
     "pol": 103.32,
-    "polUSD": 10.05,
-    "totalUSD": 17.11
+    "polUSD": 10.06,
+    "totalUSD": 17.12
   },
   "aiTrader": {
     "status": "active",
@@ -37,82 +37,6 @@
     "totalTrades": 22,
     "openPositions": 22,
     "invested": 356.68,
-    "positions": {
-      "LINK $12 March": {
-        "side": "YES",
-        "amount": 30,
-        "price": 0.52
-      },
-      "Dems House 2026": {
-        "side": "YES",
-        "amount": 25,
-        "price": 0.85
-      },
-      "Bitcoin 0k March 2026": {
-        "side": "YES",
-        "amount": 30.0,
-        "price": 0.455
-      },
-      "Bitcoin dip to 5k March": {
-        "side": "YES",
-        "amount": 15.0,
-        "price": 0.24
-      },
-      "Bitcoin dip to 65k March": {
-        "side": "YES",
-        "amount": 5.0,
-        "price": 0.24
-      },
-      "Bitcoin reach 0,000 in March": {
-        "side": "YES",
-        "amount": 10.0,
-        "price": 0.385
-      },
-      "Bitcoin above 78k March 18": {
-        "side": "NO",
-        "amount": 10.0,
-        "price": 0.9965
-      },
-      "Netanyahu out by March 31": {
-        "side": "YES",
-        "amount": 10.0,
-        "price": 0.029
-      },
-      "Fed no change March 2026": {
-        "side": "YES",
-        "amount": 20.0,
-        "price": 0.9955
-      },
-      "Iranian regime fall by March 31": {
-        "side": "YES",
-        "amount": 15.0,
-        "price": 0.0395
-      },
-      "Fed decrease 25bps March 2026": {
-        "side": "NO",
-        "amount": 10.0,
-        "price": 0.9965
-      },
-      "Fed decrease 50bps March 2026": {
-        "side": "NO",
-        "amount": 7.0,
-        "price": 0.999
-      },
-      "Bitcoin above 72k March 18": {
-        "side": "YES",
-        "amount": 15.0,
-        "price": 0.853
-      },
-      "Crude Oil 100 March": {
-        "side": "YES",
-        "amount": 20.0,
-        "price": 0.6645
-      },
-      "US Iran ceasefire March 31": {
-        "side": "NO",
-        "amount": 10.0,
-        "price": 0.925
-      }
-    }
+    "positions": {}
   }
 }
