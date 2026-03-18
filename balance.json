@@ -1,32 +1,32 @@
 {
-  "updated": "18 Mar 2026, 14:09 MSK",
-  "timestamp": 1773832168,
+  "updated": "18 Mar 2026, 14:39 MSK",
+  "timestamp": 1773833970,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 73894.04,
-      "change": 0.01
+      "price": 72923.93,
+      "change": -1.598
     },
     "ETHUSDT": {
-      "price": 2309.35,
-      "change": -0.468
+      "price": 2267.99,
+      "change": -2.624
     },
     "SOLUSDT": {
-      "price": 93.7,
-      "change": 0.0
+      "price": 92.02,
+      "change": -1.856
     },
     "TONUSDT": {
-      "price": 1.331,
-      "change": -0.523
+      "price": 1.321,
+      "change": -1.197
     }
   },
   "polymarket": {
-    "usdc_e": 40.95,
+    "usdc_e": 27.05,
     "usdc_native": 0.0,
-    "usdc_total": 40.95,
+    "usdc_total": 27.05,
     "pol": 103.32,
-    "polUSD": 10.3,
-    "totalUSD": 51.25
+    "polUSD": 10.14,
+    "totalUSD": 37.19
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 1h",
     "proxy": "Canada residential",
-    "totalTrades": 18,
-    "openPositions": 18,
-    "invested": 304.68,
+    "totalTrades": 21,
+    "openPositions": 21,
+    "invested": 349.68,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -97,6 +97,21 @@
         "side": "NO",
         "amount": 15.0,
         "price": 0.999
+      },
+      "Bitcoin above 72k March 18": {
+        "side": "YES",
+        "amount": 15.0,
+        "price": 0.853
+      },
+      "Crude Oil 100 March": {
+        "side": "YES",
+        "amount": 20.0,
+        "price": 0.6645
+      },
+      "US Iran ceasefire March 31": {
+        "side": "NO",
+        "amount": 10.0,
+        "price": 0.925
       }
     }
   }
