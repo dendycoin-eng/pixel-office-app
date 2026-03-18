@@ -534,13 +534,6 @@ function drawModal() {
     yOff += 7;
     ctx.fillText('Сделок: ' + (ai.totalTrades || 0) + ' | Позиций: ' + (ai.openPositions || 0) + ' | Invest: $' + (ai.invested || 0), mx+10, yOff);
     yOff += 7;
-    if (ai.positions) {
-      for (const [name, pos] of Object.entries(ai.positions)) {
-        ctx.fillStyle = P.cyan;
-        ctx.fillText('• ' + name + ': ' + (pos.side||'') + ' $' + (pos.amount||0) + ' @' + (pos.price||0), mx+10, yOff);
-        yOff += 7;
-      }
-    }
     yOff += 3;
   }
   
