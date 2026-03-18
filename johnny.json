@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 10:14 MSK",
-  "timestamp": 1773818082,
+  "updated": "18 Mar 2026, 10:18 MSK",
+  "timestamp": 1773818317,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -65,16 +65,9 @@
       "schedule": "каждые 45 мин",
       "model": "nemotron-3-super FREE",
       "status": "active"
-    },
-    {
-      "name": "Trainer Bot",
-      "schedule": "disabled",
-      "model": "sonnet-3.5",
-      "status": "disabled",
-      "note": "@Trainer51asic_bot"
     }
   ],
-  "totalTasks": 8,
+  "totalTasks": 7,
   "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
