@@ -580,7 +580,7 @@ function drawModal() {
 function drawJohnnyModal() {
   if (!johnnyModalOpen || !johnnyData) return;
   
-  const mx = 15, my = 5, mw = 290, mh = 230;
+  const mx = 15, my = 5, mw = 290, mh = 275;
   
   drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
   drawPixel(mx, my, mw, mh, '#0d0d2a');
@@ -616,18 +616,21 @@ function drawJohnnyModal() {
   ctx.font = '5px monospace';
   
   if (johnnyData.tasks) {
-    for (let i = 0; i < Math.min(johnnyData.tasks.length, 8); i++) {
+    for (let i = 0; i < Math.min(johnnyData.tasks.length, 9); i++) {
       const t = johnnyData.tasks[i];
       const statusColor = t.status === 'active' ? P.green : P.red;
       ctx.fillStyle = statusColor;
       ctx.fillText('●', mx+10, yOff);
       ctx.fillStyle = P.white;
-      ctx.fillText(t.name, mx+18, yOff);
+      const nameStr = (t.name || '').substring(0, 20);
+      ctx.fillText(nameStr, mx+18, yOff);
       ctx.fillStyle = P.grayLight;
-      ctx.fillText(t.schedule, mx+150, yOff);
+      const schedStr = (t.schedule || '').substring(0, 14);
+      ctx.fillText(schedStr, mx+130, yOff);
       ctx.fillStyle = P.cyan;
-      ctx.fillText(t.model, mx+200, yOff);
-      yOff += 10;
+      const modelStr = (t.model || '').substring(0, 16);
+      ctx.fillText(modelStr, mx+200, yOff);
+      yOff += 9;
     }
   }
   
@@ -744,7 +747,7 @@ function drawTrainerModal() {
   ctx.fillText('● CONNECTED', mx+65, yOff); yOff += 7;
   ctx.fillStyle = P.grayLight;
   ctx.font = '5px monospace';
-  ctx.fillText((t.model || 'claude-3.5-sonnet') + ' / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
+  ctx.fillText('nemotron FREE / opus-4.6 (анализы)', mx+10, yOff); yOff += 7;
   ctx.fillText('Strain, Recovery, Sleep, HR, HRV', mx+10, yOff); yOff += 9;
 
   ctx.fillStyle = '#ef4444';
