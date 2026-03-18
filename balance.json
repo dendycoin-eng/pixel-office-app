@@ -1,23 +1,23 @@
 {
-  "updated": "18 Mar 2026, 15:09 MSK",
-  "timestamp": 1773835769,
+  "updated": "18 Mar 2026, 15:39 MSK",
+  "timestamp": 1773837568,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 72739.15,
-      "change": -1.918
+      "price": 72506.87,
+      "change": -1.895
     },
     "ETHUSDT": {
-      "price": 2257.19,
-      "change": -3.143
+      "price": 2245.18,
+      "change": -3.332
     },
     "SOLUSDT": {
-      "price": 91.62,
-      "change": -2.459
+      "price": 90.74,
+      "change": -3.097
     },
     "TONUSDT": {
-      "price": 1.319,
-      "change": -1.714
+      "price": 1.311,
+      "change": -1.577
     }
   },
   "polymarket": {
@@ -25,8 +25,8 @@
     "usdc_native": 0.0,
     "usdc_total": 7.06,
     "pol": 103.32,
-    "polUSD": 10.1,
-    "totalUSD": 17.16
+    "polUSD": 10.04,
+    "totalUSD": 17.1
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 1h",
     "proxy": "Canada residential",
-    "totalTrades": 21,
-    "openPositions": 21,
-    "invested": 349.68,
+    "totalTrades": 22,
+    "openPositions": 22,
+    "invested": 356.68,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -95,7 +95,7 @@
       },
       "Fed decrease 50bps March 2026": {
         "side": "NO",
-        "amount": 15.0,
+        "amount": 7.0,
         "price": 0.999
       },
       "Bitcoin above 72k March 18": {
