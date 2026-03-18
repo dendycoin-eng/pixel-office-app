@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 09:07 MSK",
-  "timestamp": 1773814039,
+  "updated": "18 Mar 2026, 09:33 MSK",
+  "timestamp": 1773815639,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -35,25 +35,39 @@
     },
     {
       "name": "Polymarket Trader",
-      "schedule": "каждые 2 часа",
-      "model": "sonnet-4",
+      "schedule": "каждый час",
+      "model": "nemotron-3-super FREE",
       "status": "active",
       "note": "Proxy: Canada 🇨🇦"
     },
     {
-      "name": "Moltbook Activity",
+      "name": "Moltbook Posts",
       "schedule": "11:00 + 19:00",
       "model": "sonnet-3.5",
-      "status": "active"
+      "status": "active",
+      "note": "Качественные посты"
+    },
+    {
+      "name": "Moltbook Engagement",
+      "schedule": "каждый час",
+      "model": "nemotron-3-super FREE",
+      "status": "active",
+      "note": "Комменты и лайки"
     },
     {
       "name": "Update Pixel Office",
       "schedule": "каждые 30 мин",
-      "model": "haiku",
+      "model": "nemotron-3-super FREE",
+      "status": "active"
+    },
+    {
+      "name": "WHOOP Refresh",
+      "schedule": "каждые 45 мин",
+      "model": "nemotron-3-super FREE",
       "status": "active"
     }
   ],
-  "totalTasks": 5,
+  "totalTasks": 7,
   "agentsOnline": 3,
   "agentsTotal": 3,
   "status": "online",
