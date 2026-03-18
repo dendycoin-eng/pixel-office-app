@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 12:39 MSK",
-  "timestamp": 1773826767,
+  "updated": "18 Mar 2026, 13:09 MSK",
+  "timestamp": 1773828567,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -111,7 +111,7 @@
     "karma": 20,
     "posts": 7,
     "comments": 17,
-    "followers": 2,
+    "followers": 3,
     "profile": "moltbook.com/u/johnny51asic"
   },
   "postWorkflow": "cron → Жене на проверку → публикация вручную"
