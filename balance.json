@@ -1,32 +1,32 @@
 {
-  "updated": "18 Mar 2026, 13:09 MSK",
-  "timestamp": 1773828568,
+  "updated": "18 Mar 2026, 13:39 MSK",
+  "timestamp": 1773830369,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 74133.52,
-      "change": 0.659
+      "price": 73996.08,
+      "change": 0.366
     },
     "ETHUSDT": {
-      "price": 2326.45,
-      "change": 0.665
+      "price": 2322.67,
+      "change": 0.372
     },
     "SOLUSDT": {
-      "price": 94.2,
-      "change": 0.416
+      "price": 94.01,
+      "change": 0.438
     },
     "TONUSDT": {
-      "price": 1.339,
-      "change": 0.225
+      "price": 1.334,
+      "change": 0.301
     }
   },
   "polymarket": {
-    "usdc_e": 96.12,
+    "usdc_e": 40.95,
     "usdc_native": 0.0,
-    "usdc_total": 96.12,
+    "usdc_total": 40.95,
     "pol": 103.32,
-    "polUSD": 10.34,
-    "totalUSD": 106.46
+    "polUSD": 10.32,
+    "totalUSD": 51.27
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 1h",
     "proxy": "Canada residential",
-    "totalTrades": 13,
-    "openPositions": 13,
-    "invested": 217.68,
+    "totalTrades": 18,
+    "openPositions": 18,
+    "invested": 304.68,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -53,11 +53,6 @@
         "amount": 30.0,
         "price": 0.455
       },
-      "Trump visit China by March 31": {
-        "side": "YES",
-        "amount": 20.0,
-        "price": 0.03
-      },
       "Bitcoin dip to 5k March": {
         "side": "YES",
         "amount": 15.0,
@@ -73,15 +68,35 @@
         "amount": 10.0,
         "price": 0.385
       },
+      "Bitcoin above 78k March 18": {
+        "side": "NO",
+        "amount": 10.0,
+        "price": 0.9965
+      },
       "Netanyahu out by March 31": {
         "side": "YES",
         "amount": 10.0,
         "price": 0.029
       },
-      "Bitcoin above 78k March 18": {
+      "Fed no change March 2026": {
+        "side": "YES",
+        "amount": 20.0,
+        "price": 0.9955
+      },
+      "Iranian regime fall by March 31": {
+        "side": "YES",
+        "amount": 15.0,
+        "price": 0.0395
+      },
+      "Fed decrease 25bps March 2026": {
         "side": "NO",
         "amount": 10.0,
-        "price": 0.986
+        "price": 0.9965
+      },
+      "Fed decrease 50bps March 2026": {
+        "side": "NO",
+        "amount": 15.0,
+        "price": 0.999
       }
     }
   }
