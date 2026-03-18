@@ -1,32 +1,32 @@
 {
-  "updated": "18 Mar 2026, 06:07 MSK",
-  "timestamp": 1773803239,
+  "updated": "18 Mar 2026, 06:37 MSK",
+  "timestamp": 1773805043,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 74309.55,
-      "change": -1.24
+      "price": 74614.33,
+      "change": 0.074
     },
     "ETHUSDT": {
-      "price": 2330.78,
-      "change": -0.893
+      "price": 2347.13,
+      "change": 1.083
     },
     "SOLUSDT": {
-      "price": 94.93,
-      "change": -0.168
+      "price": 95.51,
+      "change": 1.358
     },
     "TONUSDT": {
       "price": 1.354,
-      "change": 1.499
+      "change": 1.805
     }
   },
   "polymarket": {
-    "usdc_e": 9.83,
+    "usdc_e": 1.84,
     "usdc_native": 0.0,
-    "usdc_total": 9.83,
+    "usdc_total": 1.84,
     "pol": 103.36,
-    "polUSD": 10.34,
-    "totalUSD": 20.17
+    "polUSD": 10.36,
+    "totalUSD": 12.2
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 2h",
     "proxy": "Canada residential",
-    "totalTrades": 10,
-    "openPositions": 10,
-    "invested": 214.68,
+    "totalTrades": 12,
+    "openPositions": 12,
+    "invested": 222.68,
     "positions": {
       "LINK $12 March": {
         "side": "YES",
@@ -70,8 +70,8 @@
       },
       "Bitcoin dip to 65k March": {
         "side": "YES",
-        "amount": 19.68,
-        "price": 0.25
+        "amount": 5.0,
+        "price": 0.24
       },
       "Bitcoin reach 0,000 in March": {
         "side": "YES",
@@ -80,8 +80,8 @@
       },
       "Netanyahu out by March 31": {
         "side": "YES",
-        "amount": 5.0,
-        "price": 0.0315
+        "amount": 3.0,
+        "price": 0.034
       }
     }
   }
