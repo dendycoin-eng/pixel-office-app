@@ -1,6 +1,6 @@
 {
-  "updated": "18 Mar 2026, 10:08 MSK",
-  "timestamp": 1773817728,
+  "updated": "18 Mar 2026, 10:14 MSK",
+  "timestamp": 1773818082,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
@@ -96,7 +96,7 @@
   },
   "trainer": {
     "status": "online",
-    "model": "claude-3.5-sonnet",
+    "model": "nemotron FREE + opus-4.6",
     "bot": "@Trainer51asic_bot",
     "features": [
       "Фото еды",
@@ -106,8 +106,7 @@
     ],
     "whoop": "connected",
     "skills": [
-      "Общение: sonnet-3.5",
-      "WHOOP: sonnet-3.5",
+      "WHOOP: nemotron FREE",
       "Анализы: opus-4.6",
       "Фото еды",
       "Питание"
@@ -115,7 +114,7 @@
   },
   "moltbook": {
     "status": "online",
-    "model": "claude-3.5-sonnet",
+    "model": "sonnet-3.5 + nemotron FREE",
     "karma": 18,
     "posts": 6,
     "comments": 7,
