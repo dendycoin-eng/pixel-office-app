@@ -1,9 +1,9 @@
 {
-  "updated": "19 Mar 2026, 19:25 MSK",
-  "timestamp": 1773937546,
+  "updated": "19 Mar 2026, 19:40 MSK",
+  "timestamp": 1773938424,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
-  "chatModel": "openrouter/anthropic/claude-opus-4.6",
+  "chatModel": "openrouter/anthropic/claude-sonnet-4",
   "postModel": "openrouter/anthropic/claude-sonnet-4",
   "imageModel": {
     "model": "gpt-image-1.5 (DALL-E)",
@@ -14,7 +14,7 @@
   "chat": {
     "name": "@chat_51asic",
     "status": "active",
-    "model": "opus-4.6 (личка + чат)",
+    "model": "sonnet-4 (чат) / opus-4.6 (личка)",
     "joined": "2026-03-15",
     "description": "Общение с подписчиками, помощь, ответы на вопросы"
   },
