@@ -1,6 +1,6 @@
 {
-  "updated": "19 Mar 2026, 21:10 MSK",
-  "timestamp": 1773943839,
+  "updated": "19 Mar 2026, 21:18 MSK",
+  "timestamp": 1773944335,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-opus-4.6",
@@ -21,21 +21,21 @@
   "tasks": [
     {
       "name": "Crypto News Digest",
-      "schedule": "11:00 MSK",
+      "schedule": "09:00 MSK",
       "model": "mimo-v2-pro",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Mining & Tech Digest",
-      "schedule": "15:00 MSK",
+      "schedule": "14:00 MSK",
       "model": "mimo-v2-pro",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Evening Market Summary",
-      "schedule": "19:00 MSK",
+      "schedule": "20:00 MSK",
       "model": "mimo-v2-pro",
       "status": "active",
       "note": "→ на проверку Жене"
