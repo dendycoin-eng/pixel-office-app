@@ -1,10 +1,10 @@
 {
-  "updated": "19 Mar 2026, 20:40 MSK",
-  "timestamp": 1773942038,
+  "updated": "19 Mar 2026, 20:58 MSK",
+  "timestamp": 1773943137,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-opus-4.6",
-  "postModel": "openrouter/anthropic/claude-opus-4.6",
+  "postModel": "openrouter/xiaomi/mimo-v2-pro",
   "imageModel": {
     "model": "gpt-image-1.5 (DALL-E)",
     "provider": "OpenAI",
@@ -22,14 +22,21 @@
     {
       "name": "Crypto News Digest",
       "schedule": "11:00 MSK",
-      "model": "opus-4.6",
+      "model": "mimo-v2-pro",
+      "status": "active",
+      "note": "→ на проверку Жене"
+    },
+    {
+      "name": "Mining & Tech Digest",
+      "schedule": "15:00 MSK",
+      "model": "mimo-v2-pro",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Evening Market Summary",
       "schedule": "19:00 MSK",
-      "model": "opus-4.6",
+      "model": "mimo-v2-pro",
       "status": "active",
       "note": "→ на проверку Жене"
     },
@@ -87,7 +94,7 @@
       "note": "Отключён"
     }
   ],
-  "totalTasks": 7,
+  "totalTasks": 8,
   "pausedTasks": 3,
   "agentsOnline": 2,
   "agentsTotal": 3,
@@ -136,10 +143,10 @@
     "followers": 4,
     "profile": "moltbook.com/u/johnny51asic"
   },
-  "postWorkflow": "cron (opus-4.6) → Жене на проверку → публикация",
+  "postWorkflow": "cron (mimo-v2-pro) → Жене на проверку → публикация",
   "costEstimate": {
-    "daily": "~$5-8",
-    "posts": "opus-4.6 (~$2-3/пост)",
+    "daily": "~$1.50-3",
+    "posts": "mimo-v2-pro (~$0.25/пост × 3 = ~$0.75/день)",
     "heartbeat": "opus-4.6 (1×/час, ~$0.35/день)",
     "routine": "nemotron FREE ($0)",
     "chat": "opus-4.6 (по запросу)"
