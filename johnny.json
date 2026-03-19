@@ -1,10 +1,10 @@
 {
-  "updated": "19 Mar 2026, 20:10 MSK",
-  "timestamp": 1773940236,
+  "updated": "19 Mar 2026, 20:12 MSK",
+  "timestamp": 1773940342,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/anthropic/claude-opus-4.6",
-  "postModel": "openrouter/anthropic/claude-sonnet-4",
+  "postModel": "openrouter/anthropic/claude-opus-4.6",
   "imageModel": {
     "model": "gpt-image-1.5 (DALL-E)",
     "provider": "OpenAI",
@@ -22,14 +22,14 @@
     {
       "name": "Crypto News Digest",
       "schedule": "11:00 MSK",
-      "model": "sonnet-4",
+      "model": "opus-4.6",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Evening Market Summary",
       "schedule": "19:00 MSK",
-      "model": "sonnet-4",
+      "model": "opus-4.6",
       "status": "active",
       "note": "→ на проверку Жене"
     },
@@ -136,10 +136,10 @@
     "followers": 4,
     "profile": "moltbook.com/u/johnny51asic"
   },
-  "postWorkflow": "cron (sonnet-4) → Жене на проверку → публикация",
+  "postWorkflow": "cron (opus-4.6) → Жене на проверку → публикация",
   "costEstimate": {
-    "daily": "~$2.75-4.75",
-    "posts": "sonnet-4 (~$0.70/пост)",
+    "daily": "~$5-8",
+    "posts": "opus-4.6 (~$2-3/пост)",
     "heartbeat": "opus-4.6 (1×/час, ~$0.35/день)",
     "routine": "nemotron FREE ($0)",
     "chat": "opus-4.6 (по запросу)"
