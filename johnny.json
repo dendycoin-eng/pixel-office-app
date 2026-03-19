@@ -1,20 +1,20 @@
 {
-  "updated": "19 Mar 2026, 19:10 MSK",
-  "timestamp": 1773936624,
+  "updated": "19 Mar 2026, 19:25 MSK",
+  "timestamp": 1773937546,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
-  "chatModel": "openrouter/anthropic/claude-3.5-sonnet",
-  "postModel": "openrouter/anthropic/claude-opus-4.6",
+  "chatModel": "openrouter/anthropic/claude-opus-4.6",
+  "postModel": "openrouter/anthropic/claude-sonnet-4",
   "imageModel": {
-    "model": "Flux 2 Pro (black-forest-labs)",
-    "provider": "OpenRouter",
-    "cost": "$0.03/image",
-    "style": "abstract (без майнеров крупным планом)"
+    "model": "gpt-image-1.5 (DALL-E)",
+    "provider": "OpenAI",
+    "cost": "~$0.17/image",
+    "style": "Hyper-realistic cinematic 8K, teal blue + golden accents"
   },
   "chat": {
     "name": "@chat_51asic",
     "status": "active",
-    "model": "claude-3.5-sonnet (чат) / opus-4.6 (личка)",
+    "model": "opus-4.6 (личка + чат)",
     "joined": "2026-03-15",
     "description": "Общение с подписчиками, помощь, ответы на вопросы"
   },
@@ -22,37 +22,44 @@
     {
       "name": "Crypto News Digest",
       "schedule": "11:00 MSK",
-      "model": "opus-4.6",
+      "model": "sonnet-4",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Evening Market Summary",
       "schedule": "19:00 MSK",
-      "model": "opus-4.6",
+      "model": "sonnet-4",
       "status": "active",
       "note": "→ на проверку Жене"
     },
     {
       "name": "Polymarket Trader",
-      "schedule": "каждый час",
-      "model": "sonnet-4 (cron) + sonnet-4 (чат)",
-      "status": "active",
-      "note": "Proxy: Canada 🇨🇦"
+      "schedule": "пауза",
+      "model": "sonnet-4",
+      "status": "paused",
+      "note": "Нет свободных средств"
     },
     {
       "name": "Moltbook Posts",
-      "schedule": "11:00 + 19:00",
-      "model": "sonnet-3.5",
+      "schedule": "11:00 MSK",
+      "model": "nemotron-3-super FREE",
       "status": "active",
-      "note": "Качественные посты"
+      "note": "1×/день"
     },
     {
       "name": "Moltbook Engagement",
-      "schedule": "каждый час",
+      "schedule": "каждые 4 часа",
       "model": "nemotron-3-super FREE",
       "status": "active",
       "note": "Комменты и лайки"
+    },
+    {
+      "name": "Moltbook Evening",
+      "schedule": "19:00 MSK",
+      "model": "sonnet-3.5",
+      "status": "paused",
+      "note": "Отключён для экономии"
     },
     {
       "name": "Update Pixel Office",
@@ -65,14 +72,28 @@
       "schedule": "каждые 45 мин",
       "model": "nemotron-3-super FREE",
       "status": "active"
+    },
+    {
+      "name": "WHOOP Health Check",
+      "schedule": "каждый час",
+      "model": "nemotron-3-super FREE",
+      "status": "active"
+    },
+    {
+      "name": "Trainer",
+      "schedule": "каждый час",
+      "model": "haiku-3.5",
+      "status": "paused",
+      "note": "Отключён"
     }
   ],
   "totalTasks": 7,
-  "agentsOnline": 3,
+  "pausedTasks": 3,
+  "agentsOnline": 2,
   "agentsTotal": 3,
   "status": "online",
   "trader": {
-    "status": "online",
+    "status": "paused",
     "mode": "prediction markets",
     "platform": "Polymarket",
     "proxy": "Canada residential",
@@ -85,11 +106,12 @@
       "Bitcoin 0k March 2026",
       "Bitcoin dip to 5k March"
     ],
-    "analysis": "37 active positions"
+    "analysis": "37 positions (waiting resolution)",
+    "note": "На паузе — нет свободных средств"
   },
   "trainer": {
     "status": "online",
-    "model": "nemotron FREE + opus-4.6",
+    "model": "haiku-3.5 + opus-4.6",
     "bot": "@Trainer51asic_bot",
     "features": [
       "Фото еды",
@@ -107,12 +129,19 @@
   },
   "moltbook": {
     "status": "online",
-    "model": "sonnet-3.5 + nemotron FREE",
+    "model": "nemotron-3-super FREE",
     "karma": 22,
     "posts": 8,
     "comments": 88,
     "followers": 4,
     "profile": "moltbook.com/u/johnny51asic"
   },
-  "postWorkflow": "cron → Жене на проверку → публикация вручную"
+  "postWorkflow": "cron (sonnet-4) → Жене на проверку → публикация",
+  "costEstimate": {
+    "daily": "~$2.75-4.75",
+    "posts": "sonnet-4 (~$0.70/пост)",
+    "heartbeat": "opus-4.6 (1×/час, ~$0.35/день)",
+    "routine": "nemotron FREE ($0)",
+    "chat": "opus-4.6 (по запросу)"
+  }
 }
