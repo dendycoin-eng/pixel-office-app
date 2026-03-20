@@ -1,9 +1,10 @@
 {
-  "updated": "20 Mar 2026, 08:10 MSK",
-  "timestamp": 1773983423,
+  "updated": "20 Mar 2026, 08:35 MSK",
+  "timestamp": 1773984946,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
-  "chatModel": "openrouter/anthropic/claude-opus-4.6",
+  "heartbeatModel": "openrouter/xiaomi/mimo-v2-pro",
+  "chatModel": "openrouter/xiaomi/mimo-v2-pro",
   "postModel": "openrouter/xiaomi/mimo-v2-pro",
   "imageModel": {
     "model": "gpt-image-1.5 (DALL-E)",
@@ -11,10 +12,54 @@
     "cost": "~$0.17/image",
     "style": "Hyper-realistic cinematic 8K, teal blue + golden accents"
   },
+  "modelMap": {
+    "personal_chat": {
+      "name": "Личка с Женей",
+      "model": "claude-opus-4.6",
+      "cost": "$15/$75 за M",
+      "note": "Основное общение, задачи, аналитика"
+    },
+    "heartbeat": {
+      "name": "Heartbeat (мониторинг)",
+      "model": "mimo-v2-pro",
+      "cost": "$1/$3 за M",
+      "note": "Каждый час, проверка систем"
+    },
+    "group_chat": {
+      "name": "Чат @chat_51asic",
+      "model": "mimo-v2-pro",
+      "cost": "$1/$3 за M",
+      "note": "Общение с подписчиками"
+    },
+    "posts": {
+      "name": "Посты (3×/день)",
+      "model": "mimo-v2-pro",
+      "cost": "$1/$3 за M",
+      "note": "Крипто-дайджест, майнинг, вечерний обзор"
+    },
+    "routine_crons": {
+      "name": "Рутина (WHOOP, Pixel Office, Moltbook)",
+      "model": "nemotron-3-super FREE",
+      "cost": "$0",
+      "note": "Бесплатные задачи"
+    },
+    "trader": {
+      "name": "Polymarket Trader",
+      "model": "sonnet-4",
+      "cost": "$3/$15 за M",
+      "note": "На паузе"
+    },
+    "images": {
+      "name": "Генерация картинок",
+      "model": "gpt-image-1.5",
+      "cost": "~$0.17/шт",
+      "note": "Для постов в канал"
+    }
+  },
   "chat": {
     "name": "@chat_51asic",
     "status": "active",
-    "model": "opus-4.6 (личка + чат)",
+    "model": "mimo-v2-pro",
     "joined": "2026-03-15",
     "description": "Общение с подписчиками, помощь, ответы на вопросы"
   },
@@ -87,6 +132,13 @@
       "status": "active"
     },
     {
+      "name": "Heartbeat",
+      "schedule": "каждый час",
+      "model": "mimo-v2-pro",
+      "status": "active",
+      "note": "Мониторинг системы"
+    },
+    {
       "name": "Trainer",
       "schedule": "каждый час",
       "model": "haiku-3.5",
@@ -94,7 +146,7 @@
       "note": "Отключён"
     }
   ],
-  "totalTasks": 8,
+  "totalTasks": 9,
   "pausedTasks": 3,
   "agentsOnline": 2,
   "agentsTotal": 3,
@@ -145,10 +197,11 @@
   },
   "postWorkflow": "cron (mimo-v2-pro) → Жене на проверку → публикация",
   "costEstimate": {
-    "daily": "~$1.50-3",
+    "daily": "~$1-2",
     "posts": "mimo-v2-pro (~$0.25/пост × 3 = ~$0.75/день)",
-    "heartbeat": "opus-4.6 (1×/час, ~$0.35/день)",
+    "heartbeat": "mimo-v2-pro (~$0.03/час = ~$0.72/день)",
     "routine": "nemotron FREE ($0)",
-    "chat": "opus-4.6 (по запросу)"
+    "chat": "mimo-v2-pro (групповой) / opus-4.6 (личка)",
+    "images": "gpt-image-1.5 (~$0.17 × 3 = ~$0.51/день)"
   }
 }
