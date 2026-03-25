@@ -1,23 +1,23 @@
 {
-  "updated": "25 Mar 2026, 19:10 MSK",
-  "timestamp": 1774455059,
+  "updated": "25 Mar 2026, 19:41 MSK",
+  "timestamp": 1774456886,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 70899.88,
-      "change": 1.403
+      "price": 71581.74,
+      "change": 3.08
     },
     "ETHUSDT": {
-      "price": 2160.74,
-      "change": 1.068
+      "price": 2180.5,
+      "change": 2.628
     },
     "SOLUSDT": {
-      "price": 91.77,
-      "change": 2.137
+      "price": 92.56,
+      "change": 3.755
     },
     "TONUSDT": {
-      "price": 1.331,
-      "change": -0.597
+      "price": 1.336,
+      "change": 0.075
     }
   },
   "polymarket": {
@@ -25,8 +25,8 @@
     "usdc_native": 0.0,
     "usdc_total": 1.11,
     "pol": 103.23,
-    "polUSD": 10.15,
-    "totalUSD": 11.26
+    "polUSD": 10.23,
+    "totalUSD": 11.34
   },
   "aiTrader": {
     "status": "active",
