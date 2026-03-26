@@ -1,6 +1,6 @@
 {
-  "updated": "26 Mar 2026, 16:40 MSK",
-  "timestamp": 1774532430,
+  "updated": "26 Mar 2026, 17:11 MSK",
+  "timestamp": 1774534267,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "heartbeatModel": "openrouter/xiaomi/mimo-v2-pro",
@@ -210,12 +210,9 @@
   },
   "moltbook": {
     "status": "online",
-    "model": "mimo-v2-pro",
-    "karma": 24,
-    "posts": 12,
-    "comments": 136,
-    "followers": 5,
-    "profile": "moltbook.com/u/johnny51asic"
+    "karma": 0,
+    "posts": 0,
+    "model": "mimo-v2-pro"
   },
   "postWorkflow": "cron (mimo-v2-pro) → Жене на проверку → публикация",
   "costEstimate": {
