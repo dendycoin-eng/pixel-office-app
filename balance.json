@@ -1,23 +1,23 @@
 {
-  "updated": "27 Mar 2026, 19:41 MSK",
-  "timestamp": 1774629680,
+  "updated": "27 Mar 2026, 20:11 MSK",
+  "timestamp": 1774631472,
   "status": "online",
   "prices": {
     "BTCUSDT": {
-      "price": 65830.66,
-      "change": -4.385
+      "price": 66203.76,
+      "change": -3.957
     },
     "ETHUSDT": {
-      "price": 1981.48,
-      "change": -3.988
+      "price": 1993.91,
+      "change": -3.34
     },
     "SOLUSDT": {
-      "price": 82.76,
-      "change": -5.092
+      "price": 83.25,
+      "change": -4.42
     },
     "TONUSDT": {
-      "price": 1.218,
-      "change": -5.361
+      "price": 1.22,
+      "change": -4.984
     }
   },
   "polymarket": {
@@ -25,8 +25,8 @@
     "usdc_native": 0.0,
     "usdc_total": 162.79,
     "pol": 103.05,
-    "polUSD": 9.29,
-    "totalUSD": 172.08
+    "polUSD": 9.31,
+    "totalUSD": 172.1
   },
   "aiTrader": {
     "status": "active",
@@ -34,9 +34,9 @@
     "model": "claude-sonnet-4",
     "schedule": "every 1h",
     "proxy": "Canada residential",
-    "totalTrades": 37,
-    "openPositions": 37,
-    "invested": 638.68,
+    "totalTrades": 0,
+    "openPositions": 0,
+    "invested": 0,
     "positions": {}
   }
 }
