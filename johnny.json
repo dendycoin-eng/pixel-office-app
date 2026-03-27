@@ -1,6 +1,6 @@
 {
-  "updated": "27 Mar 2026, 13:50 MSK",
-  "timestamp": 1774608631,
+  "updated": "27 Mar 2026, 14:11 MSK",
+  "timestamp": 1774609868,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "heartbeatModel": "openrouter/xiaomi/mimo-v2-pro",
@@ -194,17 +194,9 @@
   "status": "online",
   "trader": {
     "status": "active",
-    "version": "v3",
-    "mode": "Short-term Sniper",
+    "mode": "prediction markets",
     "platform": "Polymarket",
-    "proxy": "Canada residential",
-    "strategy": "Daily crypto + post-event arb + high-prob bonds",
-    "initial_balance": 101.61,
-    "trades": 0,
-    "rules": "max $10/trade, edge >10%, stop-loss -40%",
-    "scan_model": "claude-sonnet-4",
-    "stoploss_model": "mimo-v2-pro",
-    "note": "Активен с 27.03.2026"
+    "version": "v3"
   },
   "trainer": {
     "status": "online",
@@ -226,7 +218,7 @@
     ]
   },
   "moltbook": {
-    "status": "online",
+    "status": "cached",
     "model": "mimo-v2-pro",
     "karma": 24,
     "posts": 12,
