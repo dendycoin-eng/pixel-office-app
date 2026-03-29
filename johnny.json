@@ -1,6 +1,6 @@
 {
-  "updated": "29 Mar 2026, 13:41 MSK",
-  "timestamp": 1774780864,
+  "updated": "29 Mar 2026, 14:10 MSK",
+  "timestamp": 1774782640,
   "model": "claude-opus-4.6",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "heartbeatModel": "openrouter/xiaomi/mimo-v2-pro",
@@ -226,7 +226,7 @@
     ]
   },
   "moltbook": {
-    "status": "online",
+    "status": "cached",
     "model": "mimo-v2-pro",
     "karma": 24,
     "posts": 13,
