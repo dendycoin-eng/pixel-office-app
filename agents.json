@@ -1,0 +1,158 @@
+{
+  "updated": "31 Mar 2026, 21:19 MSK",
+  "timestamp": 1774981190,
+  "agents": {
+    "johnny": {
+      "name": "Johnny",
+      "role": "Главный",
+      "model": "Claude Opus 4.6 (личка) / MiMo-V2-Pro (кроны, чат)",
+      "status": "online",
+      "position": {
+        "x": 80,
+        "y": 100
+      },
+      "appearance": {
+        "shirt": "#3b82f6",
+        "hair": "#2a2a2a"
+      },
+      "tasks": [
+        "2 поста/день (10:00+19:00)",
+        "ТОП-5 ПН 11:00",
+        "опросы СР+СБ"
+      ],
+      "content": "крипто + AI + технологии + майнинг",
+      "modal": {
+        "title": "Johnny — Главный агент 51ASIC",
+        "content": [
+          "🤖 <strong>Модель:</strong> Claude Opus 4.6 (личные сессии) / MiMo-V2-Pro (кроны, чат)",
+          "📅 <strong>Активные задачи:</strong>",
+          "  • Утренний пост (10:00 МСК) — горячие новости крипто+AI+технологии",
+          "  • Вечерний пост (19:00 МСК) — глубокие разборы, аналитика",
+          "  • ТОП-5 ASIC рейтинг (ПН 11:00 МСК)",
+          "  • Опросы подписчиков (среда + суббота)",
+          "  • Moltbook — посты + комменты (ежедневно 14:00 UTC)",
+          "",
+          "📝 <strong>Контент-микс:</strong>",
+          "  • Криптовалюты и рынки",
+          "  • AI и технологии (обязательно!)",
+          "  • Майнинг и оборудование",
+          "  • Образование и аналитика",
+          "",
+          "🎯 <strong>Стиль 2026:</strong>",
+          "  • Живой язык, не как бот",
+          "  • Мнение 51ASIC, а не просто факты",
+          "  • Крючок в начале, вопрос в конце",
+          "  • 10 свойств рендера для картинок"
+        ]
+      }
+    },
+    "trader": {
+      "name": "Trader",
+      "role": "AI Трейдер",
+      "model": "MiMo-V2-Pro",
+      "status": "active",
+      "position": {
+        "x": 160,
+        "y": 100
+      },
+      "appearance": {
+        "shirt": "#22c55e",
+        "hair": "#8b4513"
+      },
+      "strategy": "v5 — 3 стратегии",
+      "bot": "@Trader51asic_bot",
+      "modal": {
+        "title": "Trader — AI Трейдер Polymarket v5",
+        "content": [
+          "🤖 <strong>Модель:</strong> MiMo-V2-Pro",
+          "📊 <strong>Стратегия v5 (3 направления):</strong>",
+          "  • 🎯 Крипто UP/DOWN 5-мин",
+          "  • 🏀 Спортивные миспрайсы vs букмекеров",
+          "  • 💀 Contrarian NO на переоценённых YES",
+          "",
+          "💰 <strong>Финансы:</strong> обновляются через balance.json",
+          "",
+          "⏰ <strong>Режим работы:</strong>",
+          "  • Скан рынков: 9 раз/день (06-22 МСК)",
+          "  • Стоп-лосс чек: 6 раз/день",
+          "  • Авто-redeem выигрышей: ✅ включён",
+          "  • Kelly Criterion (Half-Kelly)",
+          "",
+          "🤖 <strong>Бот:</strong> @Trader51asic_bot",
+          "  • Интерактивные команды",
+          "  • Уведомления о сделках",
+          "  • Полная свобода торговли"
+        ]
+      }
+    },
+    "trainer": {
+      "name": "Trainer",
+      "role": "Фитнес-коуч",
+      "model": "Claude Opus 4.6",
+      "status": "online",
+      "position": {
+        "x": 240,
+        "y": 100
+      },
+      "appearance": {
+        "shirt": "#ef4444",
+        "hair": "#6b4c0a"
+      },
+      "bot": "@Trainer51asic_bot",
+      "modal": {
+        "title": "Trainer — AI Фитнес-коуч",
+        "content": [
+          "🤖 <strong>Модель:</strong> Claude Opus 4.6",
+          "🏋️ <strong>Задачи:</strong>",
+          "  • Персональный фитнес-коуч",
+          "  • Анализ фото еды (калории, БЖУ)",
+          "  • Персональные рецепты",
+          "  • Трекинг прогресса (вес, фото)",
+          "  • Дневник тренировок",
+          "  • Медицинские рекомендации",
+          "",
+          "🤖 <strong>Бот:</strong> @Trainer51asic_bot",
+          "  • Доступен 24/7 (systemd сервис)",
+          "  • Vision: detail:high для фото"
+        ]
+      }
+    },
+    "mm_bot": {
+      "name": "MM Bot",
+      "role": "Маркет-мейкер",
+      "model": "DeepSeek V3.2",
+      "status": "paused",
+      "position": {
+        "x": 80,
+        "y": 180
+      },
+      "appearance": {
+        "shirt": "#6b46c1",
+        "hair": "#1f2937"
+      },
+      "reason": "кэш < резерва",
+      "modal": {
+        "title": "MM Bot — Polymarket маркет-мейкер v2",
+        "content": [
+          "🤖 <strong>Модель:</strong> DeepSeek V3.2",
+          "⏸️ <strong>Статус:</strong> АВТО-ПАУЗА",
+          "  • Кэш ниже резерва $60",
+          "  • Активируется при пополнении",
+          "",
+          "🎯 <strong>Стратегия:</strong>",
+          "  • Арбитраж на спредах Polymarket",
+          "  • Cron: каждые 15 мин",
+          "  • Макс экспозиция: $250"
+        ]
+      }
+    }
+  },
+  "stats": {
+    "total_agents": 4,
+    "online": 3,
+    "paused": 1,
+    "active_tasks": 10,
+    "content_schedule": "2 поста/день + ТОП-5 ПН + опросы СР+СБ",
+    "trading": "Trader v5 active, MM Bot paused"
+  }
+}
