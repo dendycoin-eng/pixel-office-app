@@ -1,42 +1,57 @@
 {
-  "updated": "31 Mar 2026, 20:54 MSK",
-  "timestamp": 1774979690,
-  "status": "online",
+  "updated": "31 Mar 2026, 21:20 MSK",
+  "timestamp": 1774981213,
+  "canTrade": true,
+  "balances": {
+    "USDC.e": 158.94,
+    "POL": 102.94
+  },
+  "balancesUSD": {
+    "USDC.e": 158.94,
+    "POL": 9.25
+  },
   "prices": {
     "BTCUSDT": {
-      "price": 67610.41,
-      "change": 1.168
+      "price": 67745.25,
+      "change": 1.41
     },
     "ETHUSDT": {
-      "price": 2097.53,
-      "change": 2.603
+      "price": 2102.98,
+      "change": 3.03
     },
     "SOLUSDT": {
-      "price": 82.41,
-      "change": -0.95
+      "price": 82.68,
+      "change": -0.48
     },
     "TONUSDT": {
-      "price": 1.227,
-      "change": 1.238
+      "price": 1.23,
+      "change": 1.24
     }
   },
+  "status": "online",
   "polymarket": {
-    "usdc_e": 146.31,
-    "usdc_native": 0.0,
-    "usdc_total": 146.31,
-    "pol": 102.97,
-    "polUSD": 9.27,
-    "totalUSD": 155.58
+    "usdc": 158.94,
+    "pol": 102.94,
+    "polUSD": 9.25,
+    "totalUSD": 168.19
   },
+  "grandTotalUSD": 331.21,
   "aiTrader": {
     "status": "active",
-    "platform": "Polymarket",
-    "model": "claude-sonnet-4",
-    "schedule": "every 1h",
-    "proxy": "Canada residential",
-    "totalTrades": 0,
-    "openPositions": 0,
-    "invested": 0,
-    "positions": {}
+    "model": "mimo-v2-pro",
+    "strategy": "v5 — 3 стратегии (спорт, крипто UP/DOWN, contrarian NO)",
+    "cashBalance": 158.94,
+    "positionsValue": 163.02,
+    "portfolioTotal": 321.96,
+    "initialDeposit": 139.74,
+    "totalPnL": 182.22,
+    "totalPnLpercent": 130.4,
+    "activePositions": 10,
+    "deadPositions": 4,
+    "autoRedeem": true,
+    "goal": "$1000",
+    "cron": "9 раз/день (06-22 МСК)",
+    "stopLoss": "6 раз/день",
+    "bot": "@Trader51asic_bot"
   }
 }
