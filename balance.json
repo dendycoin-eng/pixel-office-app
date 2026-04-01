@@ -1,27 +1,27 @@
 {
-  "updated": "01 Apr 2026, 05:14 MSK",
-  "timestamp": 1775009672,
+  "updated": "01 Apr 2026, 05:44 MSK",
+  "timestamp": 1775011466,
   "canTrade": true,
   "balances": {
-    "USDC.e": 108.38,
+    "USDC.e": 76.79,
     "POL": 102.83
   },
   "balancesUSD": {
-    "USDC.e": 108.38,
-    "POL": 9.37
+    "USDC.e": 76.79,
+    "POL": 9.39
   },
   "prices": {
     "BTCUSDT": {
-      "price": 67759.63,
-      "change": -0.2
+      "price": 67673.01,
+      "change": -0.42
     },
     "ETHUSDT": {
-      "price": 2090.59,
-      "change": 0.75
+      "price": 2088.97,
+      "change": 0.7
     },
     "SOLUSDT": {
-      "price": 82.76,
-      "change": -1.12
+      "price": 82.72,
+      "change": -1.43
     },
     "TONUSDT": {
       "price": 1.22,
@@ -30,23 +30,23 @@
   },
   "status": "online",
   "polymarket": {
-    "usdc": 108.38,
+    "usdc": 76.79,
     "pol": 102.83,
-    "polUSD": 9.37,
-    "totalUSD": 117.75
+    "polUSD": 9.39,
+    "totalUSD": 86.18
   },
-  "grandTotalUSD": 328.93,
+  "grandTotalUSD": 329.76,
   "aiTrader": {
     "status": "active",
     "model": "mimo-v2-pro",
     "strategy": "v5 — 3 стратегии (спорт, крипто UP/DOWN, contrarian NO)",
-    "cashBalance": 108.38,
-    "positionsValue": 211.18,
-    "portfolioTotal": 319.56,
+    "cashBalance": 76.79,
+    "positionsValue": 243.58,
+    "portfolioTotal": 320.37,
     "initialDeposit": 139.74,
-    "totalPnL": 179.82,
-    "totalPnLpercent": 128.7,
-    "activePositions": 14,
+    "totalPnL": 180.63,
+    "totalPnLpercent": 129.3,
+    "activePositions": 18,
     "deadPositions": 9,
     "autoRedeem": true,
     "goal": "$1000",
