@@ -408,7 +408,7 @@ function render() {
   // Рабочие места
   drawDesk(50, 65, true, 'ДЖОННИ', P.black, '#ff6600'); // чёрная футболка, рыжие волосы
   drawDesk(130, 65, true, 'ТРЕЙДЕР', P.red, '#cccccc'); // красная футболка, седые волосы
-  drawDesk(210, 65, false, 'СВОБОДНО', null, null);
+  drawDesk(210, 65, true, 'ПРОДАЖНИК', P.white, '#1a1a1a'); // белая рубашка, чёрные волосы
   
   drawDesk(50, 140, false, 'СВОБОДНО', null, null);
   drawDesk(130, 140, false, 'СВОБОДНО', null, null);
@@ -428,12 +428,13 @@ function render() {
   
   ctx.fillStyle = P.grayLight;
   ctx.font = '6px monospace';
-  ctx.fillText('Агенты: 3/6', 140, H-7);
+  ctx.fillText('Агенты: 4/6', 140, H-7);
   
   // Модальные окна поверх всего
   drawModal();
   drawJohnnyModal();
   drawTrainerModal();
+  drawWarehouseModal();
   
   frame++;
   requestAnimationFrame(render);
@@ -459,6 +460,7 @@ setInterval(loadBalance, 60000);
 let johnnyData = null;
 let johnnyModalOpen = false;
 let trainerModalOpen = false;
+let warehouseModalOpen = false;
 
 async function loadJohnny() {
   try {
@@ -745,6 +747,51 @@ function drawTrainerModal() {
   ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
 }
 
+// Модалка Продажника
+function drawWarehouseModal() {
+  if (!warehouseModalOpen) return;
+
+  const mw = 200, mh = 140;
+  const mx = (W - mw) / 2, my = (H - mh) / 2;
+
+  // Фон
+  drawPixel(0, 0, W, H, 'rgba(0,0,0,0.7)');
+  drawPixel(mx, my, mw, mh, '#1a1a2e');
+  drawPixel(mx, my, mw, 2, P.white);
+  drawPixel(mx, my+mh-2, mw, 2, P.white);
+  drawPixel(mx, my, 2, mh, P.white);
+  drawPixel(mx+mw-2, my, 2, mh, P.white);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = P.white;
+  ctx.font = 'bold 8px monospace';
+  ctx.fillText('📦 ПРОДАЖНИК — СКЛАД', W/2, my+14);
+
+  ctx.fillStyle = P.grayLight;
+  ctx.font = '6px monospace';
+
+  const lines = [
+    'Модель: DeepSeek V3.2',
+    '',
+    '📦 Учёт оборудования:',
+    '  • Приход / продажа / реализация',
+    '  • Остатки и профит',
+    '  • Сверка с дилерами',
+    '',
+    '🎤 Голос + текст',
+    '🤖 @Manager51asic_bot',
+  ];
+
+  lines.forEach((line, i) => {
+    ctx.fillStyle = line.startsWith('📦') || line.startsWith('🎤') || line.startsWith('🤖') ? P.white : P.grayLight;
+    ctx.fillText(line, W/2, my + 28 + i * 10);
+  });
+
+  ctx.fillStyle = P.red;
+  ctx.font = 'bold 7px monospace';
+  ctx.fillText('[ ЗАКРЫТЬ ]', W/2, my+mh-4);
+}
+
 function isJohnnyClick(cx, cy) {
   const {x, y} = getClickCoords(cx, cy);
   return x >= 40 && x <= 95 && y >= 50 && y <= 115;
@@ -760,15 +807,21 @@ function isTrainerClick(cx, cy) {
   return x >= 200 && x <= 255 && y >= 125 && y <= 195;
 }
 
+function isWarehouseClick(cx, cy) {
+  const {x, y} = getClickCoords(cx, cy);
+  return x >= 200 && x <= 255 && y >= 50 && y <= 115;
+}
+
 // Клик обработчик (только для мыши, тач обрабатывается отдельно)
 canvas.addEventListener('click', (e) => {
   // Игнорируем если это тач-устройство
   if ('ontouchstart' in window) return;
   
-  if (modalOpen || johnnyModalOpen || trainerModalOpen) {
+  if (modalOpen || johnnyModalOpen || trainerModalOpen || warehouseModalOpen) {
     modalOpen = false;
     johnnyModalOpen = false;
     trainerModalOpen = false;
+    warehouseModalOpen = false;
     return;
   }
   if (isTraderClick(e.clientX, e.clientY)) {
@@ -779,6 +832,8 @@ canvas.addEventListener('click', (e) => {
     loadJohnny();
   } else if (isTrainerClick(e.clientX, e.clientY)) {
     trainerModalOpen = true;
+  } else if (isWarehouseClick(e.clientX, e.clientY)) {
+    warehouseModalOpen = true;
   }
 });
 
@@ -899,11 +954,12 @@ canvas.addEventListener('touchend', (e) => {
     const dy = Math.abs(touch.clientY - touchStartY);
     
     if (dx < 10 && dy < 10) {
-      if (modalOpen || johnnyModalOpen || trainerModalOpen) {
+      if (modalOpen || johnnyModalOpen || trainerModalOpen || warehouseModalOpen) {
         // Закрываем модалку
         modalOpen = false;
         johnnyModalOpen = false;
         trainerModalOpen = false;
+        warehouseModalOpen = false;
       } else if (isTraderClick(touch.clientX, touch.clientY)) {
         modalOpen = true;
         loadBalance();
@@ -912,6 +968,8 @@ canvas.addEventListener('touchend', (e) => {
         loadJohnny();
       } else if (isTrainerClick(touch.clientX, touch.clientY)) {
         trainerModalOpen = true;
+      } else if (isWarehouseClick(touch.clientX, touch.clientY)) {
+        warehouseModalOpen = true;
       }
       // Предотвращаем повторную обработку
       e.preventDefault();
