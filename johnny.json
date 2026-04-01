@@ -1,6 +1,6 @@
 {
-  "updated": "01 Apr 2026, 23:24 MSK",
-  "timestamp": 1775075088,
+  "updated": "01 Apr 2026, 23:42 MSK",
+  "timestamp": 1775076179,
   "model": "claude-opus-4.6 (личка) / mimo-v2-pro (кроны)",
   "activeModel": "openrouter/anthropic/claude-opus-4.6",
   "chatModel": "openrouter/xiaomi/mimo-v2-pro",
@@ -48,14 +48,14 @@
       "status": "active"
     },
     {
-      "name": "Trader v5 — Скан рынков",
+      "name": "Trader v6 — Скан рынков",
       "schedule": "9 раз/день (06-22 МСК)",
       "model": "mimo-v2-pro",
-      "type": "поиск миспрайсов + сделки",
+      "type": "спорт + contrarian NO",
       "status": "active"
     },
     {
-      "name": "Trader v5 — Стоп-лосс + Redeem",
+      "name": "Trader v6 — Стоп-лосс + Redeem",
       "schedule": "6 раз/день",
       "model": "mimo-v2-pro",
       "type": "защита + авто-redeem",
@@ -66,7 +66,7 @@
       "schedule": "каждые 15 мин",
       "model": "deepseek-v3.2",
       "type": "маркет-мейкинг",
-      "status": "paused"
+      "status": "disabled"
     },
     {
       "name": "Pixel Office Update",
